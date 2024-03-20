@@ -29,11 +29,11 @@ export default ({ children }) => {
       }, []);
     return(
         <div>
-            <div id="preloder">
+            {/* <div id="preloder">
                 <div className="loader"></div>
-            </div>
+            </div> */}
 
-            <div className="offcanvas-menu-overlay"></div>
+            {/* <div className="offcanvas-menu-overlay"></div> */}
             <div className="offcanvas-menu-wrapper">
                 <div className="offcanvas__close">+</div>
                 <ul className="offcanvas__widget">

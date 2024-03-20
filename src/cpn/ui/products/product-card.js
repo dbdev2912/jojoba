@@ -12,6 +12,8 @@
  *  - sale_price: <INT> => Giá của sản phẩm sau khi đã giảm giá 
  */
 
+import { useSelector } from "react-redux";
+
 
 export default (props) => {
     const {
@@ -19,10 +21,14 @@ export default (props) => {
         is_new,
         stars,
         image,
+        image_alt,
         product_name,
         price,
         sale_price,
     } = props;
+
+
+    const { functions, lang } = useSelector( state => state )
 
     const renderClassType = () => {
         if (is_sale && sale_price) {
@@ -44,15 +50,18 @@ export default (props) => {
                     data-setbg={image}
                 >
                     {
-                        is_sale && sale_price && <div className="label">Sale</div>
+                        is_sale && sale_price && <div className="label">{ lang["giảm giá"] }</div>
                     }
 
                     {
-                        is_new && <div className="label new">New</div>
+                        is_new && <div className="label new">{ lang["mới"] }</div>
+                    }
+                    {
+                        is_new && is_sale && <div className="label new">{ lang["mới"] } & { lang["giảm giá"] }</div>
                     }
                     <ul className="product__hover">
                         <li>
-                            <a href="img/product/product-1.jpg" className="image-popup">
+                            <a href={image} className="image-popup">
                                 <span className="arrow_expand"></span>
                             </a>
                         </li>
@@ -82,11 +91,11 @@ export default (props) => {
                     {
                         is_sale && sale_price ?
                             <div className="product__price">
-                                {sale_price}đ <span>{price}đ</span>
+                               { functions.renderPrice(sale_price) }<span>{ functions.renderPrice(price) }</span>
                             </div>
                             :
                             <div className="product__price">
-                                {price}đ
+                                { functions.renderPrice(price) }
                             </div>
                     }
 

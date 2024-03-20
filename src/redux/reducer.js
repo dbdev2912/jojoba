@@ -4,6 +4,7 @@ import defaultBranch from './route/default-branch';
 import databaseBranch from './route/database-branch';
 
 import lang from './configs/lang'
+import functions from './configs/functions'
 
 const currentLang = localStorage.getItem('lang')
 
@@ -11,7 +12,8 @@ const currentLang = localStorage.getItem('lang')
 
 const initialState = {
     apiProxy,
-    lang: lang[currentLang] ?  lang[currentLang] : lang['vi']
+    lang: lang[currentLang] ?  lang[currentLang] : lang['vi'],
+    functions,
 }
 
 

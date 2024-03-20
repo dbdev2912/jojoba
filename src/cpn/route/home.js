@@ -2,20 +2,28 @@ import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux'
 
 import $ from "jquery";
-import ProductCard from "../ui/products/product-card";
+import { ProductCard, ProductList } from "../ui/products";
+import { CollectionBanner } from "../ui/carousel";
 
-export default (props) => {
-    
-    
-    const { lang } = useSelector(state => state)
-    
-    
+import { SocialLink } from "../ui/social-media";
+
+export default () => {
+
+
+    const { lang, functions } = useSelector(state => state)
+
+    const [remainingTime, setRemainingTime] = useState({
+        remainingHours: 0,
+        remainingMinutes: 0,
+        remainingSeconds: 0
+    })
+
     const newProducts = [
         {
             image: "img/product/product-1.jpg",
             product_name: "Buttons tweed blazer",
-            price: "5.900.000",
-            sale_price: "4.800.000",
+            price: "5900000",
+            sale_price: "4800000",
             stars: 5,
             is_sale: true,
             is_new: true
@@ -75,6 +83,68 @@ export default (props) => {
     ]
 
 
+    const trendingItems = [
+        {
+            title: lang["sản phẩm mới"],
+            items: [
+                { product_name: "Chain bucket bag", image: "img/trend/ht-1.jpg", image_alt: "", price: 5900000, stars: 5 },
+                { product_name: "Predant earings", image: "img/trend/ht-2.jpg", image_alt: "", price: 5900000, stars: 5 },
+                { product_name: "Cotton T-shirt", image: "img/trend/ht-3.jpg", image_alt: "", price: 5900000, stars: 5 },
+            ]
+        },
+        {
+            title: lang["bán chạy"],
+            items: [
+                { product_name: "Cotton T-Shirt", image: "img/trend/bs-1.jpg", image_alt: "", price: 5900000, stars: 5 },
+                { product_name: "Zip-pockets pebbled tote", image: "img/trend/bs-2.jpg", image_alt: "", price: 5900000, stars: 5 },
+                { product_name: "Round leather bag", image: "img/trend/bs-3.jpg", image_alt: "", price: 5900000, stars: 5 },
+            ]
+        },
+        {
+            title: lang["phụ kiện"],
+            items: [
+                { product_name: "Bow wrap skirt", image: "img/trend/f-1.jpg", image_alt: "", price: 5900000, stars: 5 },
+                { product_name: "Metallic earrings", image: "img/trend/f-2.jpg", image_alt: "", price: 5900000, stars: 5 },
+                { product_name: "Flap cross-body bag", image: "img/trend/f-3.jpg", image_alt: "", price: 5900000, stars: 5 },
+            ]
+        },
+    ]
+
+
+    const multiMediaLinks = [
+        {
+            name: "@Jojoba taiwan",
+            icon: "fa-instagram",
+            image: "img/instagram/insta-1.jpg"
+        },
+        {
+            name: "@Jojoba taiwan",
+            icon: "fa-instagram",
+            image: "img/instagram/insta-2.jpg"
+        },
+        {
+            name: "@Jojoba taiwan",
+            icon: "fa-instagram",
+            image: "img/instagram/insta-3.jpg"
+        },
+        {
+            name: "@Jojoba taiwan",
+            icon: "fa-instagram",
+            image: "img/instagram/insta-4.jpg"
+        },
+        {
+            name: "@Jojoba taiwan",
+            icon: "fa-instagram",
+            image: "img/instagram/insta-5.jpg"
+        },
+        {
+            name: "@Jojoba taiwan",
+            icon: "fa-instagram",
+            image: "img/instagram/insta-6.jpg"
+        },
+    ]
+
+
     useEffect(() => {
         const scripts = [
 
@@ -86,33 +156,115 @@ export default (props) => {
             const script = scripts[i];
             $body.append(`<script src="${script}"></script>`);
         }
+
+        setInterval(() => {
+
+            /**
+             * 
+             * FUNC: Count down thời gian còn lại trong ngày
+             * 
+             */
+
+            const now = new Date();
+            const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+            const remainingMilliseconds = endOfDay - now;
+            const remainingHours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
+
+            const remainingMinutes = Math.floor((remainingMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+            const remainingSeconds = Math.floor((remainingMilliseconds % (1000 * 60)) / 1000);
+
+            setRemainingTime({
+                remainingHours,
+                remainingMinutes,
+                remainingSeconds,
+            })
+        }, 1000)
+
     }, []);
+
+    const calculateNextSeason = () => {
+
+        /**
+         * 
+         * FUNC: Tính toán mùa tiếp theo trong năm dựa theo tháng hiện tại
+         * 
+         * - Nếu tháng hiện tại nhỏ hơn 10 => Năm nay
+         * - Nếu tháng hiện tại lớn hơn 10 => Năm tiếp theo
+         * 
+         */
+
+        const date = new Date()
+        const month = date.getMonth() + 1;
+
+        const months = {
+            "1": "hè",
+            "2": "hè",
+            "3": "hè",
+            "4": "thu",
+            "5": "thu",
+            "6": "thu",
+            "7": "đông",
+            "8": "đông",
+            "9": "đông",
+            "10": "xuân",
+            "11": "xuân",
+            "12": "xuân",
+        }
+        if (month < 10) {
+            return `${lang[months[`${month}`]]} ${date.getFullYear()}`
+        } else {
+            return `${lang[months[`${month}`]]} ${date.getFullYear() + 1}`
+        }
+    }
+
+
 
     return (
         <div>
 
-
-
-
             <section className="categories">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-lg-6 p-0">
-                            <div
-                                className="categories__item categories__large__item set-bg"
-                                data-setbg="img/categories/category-1.jpg"
-                            >
-                                <div className="categories__text">
-                                    <h1>Women’s fashion</h1>
-                                    <p>
-                                        Sitamet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incidid-unt labore edolore magna aliquapendisse ultrices
-                                        gravida.
-                                    </p>
-                                    <a href="#">Shop now</a>
+                        { functions.isMobile() ?
+                            <div className="col-lg-6">
+                                <div className="row">
+                                    <div className="col-lg-6 col-md-6 col-sm-6 p-0">
+                                        <div
+                                            className="categories__item set-bg"
+                                            data-setbg="img/categories/category-1.jpg"
+                                        >
+                                            <div className="categories__text">
+                                                <h1>Women’s fashion</h1>
+                                                <p>
+                                                    Sitamet, consectetur adipiscing elit, sed do eiusmod tempor
+                                                    incidid-unt labore edolore magna aliquapendisse ultrices
+                                                    gravida.
+                                                </p>
+                                                <a href="#">Shop now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
+                            :
+                            <div className="col-lg-6 p-0">
+                                <div
+                                    className="categories__item categories__large__item set-bg"
+                                    data-setbg="img/categories/category-1.jpg"
+                                >
+                                    <div className="categories__text">
+                                        <h1>Women’s fashion</h1>
+                                        <p>
+                                            Sitamet, consectetur adipiscing elit, sed do eiusmod tempor
+                                            incidid-unt labore edolore magna aliquapendisse ultrices
+                                            gravida.
+                                        </p>
+                                        <a href="#">Shop now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div className="col-lg-6">
                             <div className="row">
                                 <div className="col-lg-6 col-md-6 col-sm-6 p-0">
@@ -174,233 +326,38 @@ export default (props) => {
                     <div className="row">
                         <div className="col-lg-4 col-md-4">
                             <div className="section-title">
-                                <h4>New product</h4>
+                                <h4>{lang["danh mục sản phâm mới"]}</h4>
                             </div>
                         </div>
                         <div className="col-lg-8 col-md-8">
                             <ul className="filter__controls">
                                 <li className="active" data-filter="*">
-                                    { lang["tất cả"] }
+                                    {lang["tất cả"]}
                                 </li>
-                                <li >{ lang["bồn cầu"] }</li>
-                                <li >{ lang["lavabo"] }</li>
-                                <li >{ lang["gương"] }</li>
-                                <li >{ lang["vòi sen"] }</li>
-                                <li >{ lang["khác"] }</li>
+                                <li >{lang["bồn cầu"]}</li>
+                                <li >{lang["lavabo"]}</li>
+                                <li >{lang["gương"]}</li>
+                                <li >{lang["vòi sen"]}</li>
+                                <li >{lang["khác"]}</li>
                             </ul>
                         </div>
                     </div>
 
                     {/* HOT PRODUCT HERE */}
                     <div className="row property__gallery">
-                        { newProducts.map( product => <ProductCard { ...product }/> ) }                        
+                        {newProducts.map(product => <ProductCard {...product} />)}
                     </div>
                 </div>
             </section>
 
-            <section className="banner set-bg" data-setbg="img/banner/banner-1.jpg">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-xl-7 col-lg-8 m-auto">
-                            <div className="banner__slider owl-carousel">
-                                <div className="banner__item">
-                                    <div className="banner__text">
-                                        <span>The Chloe Collection</span>
-                                        <h1>The Project Jacket</h1>
-                                        <a href="#">Shop now</a>
-                                    </div>
-                                </div>
-                                <div className="banner__item">
-                                    <div className="banner__text">
-                                        <span>The Chloe Collection</span>
-                                        <h1>The Project Jacket</h1>
-                                        <a href="#">Shop now</a>
-                                    </div>
-                                </div>
-                                <div className="banner__item">
-                                    <div className="banner__text">
-                                        <span>The Chloe Collection</span>
-                                        <h1>The Project Jacket</h1>
-                                        <a href="#">Shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <CollectionBanner />
 
             <section className="trend spad">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-6">
-                            <div className="trend__content">
-                                <div className="section-title">
-                                    <h4>Hot Trend</h4>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/ht-1.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Chain bucket bag</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/ht-2.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Pendant earrings</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/ht-3.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Cotton T-Shirt</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-4 col-sm-6">
-                            <div className="trend__content">
-                                <div className="section-title">
-                                    <h4>Best seller</h4>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/bs-1.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Cotton T-Shirt</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/bs-2.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>
-                                            Zip-pockets pebbled tote <br />
-                                            briefcase
-                                        </h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/bs-3.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Round leather bag</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-4 col-sm-6">
-                            <div className="trend__content">
-                                <div className="section-title">
-                                    <h4>Feature</h4>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/f-1.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Bow wrap skirt</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/f-2.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Metallic earrings</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                                <div className="trend__item">
-                                    <div className="trend__item__pic">
-                                        <img src="img/trend/f-3.jpg" alt="" />
-                                    </div>
-                                    <div className="trend__item__text">
-                                        <h6>Flap cross-body bag</h6>
-                                        <div className="rating">
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                            <i className="fa fa-star"></i>
-                                        </div>
-                                        <div className="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        {trendingItems.map(items => <ProductList {...items} />)}
+
                     </div>
                 </div>
             </section>
@@ -408,41 +365,45 @@ export default (props) => {
             <section className="discount">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6 p-0">
-                            <div className="discount__pic">
-                                <img src="img/discount.jpg" alt="" />
-                            </div>
-                        </div>
+
                         <div className="col-lg-6 p-0">
                             <div className="discount__text">
                                 <div className="discount__text__title">
-                                    <span>Discount</span>
-                                    <h2>Summer 2019</h2>
+                                    <span>{lang["ưu đãi"]}</span>
+                                    <h2>{calculateNextSeason()}</h2>
                                     <h5>
-                                        <span>Sale</span> 50%
+                                        <span>Sale</span> 30%
                                     </h5>
                                 </div>
                                 <div className="discount__countdown" id="countdown-time">
                                     <div className="countdown__item">
                                         <span>22</span>
-                                        <p>Days</p>
+                                        <p>{lang["ngày"]}</p>
                                     </div>
                                     <div className="countdown__item">
-                                        <span>18</span>
-                                        <p>Hour</p>
+                                        <span>{remainingTime.remainingHours}</span>
+                                        <p>{lang["giờ"]}</p>
                                     </div>
                                     <div className="countdown__item">
-                                        <span>46</span>
-                                        <p>Min</p>
+                                        <span>{remainingTime.remainingMinutes}</span>
+                                        <p>{lang["phút"]}</p>
                                     </div>
                                     <div className="countdown__item">
-                                        <span>05</span>
-                                        <p>Sec</p>
+                                        <span>{remainingTime.remainingSeconds}</span>
+                                        <p>{lang["giây"]}</p>
                                     </div>
                                 </div>
                                 <a href="#">Shop now</a>
                             </div>
                         </div>
+                        {
+                            !functions.isMobile() &&
+                            <div className="col-lg-6 p-0">
+                                <div className="discount__pic">
+                                    <img src="img/discount.jpg" alt="" />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </section>
@@ -453,29 +414,29 @@ export default (props) => {
                         <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="services__item">
                                 <i className="fa fa-car"></i>
-                                <h6>Free Shipping</h6>
-                                <p>For all oder over $99</p>
+                                <h6>{lang["giao hàng miễn phí"]}</h6>
+                                <p>{lang["miễn phí và nhanh chóng cho tất cả đơn hàng"]}</p>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="services__item">
                                 <i className="fa fa-money"></i>
-                                <h6>Money Back Guarantee</h6>
-                                <p>If good have Problems</p>
+                                <h6>{lang["bảo hành miễn phí"]}</h6>
+                                <p>{lang["---"]}</p>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="services__item">
                                 <i className="fa fa-support"></i>
-                                <h6>Online Support 24/7</h6>
-                                <p>Dedicated support</p>
+                                <h6>{lang["hỗ trợ onl 24/7"]}</h6>
+                                <p> {lang["tận tâm hổ trợ mọi lúc mọi nơi trên nhiều nền tảng"]} </p>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="services__item">
                                 <i className="fa fa-headphones"></i>
-                                <h6>Payment Secure</h6>
-                                <p>100% secure payment</p>
+                                <h6>{lang["hỗ trợ đa ngôn ngữ"]}</h6>
+                                <p>{lang["---"]}</p>
                             </div>
                         </div>
                     </div>
@@ -485,72 +446,7 @@ export default (props) => {
             <div className="instagram">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-lg-2 col-md-4 col-sm-4 p-0">
-                            <div
-                                className="instagram__item set-bg"
-                                data-setbg="img/instagram/insta-1.jpg"
-                            >
-                                <div className="instagram__text">
-                                    <i className="fa fa-instagram"></i>
-                                    <a href="#">@ ashion_shop</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-2 col-md-4 col-sm-4 p-0">
-                            <div
-                                className="instagram__item set-bg"
-                                data-setbg="img/instagram/insta-2.jpg"
-                            >
-                                <div className="instagram__text">
-                                    <i className="fa fa-instagram"></i>
-                                    <a href="#">@ ashion_shop</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-2 col-md-4 col-sm-4 p-0">
-                            <div
-                                className="instagram__item set-bg"
-                                data-setbg="img/instagram/insta-3.jpg"
-                            >
-                                <div className="instagram__text">
-                                    <i className="fa fa-instagram"></i>
-                                    <a href="#">@ ashion_shop</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-2 col-md-4 col-sm-4 p-0">
-                            <div
-                                className="instagram__item set-bg"
-                                data-setbg="img/instagram/insta-4.jpg"
-                            >
-                                <div className="instagram__text">
-                                    <i className="fa fa-instagram"></i>
-                                    <a href="#">@ ashion_shop</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-2 col-md-4 col-sm-4 p-0">
-                            <div
-                                className="instagram__item set-bg"
-                                data-setbg="img/instagram/insta-5.jpg"
-                            >
-                                <div className="instagram__text">
-                                    <i className="fa fa-instagram"></i>
-                                    <a href="#">@ ashion_shop</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-2 col-md-4 col-sm-4 p-0">
-                            <div
-                                className="instagram__item set-bg"
-                                data-setbg="img/instagram/insta-6.jpg"
-                            >
-                                <div className="instagram__text">
-                                    <i className="fa fa-instagram"></i>
-                                    <a href="#">@ ashion_shop</a>
-                                </div>
-                            </div>
-                        </div>
+                        {multiMediaLinks.map(link => <SocialLink {...link} />)}
                     </div>
                 </div>
             </div>
