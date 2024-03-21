@@ -48,6 +48,7 @@ export default (props) => {
                 <div
                     className="product__item__pic set-bg"
                     data-setbg={image}
+                    style={{ backgroundImage: `url(${ image })` }}
                 >
                     {
                         is_sale && sale_price && <div className="label">{ lang["giảm giá"] }</div>

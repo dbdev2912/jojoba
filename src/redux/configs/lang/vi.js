@@ -24,6 +24,7 @@ export default {
     "thiết bị nhà vệ sinh": "Thiết bị nhà vệ sinh",
     "thiết bị nhà tắm": "Thiết bị nhà tắm",
     "thiết bị ngành nước": "Thiết bị ngành nước",
+    "thiết bị nhà bếp": "Thiết bị nhà bếp",
     "dịch vụ": "Dịch vụ",
 
     "danh mục sản phâm mới":"sản phẩm mới",
@@ -77,6 +78,48 @@ export default {
     "thanh toán": "Thanh toán",
     "đóng góp": "Đóng góp",
     "nhận thông báo": "Nhận thông báo",
-    "đăng ký": "Đăng ký"
+
+    "liên hệ": "Liên hệ",
+
+    "đăng nhập": "Đăng nhập",
+    "đăng ký": "Đăng ký",
+
+    "khách hàng": "Khách hàng",
+    "giỏ hàng": "Giỏ hàng",
+    "lịch sử mua hàng": "Lịch sử mua hàng",
+
+    "quý danh": "Quý danh",
+    "email": "Địa chỉ email",
+    "trang web": "Trang web",
+    "lời nhắn": "Lời nhắn",
+
+    "gửi ngay": "Gửi ngay",
+    "gửi thư liên hệ": "Gửi thư liên hệ",
+
+
+    "dòng sản phẩm": "Dòng sản phẩm",
+
+    "giá": "Giá tiền", 
+    "từ": "Từ", 
+    "lọc": "Lọc", 
+    "chất liệu": "Chất liệu",
+    "thương hiệu": "Thương hiệu",
+    "trạng thái": "Trạng thái",
+    "khuyến mãi": "Khuyến mãi",
+    "miễn phí vẫn chuyển": "Miễn phí vẫn chuyển",
+    "mô tả": "Mô tả",
+    "thông số kĩ thuật": "Thông số kĩ thuật",
+    "đánh giá": "Đánh giá",
+    "số lượng": "Số lượng",
+    "thêm vào giỏ": " Thêm vào giỏ",
+
+    "còn hàng": "Còn hàng",
+    "hết hàng": "Hết hàng",
+
+  
+
+    "thông tin liên hệ": "Thông tin liên hệ",
+    "đường dây nóng": "Đường dây nóng",
+    "email hổ trợ": "Email hỗ trợ",
 
 }

@@ -4,6 +4,7 @@ import Breadcrumb from "../ui/navbar/breadcrumb";
 import { CriteriaCard } from "../ui/sidebar";
 
 import { ProductCard33 } from "../ui/products";
+import { useEffect, useState } from "react";
 
 
 export default () => {
@@ -50,110 +51,116 @@ export default () => {
         }
     ]
 
-    const products = [
-        {
-            image: "img/product/product-1.jpg",
-            product_name: "Buttons tweed blazer",
-            price: "5900000",
-            sale_price: "4800000",
-            stars: 5,
-            is_sale: true,
-            is_new: true
-        },
-        {
-            image: "img/product/product-2.jpg",
-            product_name: "Flowy striped skirt",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-            is_new: true,
-        },
-        {
-            image: "img/product/product-3.jpg",
-            product_name: "Cotton T-shirt",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-            is_sale: true,
-        },
-        {
-            image: "img/product/product-4.jpg",
-            product_name: "Slim strped pocket shirt",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-        },
-        {
-            image: "img/product/product-5.jpg",
-            product_name: "Fit micro codouroy shirt",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-        },
-        {
-            image: "img/product/product-6.jpg",
-            product_name: "Tropical kimono",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-        },
-        {
-            image: "img/product/product-7.jpg",
-            product_name: "Contrasting sunglasses",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-        },
-        {
-            image: "img/product/product-8.jpg",
-            product_name: "Water resistant backpack",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-        },
-        {
-            image: "img/product/product-2.jpg",
-            product_name: "Flowy striped skirt",
-            price: "59",
-            sale_price: "48",
-            stars: 5,
-            is_new: true,
-        },
+    const [ products, setProducts ] = useState([])
 
-    ]
+    useEffect( ()  => {
+        const initialProducts = [
+            {
+                image: "/img/product/product-1.jpg",
+                product_name: "Buttons tweed blazer",
+                price: "5900000",
+                sale_price: "4800000",
+                stars: 5,
+                is_sale: true,
+                is_new: true
+            },
+            {
+                image: "/img/product/product-2.jpg",
+                product_name: "Flowy striped skirt",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+                is_new: true,
+            },
+            {
+                image: "/img/product/product-3.jpg",
+                product_name: "Cotton T-shirt",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+                is_sale: true,
+            },
+            {
+                image: "/img/product/product-4.jpg",
+                product_name: "Slim strped pocket shirt",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+            },
+            {
+                image: "/img/product/product-5.jpg",
+                product_name: "Fit micro codouroy shirt",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+            },
+            {
+                image: "/img/product/product-6.jpg",
+                product_name: "Tropical kimono",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+            },
+            {
+                image: "/img/product/product-7.jpg",
+                product_name: "Contrasting sunglasses",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+            },
+            {
+                image: "/img/product/product-8.jpg",
+                product_name: "Water resistant backpack",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+            },
+            {
+                image: "/img/product/product-2.jpg",
+                product_name: "Flowy striped skirt",
+                price: "59",
+                sale_price: "48",
+                stars: 5,
+                is_new: true,
+            },
+    
+        ]
+        setProducts(initialProducts)
+    }, [])
+
 
     return (
         <div>
 
             <Breadcrumb path={breadcrumb} />
 
-            <section class="shop spad">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3">
-                            <div class="shop__sidebar">
-                                <div class="sidebar__categories">
-                                    <div class="section-title">
-                                        <h4>Categories</h4>
+            <section className="shop spad">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-3 col-md-3">
+                            <div className="shop__sidebar">
+                                <div className="sidebar__categories">
+                                    <div className="section-title">
+                                        <h4>{ lang["dòng sản phẩm"] }</h4>
                                     </div>
-                                    <div class="categories__accordion">
-                                        <div class="accordion" id="accordionExample">
+                                    <div className="categories__accordion">
+                                        <div className="accordion" id="accordionExample">
                                             {categoriesFilter.map(filter => <CriteriaCard criteria={filter} cpnID={filter.id} parentId={"accordionExample"} />)}
                                         </div>
                                     </div>
                                 </div>
 
                                 {/*  FILTER BY PRICE  */}
-                                <div class="sidebar__filter">
-                                    <div class="section-title">
-                                        <h4>Shop by price</h4>
+                                <div className="sidebar__filter">
+                                    <div className="section-title">
+                                        <h4>{ lang["giá"] }</h4>
                                     </div>
-                                    <div class="filter-range-wrap">
-                                        <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                    <div className="filter-range-wrap">
+                                        <div className="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
                                             data-min="0" data-max="10000000"></div>
-                                        <div class="range-slider">
-                                            <div class="price-input">
-                                                <p>Price:</p>
+                                        <div className="range-slider">
+                                            <div className="price-input">
+                                                <p>{ lang["từ"] }</p>
                                                 <input type="text" id="minamount" />
                                                 <input type="text" id="maxamount" />
                                             </div>
@@ -161,28 +168,28 @@ export default () => {
                                     </div>
 
                                 </div>
-                                <div class="sidebar__filter" style={{ marginBottom: "104px" }}>
-                                    <a href="#">Filter</a>
+                                <div className="sidebar__filter" style={{ marginBottom: "104px" }}>
+                                    <a href="#">{ lang["lọc"] }</a>
                                 </div>
 
 
 
                                 {/*  FILTER BY MATERIAL  */}
 
-                                <div class="sidebar__sizes" >
-                                    <div class="section-title">
-                                        <h4>Shop by material</h4>
+                                <div className="sidebar__sizes" >
+                                    <div className="section-title">
+                                        <h4>{ lang["chất liệu"] }</h4>
                                     </div>
-                                    <div class="size__list">
+                                    <div className="size__list">
                                         <label for="porcelain">
                                             Porcelain
                                             <input type="checkbox" id="porcelain" />
-                                            <span class="checkmark"></span>
+                                            <span className="checkmark"></span>
                                         </label>
                                         <label for="inox">
                                             Inox
                                             <input type="checkbox" id="inox" />
-                                            <span class="checkmark"></span>
+                                            <span className="checkmark"></span>
                                         </label>
 
                                     </div>
@@ -190,19 +197,19 @@ export default () => {
 
                             </div>
                         </div>
-                        <div class="col-lg-9 col-md-9">
-                            <div class="row">
+                        <div className="col-lg-9 col-md-9">
+                            <div className="row">
 
 
                                 {products.map(product => <ProductCard33 {...product} />)}
 
 
-                                <div class="col-lg-12 text-center">
-                                    <div class="pagination__option">
+                                <div className="col-lg-12 text-center">
+                                    <div className="pagination__option">
                                         <a href="#">1</a>
                                         <a href="#">2</a>
                                         <a href="#">3</a>
-                                        <a href="#"><i class="fa fa-angle-right"></i></a>
+                                        <a href="#"><i className="fa fa-angle-right"></i></a>
                                     </div>
                                 </div>
                             </div>

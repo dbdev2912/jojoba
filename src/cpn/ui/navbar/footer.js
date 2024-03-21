@@ -127,7 +127,7 @@ export default () => {
               <p>
                 Copyright &copy;{" "}
                 <script>document.write(new Date().getFullYear());</script> All
-                rights reserved | JOJOBA
+                rights reserved | Xuân Dũng Store
 
               </p>
             </div>

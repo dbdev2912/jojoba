@@ -1713,7 +1713,7 @@ ol {
 .product__details__text .rating i {
 	font-size: 12px;
 	color: #e3c01c;
-	margin-right: -4px;
+	/* margin-right: -4px; */
 }
 
 .product__details__text .rating span {
@@ -1732,6 +1732,10 @@ ol {
 	font-weight: 600;
 	color: #ca1515;
 	margin-bottom: 30px;
+}
+
+.price__no__sale {
+	color: #111;
 }
 
 .product__details__price span {
@@ -2133,7 +2137,7 @@ ol {
 .shop__cart__table tbody tr .cart__product__item .cart__product__item__title .rating i {
 	font-size: 10px;
 	color: #e3c01c;
-	margin-right: -4px;
+	/* margin-right: -4px; */
 }
 
 .shop__cart__table tbody tr .cart__price {

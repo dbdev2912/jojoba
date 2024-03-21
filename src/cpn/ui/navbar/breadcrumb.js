@@ -17,8 +17,10 @@ export default (props) => {
     if( path && Array.isArray(path) ){
 
         const previousPages = path.slice( 0, path.length - 1 )
-        const lastPage = path.pop()
-
+        const lastPage = path[ path.length - 1 ]
+        /**
+         * split path in two, the first one contains all pages except for the last page, and the 2nd one is the last page.
+         */
         return (
             <div className="breadcrumb-option">
                 <div className="container">

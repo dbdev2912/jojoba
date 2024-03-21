@@ -5,19 +5,19 @@ import Navbar from '../navbar/navbar'
 import Footer from '../navbar/footer'
 
 
-export default ({ children }) => {
+export default ({ children, activePage }) => {
     useEffect(() => {
         const scripts = [
-          "js/jquery-3.3.1.min.js",
-          "js/bootstrap.min.js",
-          "js/jquery.magnific-popup.min.js",
-          "js/jquery-ui.min.js",
-          "js/mixitup.min.js",
-          "js/jquery.countdown.min.js",
-          "js/jquery.slicknav.js",
-          "js/owl.carousel.min.js",
-          "js/jquery.nicescroll.min.js",
-          "js/main.js",
+          "/js/jquery-3.3.1.min.js",
+          "/js/bootstrap.min.js",
+          "/js/jquery.magnific-popup.min.js",
+          "/js/jquery-ui.min.js",
+          "/js/mixitup.min.js",
+          "/js/jquery.countdown.min.js",
+          "/js/jquery.slicknav.js",
+          "/js/owl.carousel.min.js",
+          "/js/jquery.nicescroll.min.js",
+          "/js/main.js",
         ];
     
         const $body = $("#body");
@@ -65,7 +65,7 @@ export default ({ children }) => {
                 </div>
             </div>
 
-            <Navbar />
+            <Navbar activePage={ activePage }/>
             {children }
             <Footer/>
       </div>

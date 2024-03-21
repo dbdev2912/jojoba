@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-
+import mainjs from './main';
 
 const getFormatedUUID = () => {
     /** 
@@ -89,6 +89,7 @@ const renderPrice = ( price ) => {
 export default {
     renderPrice,
     isMobile,
-    getFormatedUUID
+    getFormatedUUID,
+    mainjs
 }
 

@@ -1,8 +1,22 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux'
+import $ from 'jquery';
 
-export default () => {
 
-    const { lang } = useSelector(state => state)
+export default (props) => {
+
+  const { lang } = useSelector(state => state)
+
+  const { activePage } = props
+
+  useEffect(() => {    
+    try {
+      $('#navbar-menu').find('> li')[activePage].className = "active"
+    }catch{
+      
+    }
+  }, [])
+
 
   return (
     <header className="header">
@@ -17,42 +31,65 @@ export default () => {
           </div>
           <div className="col-xl-6 col-lg-7">
             <nav className="header__menu">
-              <ul>
-                
+              <ul id="navbar-menu">
                 <li>
-                  <a href="#">{lang["sản phẩm 1"]}</a>
+                  <a href="/">{lang["trang chủ 1"]}</a>
+                </li>
+                <li>
+                  <a href="/products">{lang["sản phẩm 1"]}</a>
                   <ul className="dropdown">
                     <li>
-                      <a href="./product-details.html">{lang["thiết bị nhà vệ sinh"]}</a>
+                      <a href="/">{lang["thiết bị nhà vệ sinh"]}</a>
                     </li>
                     <li>
-                      <a href="./shop-cart.html">{lang["thiết bị nhà tắm"]}</a>
+                      <a href="/">{lang["thiết bị nhà tắm"]}</a>
                     </li>
                     <li>
-                      <a href="./checkout.html">{ lang["thiết bị ngành nước"] }</a>
+                      <a href="/">{lang["thiết bị ngành nước"]}</a>
                     </li>
                     <li>
-                      <a href="./blog-details.html">{ lang["dịch vụ"] }</a>
+                      <a href="/">{lang["thiết bị nhà bếp"]}</a>
+                    </li>
+                    <li>
+                      <a href="/">{lang["dịch vụ"]}</a>
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <a href="./blog.html">{ lang["tin tức"] }</a>
+                  <a href="/">{lang["tin tức"]}</a>
                 </li>
                 <li>
-                  <a href="./contact.html">{ lang["liên hệ"] }</a>
+                  <a href="/u/cart">{lang["giỏ hàng"]}</a>
+                  <ul className="dropdown">
+
+                    <li>
+                      <a href="/u/cart">{lang["giỏ hàng"]}</a>
+                    </li>
+
+                    <li>
+                      <a href="/">{lang["thanh toán"]}</a>
+                    </li>
+
+                    <li>
+                      <a href="/">{lang["lịch sử mua hàng"]}</a>
+                    </li>
+                    
+                  </ul>
                 </li>
                 <li>
-                  <a href="./contact.html">{ lang["giới thiệu"] }</a>
+                  <a href="/contact">{lang["liên hệ"]}</a>
                 </li>
+                {/* <li>
+                  <a href="/">{lang["giới thiệu"]}</a>
+                </li> */}
               </ul>
             </nav>
           </div>
           <div className="col-lg-3">
             <div className="header__right">
               <div className="header__right__auth">
-                <a href="#">Login</a>
-                <a href="#">Register</a>
+                <a href="#">{lang["đăng nhập"]}</a>
+                <a href="#">{lang["đăng ký"]}</a>
               </div>
               <ul className="header__right__widget">
                 <li>
