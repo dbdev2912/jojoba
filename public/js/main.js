@@ -7,8 +7,6 @@ Version: 1.0
 Created: Colorib
 ---------------------------------------------------------  */
 
-console.log('main js')
-
 'use strict';
 
 (function ($) {

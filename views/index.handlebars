@@ -79,38 +79,8 @@
       <div class="row property__gallery">
 
         {{#each products }}
-
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="product__item sale">
-            <div class="product__item__pic set-bg" 
-              style="background-image: url({{ image }});">
-                {{#if is_sale }}
-                  <div class="label">sale</div>
-                {{/if}}
-
-                {{#if is_new }}
-                  <div class="label new">new</div>
-                {{/if}}
-
-                {{#if (and is_sale is_new) }}
-                    <div class="label new">new &amp; sale</div>                  
-                {{/if}}
-                
-              <ul class="product__hover">
-                <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-              </ul>
-            </div>
-            <div class="product__item__text">
-              <h6><a href="#">{{ product_name }}</a></h6>
-              <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                  class="fa fa-star"></i><i class="fa fa-star"></i></div>
-              <div class="product__price">
-                {{#formatPrice sale_price }}{{/formatPrice}}<span> {{#formatPrice price }}{{/formatPrice}} </span></div>
-            </div>
-          </div>
-        </div>
+          {{#product this}}
+          {{/product}}
         {{/each}}
 
 

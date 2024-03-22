@@ -21,7 +21,7 @@
                                         <div class="card-body">
                                             <ul>
                                                 {{#each options }}
-                                                    <li><a href={{ url }}>{{ label }}
+                                                    <li><a href={{ url }}>{{ label }}</a>
                                                 {{/each}}                                                
                                             </ul>
                                         </div>
@@ -31,7 +31,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="sidebar__filter">
                         <div class="section-title">
@@ -51,13 +50,9 @@
 
                     </div>
 
-
                     <div class="sidebar__filter" style= "margin-bottom: 104px">
-                        <a href="#">Lọc</a>
+                        <a id="price-filter">Lọc</a>
                     </div>
-
-
-
 
 
                     <div class="sidebar__sizes">
@@ -79,14 +74,18 @@
                         </div>
                     </div>
 
+                    
+
                 </div>
             </div>
             <div class="col-lg-9 col-md-9">
                 <div class="row">
 
 
-                    {{!-- {products.map(product =>
-                    <ProductCard33 {...product} />)} --}}
+                    {{#each products }}
+                        {{#product_md4 this}}
+                        {{/product_md4}}
+                    {{/each}}
 
 
                     <div class="col-lg-12 text-center">

@@ -8,9 +8,13 @@ const path = require('path');
 const home = require('./routes/home');
 const products = require('./routes/products')
 
+const functions = require('./configs/functions')
+
 // Sending static files with Express 
 app.use(express.static('public'));
 
+
+const Helpers = require('./helpers')
 
 const hbs = expbs.create({
     defaultLayout: 'main',
@@ -38,30 +42,10 @@ const hbs = expbs.create({
             return x && y
         },
         formatPrice: function (price, options) {
-            /**
-            * @type: function
-            * 
-            * @libr: uuid 
-            * 
-            * @desc: translate 1000 to 1,000
-            * 
-            */
-
-
-            let numString = price.toString();
-            let formattedNumber = '';
-            let count = 0;
-
-            for (let i = numString.length - 1; i >= 0; i--) {
-                count++;
-                formattedNumber = numString[i] + formattedNumber;
-                if (count % 3 === 0 && i !== 0) {
-                    formattedNumber = ',' + formattedNumber;
-                }
-            }
-
-            return `<text>${ formattedNumber }<sup>₫</sup></text>`
-        }
+            return functions.renderPrice(price)
+        },
+        product: Helpers.product,
+        product_md4: Helpers.product_md4,
     }
 });
 
