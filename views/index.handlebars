@@ -1,45 +1,304 @@
-
 {{> header}}
 
+<div>
+  <section class="categories">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6 p-0">
+          <div class="categories__item categories__large__item set-bg" 
+            style="background-image: url(&quot;img/categories/category-1.jpg&quot;);">
+            <div class="categories__text">
+              <h1>Women’s fashion</h1>
+              <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore edolore magna
+                aliquapendisse ultrices gravida.</p><a href="#">Shop now</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+              <div class="categories__item set-bg" 
+                style="background-image: url(&quot;img/categories/category-2.jpg&quot;);">
+                <div class="categories__text">
+                  <h4>Men’s fashion</h4>
+                  <p>358 items</p><a href="#">Shop now</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+              <div class="categories__item set-bg" 
+                style="background-image: url(&quot;img/categories/category-3.jpg&quot;);">
+                <div class="categories__text">
+                  <h4>Kid’s fashion</h4>
+                  <p>273 items</p><a href="#">Shop now</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+              <div class="categories__item set-bg" 
+                style="background-image: url(&quot;img/categories/category-4.jpg&quot;);">
+                <div class="categories__text">
+                  <h4>Cosmetics</h4>
+                  <p>159 items</p><a href="#">Shop now</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+              <div class="categories__item set-bg" 
+                style="background-image: url(&quot;img/categories/category-5.jpg&quot;);">
+                <div class="categories__text">
+                  <h4>Accessories</h4>
+                  <p>792 items</p><a href="#">Shop now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="product spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="section-title">
+            <h4>sản phẩm mới</h4>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-8">
+          <ul class="filter__controls">
+            <li class="active" data-filter="*">Tất cả</li>
+            <li>Bồn cầu</li>
+            <li>Lavabo</li>
+            <li>Gương</li>
+            <li>Vòi sen</li>
+            <li>Khác</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row property__gallery">
+
+        {{#each products }}
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="product__item sale">
+            <div class="product__item__pic set-bg" 
+              style="background-image: url({{ image }});">
+                {{#if is_sale }}
+                  <div class="label">sale</div>
+                {{/if}}
+
+                {{#if is_new }}
+                  <div class="label new">new</div>
+                {{/if}}
+
+                {{#if (and is_sale is_new) }}
+                    <div class="label new">new &amp; sale</div>                  
+                {{/if}}
+                
+              <ul class="product__hover">
+                <li><a href="img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+              </ul>
+            </div>
+            <div class="product__item__text">
+              <h6><a href="#">{{ product_name }}</a></h6>
+              <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                  class="fa fa-star"></i><i class="fa fa-star"></i></div>
+              <div class="product__price">
+                {{#formatPrice sale_price }}{{/formatPrice}}<span> {{#formatPrice price }}{{/formatPrice}} </span></div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
 
 
-<h2>Hello World!!!!</h2>
-<p>Welcome to my App</p>
 
-{{#if isDisplayName}}
-    <p>My name is {{ name }} </p>
-
-    {{else}}
-    <p>No name found!!!</p>
-{{/if}}
+      </div>
+    </div>
+  </section>
 
 
+  {{!-- SESSIONING COLLECTION --}}
+
+  <section class="banner set-bg" data-setbg="img/banner/banner-1.jpg"
+    style="background-image: url(&quot;img/banner/banner-1.jpg&quot;);">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-7 col-lg-8 m-auto">
+          <div class="banner__slider owl-carousel owl-loaded owl-drag">
+            <div class="owl-stage-outer">
+              <div class="owl-stage"
+               >
+                <div class="owl-item cloned" style="width: 652.5px;">
+                  <div class="banner__item">
+                    <div class="banner__text"><span>The Chloe Collection</span>
+                      <h1>The Project Jacket</h1><a href="#">Shop now</a>
+                    </div>
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+            <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span
+                  aria-label="Previous">‹</span></button><button type="button" role="presentation"
+                class="owl-next"><span aria-label="Next">›</span></button></div>
+            <div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button"
+                class="owl-dot active"><span></span></button><button role="button"
+                class="owl-dot"><span></span></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
-{{#if isAgeEnabled}}
-    <p> I am {{age}}</p>
-
-    {{else}}
-
-    <p>No age provided!</p>
 
 
-{{/if}}
+
+  <section class="trend spad">
+    <div class="container">
+      <div class="row">
+
+        {{#each trending }}
+
+        <div class="col-lg-4 col-md-4 col-sm-6">
+          <div class="trend__content">
+            <div class="section-title">
+              <h4>{{ title }}</h4>
+            </div>
+            {{#each items }}
+            <div class="trend__item">
+              <div class="trend__item__pic"><img src={{ image }} alt=""></div>
+              <div class="trend__item__text">
+                <h6>{{ product_name }}</h6>
+                <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                    class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                <div class="product__price"> {{#formatPrice price }}{{/formatPrice }}</div>
+              </div>
+            </div>
+             {{/each }}
+            
+          </div>
+        </div>
+         {{/each }}
+       
+      </div>
+    </div>
+  </section>
+  <section class="discount">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 p-0">
+          <div class="discount__text">
+            <div class="discount__text__title"><span>ưu đãi</span>
+              <h2>Hè 2024</h2>
+              <h5><span>Sale</span> 30%</h5>
+            </div>
+            <div class="discount__countdown" id="countdown-time">
+              <div class="countdown__item"><span>22</span>
+                <p>ngày</p>
+              </div>
+              <div class="countdown__item"><span>9</span>
+                <p>giờ</p>
+              </div>
+              <div class="countdown__item"><span>48</span>
+                <p>phút</p>
+              </div>
+              <div class="countdown__item"><span>57</span>
+                <p>giây</p>
+              </div>
+            </div><a href="#">Shop now</a>
+          </div>
+        </div>
+        <div class="col-lg-6 p-0">
+          <div class="discount__pic"><img src="img/discount.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="services spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="services__item"><i class="fa fa-car"></i>
+            <h6>Giao hàng miễn phí</h6>
+            <p>Miễn phí và nhanh chóng cho tất cả đơn hàng</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="services__item"><i class="fa fa-money"></i>
+            <h6>Bảo hành miễn phí</h6>
+            <p>---</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="services__item"><i class="fa fa-support"></i>
+            <h6>Hỗ trợ onl 24/7</h6>
+            <p> Tận tâm hỗ trợ mọi lúc mọi nơi trên nhiều nền tảng </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="services__item"><i class="fa fa-headphones"></i>
+            <h6>Hỗ trợ đa ngôn ngữ</h6>
+            <p>---</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="instagram">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+          <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg"
+            style="background-image: url(&quot;img/instagram/insta-1.jpg&quot;);">
+            <div class="instagram__text"><i class="fa fa-instagram"></i><a href="#">@Jojoba taiwan</a></div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+          <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg"
+            style="background-image: url(&quot;img/instagram/insta-2.jpg&quot;);">
+            <div class="instagram__text"><i class="fa fa-instagram"></i><a href="#">@Jojoba taiwan</a></div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+          <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg"
+            style="background-image: url(&quot;img/instagram/insta-3.jpg&quot;);">
+            <div class="instagram__text"><i class="fa fa-instagram"></i><a href="#">@Jojoba taiwan</a></div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+          <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg"
+            style="background-image: url(&quot;img/instagram/insta-4.jpg&quot;);">
+            <div class="instagram__text"><i class="fa fa-instagram"></i><a href="#">@Jojoba taiwan</a></div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+          <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg"
+            style="background-image: url(&quot;img/instagram/insta-5.jpg&quot;);">
+            <div class="instagram__text"><i class="fa fa-instagram"></i><a href="#">@Jojoba taiwan</a></div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+          <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg"
+            style="background-image: url(&quot;img/instagram/insta-6.jpg&quot;);">
+            <div class="instagram__text"><i class="fa fa-instagram"></i><a href="#">@Jojoba taiwan</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+      <div class="search-close-switch">+</div>
+      <form class="search-model-form"><input type="text" id="search-input" placeholder="Search here....."></form>
+    </div>
+  </div>
+</div>
 
 
-{{calculation 50}}
-
-{{!-- This is a listing --}}
-{{#list people}}
-  {{firstName}} {{lastName}}
-{{/list}}
 
 {{> footer}}
-
-
-
-
-{{! This is just a test}}
-{{{ test  }}}
-
-{{ test }}

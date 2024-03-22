@@ -1,8 +1,106 @@
-<nav>
-    <h2>Logo</h2>
-    <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-    </ul>
-</nav>
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo text-center">
+                    <a href="./index.html">
+                        <img src="img/logo.png" alt="" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul id="navbar-menu">
+                        {{#if (eq active_position 0 )}}
+                            <li class="active">
+                        {{ else }}
+                            <li>
+                        {{/if}}                            
+                            <a  href="/">Trang chủ</a>
+                        </li>
+
+
+
+                         {{#if (eq active_position 1 )}}
+                            <li class = "active">
+                        {{ else }}
+                            <li>
+                        {{/if}}   
+                            <a href="/products">Sản phẩm</a>
+                            <ul class="dropdown">
+                                <li>
+                                    <a href="/">Thiết bị nhà vệ sinh</a>
+                                </li>
+                                <li>
+                                    <a href="/">Thiết bị nhà tắm</a>
+                                </li>
+                                <li>
+                                    <a href="/">Thiết bị ngành nước</a>
+                                </li>
+                                <li>
+                                    <a href="/">Thiết bị nhà bếp</a>
+                                </li>
+                                <li>
+                                    <a href="/">Dịch vụ</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/">Tin tức</a>
+                        </li>
+                        <li>
+                            <a href="/u/cart">Giỏ hàng</a>
+                            <ul class="dropdown">
+
+                                <li>
+                                    <a href="/u/cart">Giỏ hàng</a>
+                                </li>
+
+                                <li>
+                                    <a href="/">Thanh toán</a>
+                                </li>
+
+                                <li>
+                                    <a href="/">Lịch sử mua hàng</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/contact">Liên hệ</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <a href="#">Đăng nhập</a>
+                        <a href="#">Đăng ký</a>
+                    </div>
+                    <ul class="header__right__widget">
+                        <li>
+                            <span class="icon_search search-switch"></span>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon_heart_alt"></span>
+                                <div class="tip">2</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon_bag_alt"></span>
+                                <div class="tip">2</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
