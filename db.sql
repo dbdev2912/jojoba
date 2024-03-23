@@ -13,9 +13,9 @@ CREATE TABLE TAIKHOAN (
 CREATE TABLE KHACHHANG (
 	`ten_dang_nhap` VARCHAR(255) PRIMARY KEY NOT NULL,
     `ma_khach_hang` VARCHAR(255) UNIQUE,
-	`ho_ten` VARCHAR(512) NOT NULL,
+	`ho` VARCHAR(512) NOT NULL,
+    `ten` VARCHAR(512) NOT NULL,
 	`so_dien_thoaI` VARCHAR(20) NOT NULL, 
-    `email` VARCHAR(20),
     `dia_chi` VARCHAR(255)
 );
 
@@ -84,13 +84,12 @@ CREATE TABLE SANPHAM(
     `nhom_san_pham` VARCHAR(255),
     `don_vi_tinh` VARCHAR(255),
     `thuong_hieu` VARCHAR(255),
-    `trang_thai` VARCHAR(255)
+    `trang_thai` BOOL DEFAULT TRUE
 );
 
 ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_nsp` FOREIGN KEY (`nhom_san_pham`) REFERENCES NHOMSANPHAM(`ma_nhom`);
 ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_th` FOREIGN KEY (`thuong_hieu`) REFERENCES THUONGHIEU(`ma_thuong_hieu`);
-ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_trangthai` FOREIGN KEY (`trang_thai`) REFERENCES TRANGTHAI(`ma_trang_thai`);
-
+ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_dvt` FOREIGN KEY (`don_vi_tinh`) REFERENCES DONVITINH(`ma_don_vi`);
 
 CREATE TABLE ANHBOSUNG(
 	`ma_anh` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
