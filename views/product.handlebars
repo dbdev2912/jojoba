@@ -1,0 +1,125 @@
+{{> header }}
+{{> breadcrumb }}
+
+
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="product__details__pic">
+
+                    <div class="product__details__slider__content">
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-hash="product-1" class="product__big__img"
+                                src="/img/product/details/product-1.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="product__details__text">
+
+                    <h3>{{ product.product_name }}<span style="textTransform: uppercase">Thương hiệu: {{
+                            product.brand_name }}</span></h3>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        {{!-- {/* <span>( 138 reviews )</span> priviews*/} --}}
+                    </div>
+                    {{#if product.is_sale }}
+                        <div class="product__details__price">{{#formatPrice product.sale_price }}{{/formatPrice}}
+                            <span>{{#formatPrice product.price }}{{/formatPrice}}</span>
+                        </div>
+                    {{else}}
+                        <div class="product__details__price price__no__sale">{{#formatPrice product.price }}{{/formatPrice}}</div>
+                    {{/if}}
+
+                    {{!-- PRODUCT INTR --}}
+                    <p>{{ product.instroducing }}</p>
+
+
+
+                    <div class="product__details__button">
+                        <div class="quantity">
+                            <span>Số lượng</span>
+                            <div class="pro-qty">
+                                <input type="text" value="1" />
+                            </div>
+                        </div>
+                        <a href="#" class="cart-btn"><span class="icon_bag_alt"></span>Thêm vào giỏ</a>
+                        {{!-- <ul>
+                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                        </ul> --}}
+                    </div>
+                    <div class="product__details__widget">
+                        <ul>
+                            <li>
+                                <span>Trạng thái</span>
+                                {{!-- TRẠNG THÁI CÒN HOẶC HẾT HÀNG CỦA SẢN PHẨM --}}
+                                {{#if product.in_stock }}
+                                <p>Còn hàng</p>
+                                {{else}}
+                                <p>Hết hàng</p>
+                                {{/if}}
+                                <p></p>
+                            </li>
+
+                            <li>
+                                <span>Ưu đãi</span>
+                                <p>Miễn phí vẫn chuyển trong nội thành Cần Thơ</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Mô tả</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Thông số</a>
+                        </li>
+                        {{!-- <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">{ lang["đánh giá"] }</a>
+                        </li> --}}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <h6>Mô tả</h6>
+                            <p>{{ product.description }}</p>
+
+                        </div>
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <h6>Thông số kĩ thuật</h6>
+
+                            <p>{{ product.specification }}</p>
+                        </div>
+                        {{!-- <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            PREVIEWS GOES HERE
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="related__title">
+                    <h5>SẢN PHẨM LIÊN QUAN</h5>
+                </div>
+            </div>
+
+
+            {{#each relatives}}
+            {{#product this }}{{/product}}
+            {{/each}}
+
+        </div>
+    </div>
+</section>
+{{> footer }}

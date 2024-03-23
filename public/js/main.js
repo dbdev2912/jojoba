@@ -52,6 +52,7 @@ Created: Colorib
 
     //Canvas Menu
     $(".canvas__open").on('click', function () {
+        console.log("CANVAS CLICK")
         $(".offcanvas-menu-wrapper").addClass("active");
         $(".offcanvas-menu-overlay").addClass("active");
     });

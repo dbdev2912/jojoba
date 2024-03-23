@@ -1,0 +1,145 @@
+{{> header }}
+{{> breadcrumb }}
+
+
+<section class="checkout spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6 class="coupon__link">
+                    {{!-- <span class="icon_tag_alt"></span> --}}
+                    {{!-- <a href="#">Have a coupon?</a> Click
+                    here to enter your code.</h6> --}}
+            </div>
+        </div>
+        <form action="#" class="checkout__form">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h5>CHI TIẾT ĐƠN HÀNG</h5>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>Họ & chữ lót <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>Tên <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            {{!-- <div class="checkout__form__input">
+                                <p>Quốc gia <span>*</span></p>
+                                <input type="text" value="Việt Nam">
+                            </div> --}}
+
+                            <div class="checkout__form__input">
+                                <p>Tỉnh / Thành phố <span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>Quận / Huyện <span>*</span></p>
+                                <input type="text">
+                            </div>
+
+                            <div class="checkout__form__input">
+                                <p>Xã / Phường / Thị Trấn <span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>Địa chỉ <span>*</span></p>
+                                <input type="text" placeholder="Đường & Số nhà">
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>Di động <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="checkout__form__input">
+                                <p>Email <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="checkout__form__checkbox">
+                                <label for="acc">
+                                    Tạo tài khoản ?
+                                    <input type="checkbox" id="acc">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <p>Tạo một tài khoản bằng cách nhập thông tin dưới đây. Nếu bạn là khách hàng cũ,
+                                    <br />hãy đăng nhập ở đầu trang. Username của bạn cũng chính là <b>Email bạn đã nhập
+                                        ở trên</b> !!</p>
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>Mật khẩu<span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="checkout__form__checkbox">
+                                <label for="note">
+                                    Ghi chú đặc biệt cho đơn hàng và/hoặc người giao hàng
+                                    <input type="checkbox" id="note">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>Ghi chú <span>*</span></p>
+                                <input type="text" placeholder="VD: Hàng dễ vỡ, lối đi phù hợp, ... ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="checkout__order">
+                        <h5>Đơn hàng của bạn</h5>
+                        <div class="checkout__order__product">
+                            <ul>
+                                <li>
+                                    <span class="top__text">Sản phẩm</span>
+                                    <span class="top__text__right">Tổng</span>
+                                </li>
+
+                                {{#each cart}}
+                                <li>
+                                    <p>{{#add @index 1 }}{{/add}}. {{ product_name }} x {{quantity}}</p><span>
+                                        {{#formatPrice subtotal}}{{/formatPrice}}</span>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        <div class="checkout__order__total">
+                            <ul>
+                                <li>Tổng đơn <span> {{#formatPrice total}}{{/formatPrice}} </span></li>
+                                <li class="text-right"><small><i>Đã bao gồm VAT</i></small></li>
+                            </ul>
+                        </div>
+
+                        <div class="checkout__order__total">
+                            <ul>
+                                <li>Phí vận chuyển <span>{{#formatPrice 0}}{{/formatPrice}}</span> </li>
+                                <li>
+                                    <p>Miễn phí vận chuyển trong nội thành Cần Thơ với đơn hàng trên <i>{{#formatPrice
+                                            500000}}{{/formatPrice}}</i></p>
+                                </li>
+                                <li>
+                                    <p>Chi phí vận chuyển sẽ có sự khác biệt giữa các tỉnh. Tối đa <i>{{#formatPrice
+                                            330000}}{{/formatPrice}}</i> với kiện hàng 60kg</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="site-btn">Đặt hàng</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{{> footer }}

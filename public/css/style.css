@@ -2193,21 +2193,27 @@ ol {
 }
 
 .cart__btn {
-	margin-bottom: 50px;
+	margin-bottom: 24px;
+	
+	text-align: right;
 }
 
 .cart__btn.update__btn {
-	text-align: right;
+	/* text-align: left; */
 }
+
 
 .cart__btn a {
 	font-size: 14px;
 	color: #111111;
+
 	font-weight: 600;
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 14px 30px 12px;
 	background: #f5f5f5;
+	width: 240px;
+	text-align: left;
 }
 
 .cart__btn a span {
@@ -2360,7 +2366,7 @@ ol {
 	margin-bottom: 25px;
 	font-size: 14px;
 	padding-left: 20px;
-	color: #666666;
+	color: #333333;
 }
 
 .checkout__form .checkout__form__input input::-webkit-input-placeholder {
@@ -2368,19 +2374,19 @@ ol {
 }
 
 .checkout__form .checkout__form__input input::-moz-placeholder {
-	color: #666666;
+	color: #ccc;
 }
 
 .checkout__form .checkout__form__input input:-ms-input-placeholder {
-	color: #666666;
+	color: #ccc;
 }
 
 .checkout__form .checkout__form__input input::-ms-input-placeholder {
-	color: #666666;
+	color: #ccc;
 }
 
 .checkout__form .checkout__form__input input::placeholder {
-	color: #666666;
+	color: #ccc;
 }
 
 .checkout__form .checkout__form__checkbox {
@@ -2468,6 +2474,7 @@ ol {
 	overflow: hidden;
 	margin-bottom: 14px;
 	line-height: 24px;
+	display: flex;
 }
 
 .checkout__order__product ul li:last-child {
@@ -2478,7 +2485,13 @@ ol {
 	font-size: 14px;
 	color: #111111;
 	font-weight: 600;
-	float: right;
+	margin-left: auto;
+}
+
+.checkout__order__product ul li p {
+	font-size: 14px;
+	color: #444444;
+	font-weight: 500;
 }
 
 .checkout__order__product ul li .top__text {

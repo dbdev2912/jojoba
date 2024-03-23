@@ -4,7 +4,7 @@ const lang = require('../configs/lang')
 
 // Routing 
 router.get('/', (req, res) => {
-    
+    req.session["data"] = "TEST SESSION"
     const newProducts = [
         {
             image: "img/product/product-1.jpg",

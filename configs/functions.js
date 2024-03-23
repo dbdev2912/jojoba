@@ -41,13 +41,40 @@ const renderPrice = ( price ) => {
      * 
      */
 
-    if( price ){
+    if( price != undefined ){
         return `<text>${ formatComnaSeperatedNumber(price) }<sup>₫</sup></text>`
     }
     return `<span>---<sup>₫</sup></span>`
 }
 
+const nullCheck = ( data, keys ) => {
+    /** 
+     *  @type: function
+     * 
+     *  @params: 
+     *      data: <Object>
+     *      keys: <String>[]
+     * 
+     *  @desc:
+     * 
+     *  return if all keys return at least one data
+     * 
+     */
+    if( data && keys && Array.isArray(keys)){
+        let valid = true;
+        for( let i = 0; i < keys.length; i++ ){
+            const key = keys[i];
+            if( data[key] == undefined ){
+                valid = false;
+            }
+        }
+        return valid;
+    }
+    return false   
+}
+
 module.exports = {
-    renderPrice
+    renderPrice,
+    nullCheck,
 }
 
