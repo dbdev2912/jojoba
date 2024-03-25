@@ -11711,7 +11711,7 @@ a.text-dark:focus {
 }
 
 body {
-    font-family: "Lato", Arial, sans-serif;
+    
     font-size: 16px;
     line-height: 1.8;
     font-weight: normal;
@@ -11746,7 +11746,7 @@ h5,
 .h5 {
     line-height: 1.5;
     font-weight: 400;
-    font-family: "Lato", Arial, sans-serif;
+    
     color: #000;
 }
 
@@ -12015,4 +12015,10 @@ h5,
 
 .login-bg img{
     width: 80%;
+}
+
+.error{
+    display: block;
+    color: #ff6655;
+    font-size: 12px;
 }

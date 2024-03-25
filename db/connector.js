@@ -12,4 +12,15 @@ const pool = mysql.createPool({
     database: 'xuandungstore'
 });
 
-module.exports = pool;
+const MySQL_QUERY = async ( query ) => {
+    return new Promise( (resolve) => {
+        pool.query( query, (err, result, fields) => {
+            if( err ){
+                throw err;                
+            }
+            resolve(result)
+        })
+    })
+}
+
+module.exports = MySQL_QUERY;

@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router(); 
 const lang = require('../configs/lang')
 
+const { COMPANY } = require('../configs/enum')
+
 // Routing 
 router.get('/', (req, res) => {
-    req.session["data"] = "TEST SESSION"
+
     const newProducts = [
         {
             image: "img/product/product-1.jpg",
@@ -97,8 +99,11 @@ router.get('/', (req, res) => {
     ]
 
     res.render('index', {
-        title: "Cửa hàng Xuân Dũng",
+        title: COMPANY,
+        auth: req.session.auth,
         active_position: 0, 
+
+        
         products: newProducts,
         trending: trendingItems
     });

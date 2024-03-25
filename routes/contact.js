@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router(); 
 const lang = require('../configs/lang')
-
+const { COMPANY } = require('../configs/enum')
 // Routing 
 router.get('/', (req, res) => {
 
@@ -18,9 +18,11 @@ router.get('/', (req, res) => {
     }
 
     res.render('contact', {
-        title: "Liên hệ | Cửa hàng Xuân Dũng",
+        title: `Liên hệ | ${ COMPANY }`,
+        auth: req.session.auth,
         previousPages,
         lastPage
+        
     });
 });
 

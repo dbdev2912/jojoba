@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 const formatComnaSeperatedNumber = (number) => {
     /**
      * @type: function
@@ -47,6 +49,49 @@ const renderPrice = ( price ) => {
     return `<span>---<sup>₫</sup></span>`
 }
 
+
+
+const formatDate = ( dateStr ) => {
+
+    /** 
+    *  @type: function
+    * 
+    *  @desc:
+    * 
+    *  return formatted date 
+    * 
+    */
+
+   if( dateStr != undefined ){
+
+        const date = new Date( dateStr );
+        return `${ date.getDate() }/${ date.getMonth() + 1 }/${ date.getFullYear() }`
+
+        return 
+    }
+   return `--/--/--`
+}
+
+const formateDateTime = ( dateStr ) => {
+
+    /** 
+    *  @type: function
+    * 
+    *  @desc:
+    * 
+    *  return formatted datetime
+    * 
+    */
+
+   if( dateStr != undefined ){
+
+        const date = new Date( dateStr );
+        return `${ date.getDate() }/${ date.getMonth() + 1 }/${ date.getFullYear() } ${ date.getHours() }:${ date.getMinutes() }`
+        
+    }
+   return `--/--/-- --:--`
+}
+
 const nullCheck = ( data, keys ) => {
     /** 
      *  @type: function
@@ -56,6 +101,8 @@ const nullCheck = ( data, keys ) => {
      *      keys: <String>[]
      * 
      *  @desc:
+     * 
+     *  @return BOOL
      * 
      *  return if all keys return at least one data
      * 
@@ -73,8 +120,35 @@ const nullCheck = ( data, keys ) => {
     return false   
 }
 
+const getFormatedUUID = () => {
+    /** 
+     *  @type: function
+     * 
+     *  @libr: uuid 
+     * 
+     *  @desc:
+     *  Tạo uuid với format là một chuỗi 32 ký tự liền nhau gồm số và chữ cái viết hoa
+     *  (1): Tạo UUID từ thư viện
+     *  (2): Biến đổi toàn bộ ký tự thường thành ký tự in hoa
+     *  (3): Xoá toàn bộ dấu gạch [__dash__] 
+     * 
+     */
+    let id = uuidv4()               // (1)
+    id = id.toUpperCase()           // (2)  
+    id = id.replaceAll("-", "")     // (3)
+    return id
+}
+
+
+
+
 module.exports = {
     renderPrice,
     nullCheck,
+    formatComnaSeperatedNumber,
+
+    getFormatedUUID,
+    formatDate,
+    formateDateTime,
 }
 

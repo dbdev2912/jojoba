@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const lang = require('../configs/lang')
 
+const { COMPANY } = require('../configs/enum')
 // Routing 
 router.get('/', (req, res) => {
 
@@ -123,10 +124,13 @@ router.get('/', (req, res) => {
     ]
 
     res.render('products', {
-        title: "Sản phẩm | Cửa hàng Xuân Dũng",
+        title: `Sản phẩm | ${ COMPANY }`,
         filter: categoriesFilter,
         previousPages,
         lastPage,
+        auth: req.session.auth,
+
+        
         products,
     })
 });
@@ -209,9 +213,12 @@ router.get('/p/:product_id', (req, res) => {
     ]
 
     res.render('product', {
-        title: `${product.product_id} | ${product.product_name} | Cửa hàng Xuân Dũng`,
+        title: `${product.product_id} | ${product.product_name} | ${ COMPANY }`,
         previousPages,
         lastPage,
+        auth: req.session.auth,
+
+        
         product,
         relatives
     })

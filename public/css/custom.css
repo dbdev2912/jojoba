@@ -1,0 +1,11 @@
+.auth__navigator ul li a::after{
+    right: unset;
+    top: unset;
+}
+
+.order-record:hover{
+    background-color: #ffdfdf;
+    cursor: pointer;
+}
+
+

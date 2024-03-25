@@ -1,0 +1,24 @@
+/*------------------------------------------------------------------
+    File Name: custom.css
+-------------------------------------------------------------------*/
+
+
+
+.main-container{
+    padding-left: 300px;
+    padding-top: 64px;
+}
+
+.table thead th{
+    border-bottom-width: 1px;
+}
+
+.table td, .table th {
+    border-top: 0;
+}
+
+.table tbody tr:nth-child(2n){
+    background-color: #fafafa;
+}
+
+/** ADD YOUR AWESOME CODES HERE **/

@@ -1,25 +1,24 @@
-
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
                 <div class="tip">2</div>
             </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
+        <li><a href="#"><span class="icon_bag_alt"></span>
                 <div class="tip">2</div>
             </a></li>
-        </ul>
-        <div class="offcanvas__logo">
-            <a href="/l"><img src="/img/logo.png" alt=""></a>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
-        </div>
+    </ul>
+    <div class="offcanvas__logo">
+        <a href="/l"><img src="/img/logo.png" alt=""></a>
     </div>
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__auth">
+        <a href="#">Login</a>
+        <a href="#">Register</a>
+    </div>
+</div>
 
 
 <header class="header">
@@ -36,20 +35,20 @@
                 <nav class="header__menu">
                     <ul id="navbar-menu">
                         {{#if (eq active_position 0 )}}
-                            <li class="active">
-                        {{ else }}
-                            <li>
-                        {{/if}}                            
-                            <a  href="/">Trang chủ</a>
+                        <li class="active">
+                            {{else }}
+                        <li>
+                            {{/if}}
+                            <a href="/">Trang chủ</a>
                         </li>
 
 
 
-                         {{#if (eq active_position 1 )}}
-                            <li class = "active">
-                        {{ else }}
-                            <li>
-                        {{/if}}   
+                        {{#if (eq active_position 1 )}}
+                        <li class="active">
+                            {{else }}
+                        <li>
+                            {{/if}}
                             <a href="/products">Sản phẩm</a>
                             <ul class="dropdown">
                                 <li>
@@ -72,7 +71,7 @@
                         <li>
                             <a href="/">Tin tức</a>
                         </li>
-                        <li>
+                        {{!-- <li>
                             <a href="/u/cart">Giỏ hàng</a>
                             <ul class="dropdown">
 
@@ -89,7 +88,7 @@
                                 </li>
 
                             </ul>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="/contact">Liên hệ</a>
                         </li>
@@ -99,22 +98,57 @@
             </div>
             <div class="col-lg-3">
                 <div class="header__right">
+                    {{#if auth }}
                     <div class="header__right__auth">
-                        <a href="#">Đăng nhập</a>
-                        <a href="#">Đăng ký</a>
+                        {{!-- <a href="#">{{ auth.ho }} {{ auth.ten }}</a> --}}
+
+                        <nav class="header__menu auth__navigator" style="padding: 0;">
+                            <ul id="navbar-menu">
+
+                                <li>
+                                    <a href="#">{{ auth.ho }} {{ auth.ten }}</a>
+                                    <ul class="dropdown">
+
+                                        <li>
+                                            <a href="/u/cart">Hồ sơ của tôi</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/u/cart">Giỏ hàng</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/u/checkout">Thanh toán</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/u/orders">Lịch sử mua hàng</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/u/signout">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
                     </div>
+
+
+                    {{else}}
+                    <div class="header__right__auth">
+                        <a href="/u/login">Đăng nhập</a>
+                        <a href="/u/signup">Đăng ký</a>
+                    </div>
+
+                    {{/if}}
                     <ul class="header__right__widget">
                         <li>
                             <span class="icon_search search-switch"></span>
-                        </li>
+                        </li>                        
                         <li>
-                            <a href="#">
-                                <span class="icon_heart_alt"></span>
-                                <div class="tip">2</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
+                            <a href="/u/cart">
                                 <span class="icon_bag_alt"></span>
                                 <div class="tip">2</div>
                             </a>

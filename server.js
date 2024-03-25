@@ -14,6 +14,9 @@ const products = require('./routes/products')
 const contact = require('./routes/contact')
 const user = require('./routes/user')
 
+const adminHome = require('./routes/admin.home.js')
+const adminProducts = require('./routes/admin.products.js')
+
 const { Auth } = require('./api')
 
 const functions = require('./configs/functions')
@@ -77,6 +80,9 @@ const hbs = expbs.create({
         product: Helpers.product,
         product_md4: Helpers.product_md4,
         product_record: Helpers.product_record,
+        order_record: Helpers.order_record,
+
+        adminSideBar: Helpers.adminSideBar,
     }
 });
 
@@ -93,6 +99,9 @@ app.use('/contact', contact)
 app.use('/u', user)
 
 app.use('/api/u', Auth)
+
+app.use('/admin', adminHome)
+app.use('/admin/products', adminProducts)
 
 const PORT = 5000
 

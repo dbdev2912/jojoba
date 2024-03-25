@@ -20,18 +20,27 @@
                             </div>
 
                         </div>
-                        <form action="#" class="signin-form">
+                        <form action="/api/u/signup" method="POST" class="signin-form">
                             <div class="form-group mb-3">
                                 <label class="label" for="name">Tên đăng nhập hoặc email</label>
-                                <input type="text"  class="form-control" placeholder="example@email.com" required="">
+                                {{#if email }}
+                                    <i class="error">Email này đã được sử dụng cho một tài khoản khác.</i>
+                                {{/if}}
+                                <input type="text" name="username" class="form-control" placeholder="example@email.com" required="">
                             </div>
                             <div class="form-group mb-3">
                                 <label class="label" for="password">Mật khẩu</label>
-                                <input type="password" class="form-control" placeholder="******" required="">
+                                 {{#if pwd }}
+                                    <i class="error">Mật khẩu phải có độ dài trong khoảng 6 - 48 ký tự</i>
+                                {{/if}}
+                                <input type="password" name="password" class="form-control" placeholder="******" required="">
                             </div>
                             <div class="form-group mb-3">
                                 <label class="label" for="password">Nhập lại mật khẩu</label>
-                                <input type="password" class="form-control" placeholder="******" required="">
+                                {{#if reenter }}
+                                    <i class="error">Lặp lại mật khẩu không khớp</i>
+                                {{/if}}
+                                <input type="password" name="reenter" class="form-control" placeholder="******" required="">
                             </div>
 
                             <div class=" form-group row">
@@ -50,7 +59,10 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label class="label" for="name">Số di động</label>
-                                <input type="text" class="form-control" placeholder="+84 0000-0000" required="">
+                                {{#if phone }}
+                                    <i class="error">Số điện thoại này đã được sử dụng cho một tài khoản khác</i>
+                                {{/if}}
+                                <input type="text" name="phone" class="form-control" placeholder="+84 0000-0000" required="">
                             </div>                           
 
                             <div class="form-group">
