@@ -66,6 +66,7 @@ CREATE TABLE TRANGTHAI(
 CREATE TABLE DONVITINH(
 	`ma_don_vi` VARCHAR(255) PRIMARY KEY NOT NULL,
 	`ten_don_vi` TEXT,
+    `trang_thai_mac_dinh` BOOL DEFAULT FALSE, 
     `ghi_chu` TEXT
 );
 
@@ -84,6 +85,7 @@ CREATE TABLE SANPHAM(
     `nhom_san_pham` VARCHAR(255),
     `don_vi_tinh` VARCHAR(255),
     `thuong_hieu` VARCHAR(255),
+    `san_pham_nhieu_kich_co` BOOL DEFAULT FALSE,
     `trang_thai` BOOL DEFAULT TRUE
 );
 
@@ -115,7 +117,8 @@ CREATE TABLE DONHANG(
     `nguoi_lap_don` VARCHAR(255) DEFAULT 'Administrator', -- Sau này khi có nhóm ng dùng admin sẽ đặt khóa ngoại lên đây, hiện tại cứ auto Admin là đc
     `dh_ghi_chu` TEXT,
     `nguoi_nhan` TEXT,
-    `trang_thai` VARCHAR(255)    
+    `trang_thai` VARCHAR(255),
+    `phi_van_chuyen` INT
 );
 
 ALTER TABLE DONHANG ADD CONSTRAINT `fk_donhang_khachhang` FOREIGN KEY (`ten_dang_nhap`) REFERENCES KHACHHANG(`ten_dang_nhap`);
