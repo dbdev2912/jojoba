@@ -127,8 +127,35 @@ const product_record = ( product, options ) => {
 )
 }
 
+
+const adminProduct_tableRecord = (product) => {
+  const { 
+    index,
+    product_id,
+    product_name,
+    status,
+    category,
+    type,
+    group,
+  } = product
+
+  return `
+    <tr>
+      <td>${ index }</td>
+      <td>${ product_id }</td>
+      <td>${ product_name }</td>
+      <td style="color: ${ status? "green": "red" }">${ status ? "Còn hàng": "Hết hàng" }</td>
+      <td>${ category }</td>
+      <td>${ type }</td>
+      <td>${ group }</td>
+      <td>Thao tác</td>
+    </tr>
+  `
+}
+
 module.exports = {
     product,
     product_md4,
-    product_record 
+    product_record,
+    adminProduct_tableRecord
 }

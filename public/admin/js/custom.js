@@ -16,7 +16,7 @@
 $(document).ready(function () {
   /*-- sidebar js --*/
   $('#sidebarCollapse').on('click', function () {
-    $('#sidebar').toggleClass('active');
+    // $('#sidebar').toggleClass('active');
   });
   /*-- calendar js --*/
   $('#example14').calendar({
@@ -31,7 +31,7 @@ $(document).ready(function () {
     scrollbar js
 --------------------------------------*/
 
-var ps = new PerfectScrollbar('#sidebar');
+// var ps = new PerfectScrollbar('#sidebar');
 
 /*--------------------------------------
     chart js

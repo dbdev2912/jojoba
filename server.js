@@ -29,6 +29,7 @@ app.use(express.static('public'));
 app.use(session({
     secret: 'your-secret-key',
     resave: false,
+    cookie: { maxAge: 1000*60*60*12 },
     saveUninitialized: false
 }));
 
@@ -83,6 +84,7 @@ const hbs = expbs.create({
         order_record: Helpers.order_record,
 
         adminSideBar: Helpers.adminSideBar,
+        adminProduct_tableRecord: Helpers.adminProduct_tableRecord
     }
 });
 

@@ -9,84 +9,84 @@
 
 
 /*-----------------------------------
-  sidebar small only desktop
+  __sidebar__ small only desktop
 -----------------------------------*/
 
 @media (min-width: 1200px) {
-    /*-- small sidebar --*/
-    #sidebar.active {
+    /*-- small __sidebar__ --*/
+    #__sidebar__.active {
         min-width: 90px;
         max-width: 90px;
         text-align: center;
     }
-    #sidebar.active .sidebar-header h3,
-    #sidebar.active .CTAs {
+    #__sidebar__.active .__sidebar__-header h3,
+    #__sidebar__.active .CTAs {
         display: none;
     }
-    #sidebar.active .sidebar-header strong {
+    #__sidebar__.active .__sidebar__-header strong {
         display: block;
     }
-    #sidebar.active ul li a {
+    #__sidebar__.active ul li a {
         padding: 10px 0;
         float: left;
         width: 100%;
         text-align: center;
     }
-    #sidebar.active ul li a i {
+    #__sidebar__.active ul li a i {
         width: 100%;
         text-align: center;
         margin: 0 0 5px 0;
         font-size: 24px;
     }
-    #sidebar.active ul ul a {
+    #__sidebar__.active ul ul a {
         padding: 10px !important;
     }
-    #sidebar.active .dropdown-toggle::after {
+    #__sidebar__.active .dropdown-toggle::after {
         display: none;
     }
-    nav#sidebar.active .logo_big {
+    nav#__sidebar__.active .logo_big {
         text-align: center;
         padding: 8px 0 7px;
     }
-    #sidebar.active .logo_big img {
+    #__sidebar__.active .logo_big img {
         height: 45px;
     }
-    #sidebar.active .logo_section {
+    #__sidebar__.active .logo_section {
         padding: 0;
         margin-bottom: 10px;
         background: #fff;
         width: 100%;
     }
-    #sidebar.active ul.components {
+    #__sidebar__.active ul.components {
         padding: 0;
     }
-    #sidebar.active .logo_big {
+    #__sidebar__.active .logo_big {
         display: none;
     }
     .logo_icon {
         display: none;
     }
-    #sidebar.active .logo_icon {
+    #__sidebar__.active .logo_icon {
         display: block;
     }
-    #sidebar.active .logo_big img {
+    #__sidebar__.active .logo_big img {
         height: 45px;
     }
-    #sidebar.active h4 {
+    #__sidebar__.active h4 {
         display: none;
     }
-    #sidebar.active .sidebar_user_info {
+    #__sidebar__.active .__sidebar___user_info {
         display: none;
     }
-    #sidebar.active ul li a span {
+    #__sidebar__.active ul li a span {
         font-size: 13px;
     }
-    #sidebar ul li a i {}
+    #__sidebar__ ul li a i {}
 }
 
 
 /*-----------------------------------
-  end sidebar small only desktop
+  end __sidebar__ small only desktop
 -----------------------------------*/
 
 @media (min-width: 1200px) and (max-width: 1600px) {
@@ -190,31 +190,31 @@
     * {
         box-sizing: border-box;
     }
-    #sidebar {
+    #__sidebar__ {
         min-width: 80px;
         max-width: 80px;
         text-align: center;
         margin-left: -80px !important;
     }
-    #sidebar.active {
+    #__sidebar__.active {
         margin-left: 0 !important;
     }
-    #sidebar .sidebar-header h3,
-    #sidebar .CTAs {
+    #__sidebar__ .__sidebar__-header h3,
+    #__sidebar__ .CTAs {
         display: none;
     }
-    #sidebar .sidebar-header strong {
+    #__sidebar__ .__sidebar__-header strong {
         display: block;
     }
     /*-- responsive --*/
-    #sidebar.active+#content .topbar {
+    #__sidebar__.active+#content .topbar {
         transition: ease all 0.3s;
     }
     .topbar {
         padding-left: 0;
         min-width: 320px;
     }
-    #sidebar.active+#content .topbar {
+    #__sidebar__.active+#content .topbar {
         padding-left: 0;
         min-width: 320px;
         left: 250px;
@@ -222,12 +222,12 @@
     #content {
         padding: 60px 15px 25px 15px;
     }
-    #sidebar.active {
+    #__sidebar__.active {
         min-width: 250px;
         max-width: 250px;
         text-align: left;
     }
-    #sidebar.active+#content {
+    #__sidebar__.active+#content {
         padding-left: 0;
         left: 250px;
         position: relative;
@@ -243,7 +243,7 @@
         padding: 0;
         margin: 5px 15px 5px 0;
     }
-    .sidebar_toggle {
+    .__sidebar___toggle {
         padding: 14px 22px 13px;
     }
     .logo_section img {

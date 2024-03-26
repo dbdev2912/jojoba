@@ -1,4 +1,4 @@
-const { product, product_md4 , product_record } = require('./product');
+const { product, product_md4 , product_record, adminProduct_tableRecord } = require('./product');
 
 const { order_record } = require('./orders')
 
@@ -10,5 +10,6 @@ module.exports = {
     product_md4,
     product_record,
     order_record,
-    adminSideBar 
+    adminSideBar,
+    adminProduct_tableRecord
 }
