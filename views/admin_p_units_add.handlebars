@@ -1,0 +1,44 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+
+               <div class="form__header__title">
+                  <p>Đơn vị mới</p>
+               </div>
+
+
+               <form class="generic__form" method="POST" action="/admin/product/product-unit">
+                  <div class="form-group">
+                     <label for="madonvi_input">Mã đơn vị</label> {{#if existed }}<span class="form__error__text">Mã đơn
+                        vị này đã tồn tại</span>{{/if }}
+                     <input name="unit_id" type="text" class="form-control" id="madonvi_input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="tendonvi_input">Tên đơn vị</label>
+                     <input name="unit_name" type="text" class="form-control" id="tendonvi_input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="ghichu_input">Ghi chú</label>
+                     <textarea name="note" style="height: 200px" class="form-control" id="ghichu_onput"></textarea>
+
+                  </div>
+                  <button type="submit" class="btn btn-primary">Thêm</button>
+               </form>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{{>admin_success}}
+
+{{>admin_footer}}

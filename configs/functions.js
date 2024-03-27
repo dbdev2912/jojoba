@@ -1,4 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
+const { ROLES, ADMIN } = require('./enum')
+
 
 const formatComnaSeperatedNumber = (number) => {
     /**
@@ -139,7 +141,75 @@ const getFormatedUUID = () => {
     return id
 }
 
+const isAdmin = ( user = {}) => {
+     /** 
+     *  @type: function
+     * 
+     *  @params: 
+     *      user: {
+     *      ten_dang_nhap: <String>,
+     *      role: <String> 
+     *  }
+     * 
+     *  @desc:
+     *      If 
+     *          Tên đăng nhập là enum.Admin.username => true
+     *      Else:
+     *          - role là enum.ROLES.admin => true
+     * 
+     *      => Mặc định false
+     *      
+     * 
+     *  @return BOOL
+     * 
+     *  
+     * 
+     */
 
+     const { ten_dang_nhap, role } = user;
+
+     if( ten_dang_nhap === ADMIN.username ){
+        return true
+     }else{
+        if( role == ROLES.admin ){
+            return true
+        }
+     }
+     return false;
+}
+
+const intValidate = ( number ) => {
+
+     /** 
+     *  @type: function
+     * 
+     *  @params: 
+     *      number <Any>
+     * 
+     *  @desc:
+     * 
+     *  @return BOOL
+     * 
+     *  
+     * 
+     */
+
+    if( number != undefined){
+        const numberString = number.toString()
+        const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        let valid = true
+        for( let i = 0; i < numberString.length ; i++ ){
+            const char = numberString[i]
+            if( numbers.indexOf( char ) === -1 ){
+                valid = false
+            }
+        }
+        return valid;
+    }
+    else{
+        return false
+    }
+}
 
 
 module.exports = {
@@ -150,5 +220,8 @@ module.exports = {
     getFormatedUUID,
     formatDate,
     formateDateTime,
+    isAdmin,
+
+    intValidate
 }
 

@@ -16,11 +16,12 @@ const user = require('./routes/user')
 
 const adminHome = require('./routes/admin.home.js')
 const adminProducts = require('./routes/admin.products.js')
-
+const adminErrors = require('./routes/admin.errors.js')
 const { Auth } = require('./api')
 
 const functions = require('./configs/functions')
 
+const { COMPANY } = require('./configs/enum.js')
 
 // Sending static files with Express 
 app.use(express.static('public'));
@@ -84,7 +85,12 @@ const hbs = expbs.create({
         order_record: Helpers.order_record,
 
         adminSideBar: Helpers.adminSideBar,
-        adminProduct_tableRecord: Helpers.adminProduct_tableRecord
+        adminProduct_tableRecord: Helpers.adminProduct_tableRecord,
+        adminProduct_categoryRecord: Helpers.adminProduct_categoryRecord,
+        adminProduct_typeRecord: Helpers.adminProduct_typeRecord,
+        adminProduct_groupRecord: Helpers.adminProduct_groupRecord,
+        adminProduct_unitRecord : Helpers.adminProduct_unitRecord,
+        tablePaginate: Helpers.paginate
     }
 });
 
@@ -103,9 +109,17 @@ app.use('/u', user)
 app.use('/api/u', Auth)
 
 app.use('/admin', adminHome)
-app.use('/admin/products', adminProducts)
-
+app.use('/admin/product', adminProducts)
+app.use('/admin/e', adminErrors )
 const PORT = 5000
+
+
+app.use((req, res) => {
+    res.render('admin_404_not_found', {
+        layout: "admin",
+        title: `404 - Not found| ${COMPANY }`,
+    });
+})
 
 app.listen(PORT, () => {
     console.log('Server is starting at port ', PORT);

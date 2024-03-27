@@ -9,7 +9,7 @@
                <div class="row column_title">
                   <div class="col-md-12">
                      <div class="row page_title">
-                        <h2>SẢN PHẨM</h2>
+                        <h2>LOẠI SẢN PHẨM</h2>
                         <div class="ml-auto">
                            <button class="btn btn-primary">Thêm mới</button>
                         </div>
@@ -27,24 +27,19 @@
                                  <thead>
                                     <tr>
                                        <th>#</th>
-                                       <th>Mã sản phẩm</th>
-                                       <th>Tên sản phẩm</th>
-                                       <th>Trạng thái</th>
-                                       <th>Dòng sản phẩm</th>
-                                       <th>Loại sản phẩm</th>
-                                       <th>Nhóm sản phẩm</th>
-                                       <th>Thao tác</th>
+                                       <th>Mã loại sản phẩm</th>
+                                       <th>Tên gọi</th>
+                                       <th>Ghi chú</th> 
+                                       <th>Thao tác</th>                                       
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    {{#each products }}
-                                       {{#adminProduct_tableRecord this}}{{/adminProduct_tableRecord}}
+                                    {{#each types }}
+                                       {{#adminProduct_typeRecord this}}{{/adminProduct_typeRecord}}
                                     {{/each}}
                                  </tbody>
                               </table>
                            </div>
-
-
 
                            <div class="row">
 

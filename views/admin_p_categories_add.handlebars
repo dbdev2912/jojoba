@@ -1,0 +1,43 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+
+               <div class="form__header__title">
+                  <p>Thêm dòng sản phẩm</p>
+               </div>
+
+
+               <form class="generic__form" method="POST" action="/admin/product/product-category">
+                  <div class="form-group">
+                     <label for="madonvi_input">Mã dòng sản phẩm</label> {{#if existed }}<span class="form__error__text">Mã dòng sản phẩm này đã tồn tại</span>{{/if }}
+                     <input name="cate_id" type="text" class="form-control" id="madong_input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="tendonvi_input">Tên dòng sản phẩm</label>
+                     <input name="cate_name" type="text" class="form-control" id="tendong_input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="ghichu_input">Ghi chú</label>
+                     <textarea name="note" style="height: 200px" class="form-control" id="ghichu_input"></textarea>
+
+                  </div>
+                  <button type="submit" class="btn btn-primary">Thêm</button>
+               </form>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{{>admin_success}}
+
+{{>admin_footer}}

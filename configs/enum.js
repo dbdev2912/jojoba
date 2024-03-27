@@ -3,6 +3,7 @@ const PASSWORD_MIN_LENGTH = 6;
 const PASSWORD_MAX_LENGTH = 48;
 const COMPANY = "Cửa hàng Xuân Dũng"
 
+const RECORDS_PER_PAGE = 12;
 
 const roles = {
     khachhang: "khachhang",
@@ -19,6 +20,8 @@ module.exports = {
     PASSWORD_MIN_LENGTH,
     PASSWORD_MAX_LENGTH,
     COMPANY,
+
+    RECORDS_PER_PAGE,
 
     ROLES: roles,
     ADMIN: defaultAccount

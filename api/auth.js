@@ -34,7 +34,7 @@ router.post('/signin', async (req, res) => {
     if (nullCheck) {
 
         if( username === ADMIN.username && password === ADMIN.password ){
-            req.session.auth = { ...ADMIN }
+            req.session.auth = { ...ADMIN, ten_dang_nhap: ADMIN.username }
             res.redirect('/admin')
         }else{            
             const user = await MySQL_QUERY(`SELECT * FROM TAIKHOAN WHERE ten_dang_nhap = '${username}' AND mat_khau='${password}'`)
@@ -97,7 +97,7 @@ router.post('/signup', async (req, res) => {
         /**
          * Kiểm tra người dùng với tên đăng nhập này đã tồn tại chưa, nếu đã tồn tại thì chuyển hướng đến trang báo lỗi
          */
-        if (user && user.length === 0) {
+        if ( user && user.length === 0 && username != ADMIN.username ) {
             /**
              * 
              * Kiểm tra độ dài của mật khẩu có nằm trong phạm vi cho phép hay không
