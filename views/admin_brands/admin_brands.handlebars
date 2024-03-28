@@ -1,0 +1,70 @@
+{{>admin_header}}
+
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+               <div class="row column_title">
+                  <div class="col-md-12">
+                     <div class="row page_title">
+                        <h2>THƯƠNG HIỆU</h2>
+                        <div class="ml-auto">
+                           <a class="btn btn-primary" href="/admin/brands/new">Thêm mới</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- row -->
+               <div class="row column1">
+                  <div class="col-md-12">
+                     <div class="white_shd full row">
+                        
+
+
+
+                        {{#each brands }}
+                        <div class="price_table padding_infor_info">
+                           <div class="row">
+                              <!-- column contact -->
+                              <div class="profile_details">
+                                 <a href="/admin/brands/edit/{{ brand_id }}">
+                                 <div class="contact_blog text-center">            
+
+                                    <div class="profile_contacts brand-image">
+                                       <img class="img-responsive" src="{{ logo }}" alt="#" />
+                                    </div>
+                                    <div class="contact_inner">
+                                       <div>
+                                          <h3 class="brand-name">{{ brand_name }}</h3>                                         
+                                       </div>
+                                    </div>
+
+                                 </div>
+                                 </a>
+                              </div>
+                              <!-- end column contact blog -->
+                           </div>
+                        </div>
+                        {{/each}}
+
+
+                        
+
+
+                     </div>
+                  </div>
+                  <!-- end row -->
+               </div>
+               <!-- footer -->
+
+            </div>
+            <!-- end dashboard inner -->
+         </div>
+      </div>
+   </div>
+</div>
+
+
+{{>admin_footer}}

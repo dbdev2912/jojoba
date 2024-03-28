@@ -1,0 +1,56 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+
+               <div class="form__header__title">
+                  <p>Cập nhật nhóm sản phẩm</p>
+               </div>
+
+
+               <form class="generic__form" method="POST" action="/admin/product/product-group/edit">
+                  <div class="form-group">
+                     <label for="madonvi_input">Mã nhóm sản phẩm</label>
+                     <div>
+                        <span style="color: #111">{{ group.ma_nhom }}</span>
+                     </div>
+                     <input class="d-none" name="group_id" type="text" class="form-control" id="madonvi_input" value="{{ group.ma_nhom }}">
+                  </div>
+                  <div class="form-group">
+                     <label for="tendonvi_input">Tên nhóm</label>
+                     <input name="group_name" type="text" class="form-control" id="tendonvi_input" value="{{ group.ten_nhom }}" required>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="dong_input">Thuộc loại sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Loại sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
+                     <select name="type_id" class="form-select form-control"  id="" required>
+                        {{#each types }}
+                           <option value="{{ type_id }}" {{#if selected }} selected="true" {{/if}} >{{ type_id }} - {{ type_name }}</option>
+                        {{/each}}
+                     </select>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="ghichu_input">Ghi chú</label>
+                     <textarea name="note" style="height: 200px" class="form-control" id="ghichu_onput">{{ group.nsp_ghi_chu }}</textarea>
+
+                  </div>
+                  <button type="submit" class="btn btn-primary">Cập nhật</button>
+               </form>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{{>admin_success}}
+
+{{>admin_footer}}

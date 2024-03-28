@@ -1,0 +1,67 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+
+
+               <div class="row">
+                  <div class="w-100">
+                     <div class="form__header__title">
+                        <p>Thương hiệu mới</p>
+                     </div>
+                  </div>
+                  <form class="generic__form" method="POST" action="/admin/brands" enctype="multipart/form-data">
+                     <div class="form-group">
+                        <label for="madonvi_input">Mã thương hiệu</label> {{#if existed }}<span class="form__error__text">Mã thương hiệu này đã tồn tại</span>{{/if }}
+                        <input name="brand_id" type="text" class="form-control" id="madonvi_input" required>
+                     </div>
+                     <div class="form-group">
+                        <label for="tendonvi_input">Tên thương hiệu</label>
+                        <input name="brand_name" type="text" class="form-control" id="tendonvi_input" required>
+                     </div>
+
+                     <div class="form-group brand-preview">
+                        <label for="tendonvi_input">Ảnh logo (16x9)</label>{{#if logo }}<span class="form__error__text">Logo thương hiệu không được để trống</span>{{/if }}
+                        <div class="preview-box">
+                           <img id="preview-img" style="display: none" class="preview-img" src="/assets/brands/jojoba.png" alt="">
+                           <div id="preview-btn" class="brand-img-btn">Chọn file</div>
+                           <input name="brand_logo" id="preview-file-input" type="file" class="d-none" accept="image/*">
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label for="tendonvi_input">Email</label>
+                        <input name="brand_email" type="text" class="form-control" id="tendonvi_input" required>
+                     </div>
+                     <div class="form-group">
+                        <label for="tendonvi_input">Hotline</label>
+                        <input name="brand_hotline" type="text" class="form-control" id="tendonvi_input" required>
+                     </div>
+                     <div class="form-group">
+                        <label for="ghichu_input">Ghi chú</label>
+                        <textarea name="note" style="height: 200px" class="form-control" id="ghichu_onput"></textarea>
+
+                     </div>
+                     <button type="submit" class="btn btn-primary">Thêm</button>
+                  </form>
+                  
+               </div>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<script src="/admin/js/brands.js"></script>
+
+{{>admin_success}}
+
+{{>admin_footer}}

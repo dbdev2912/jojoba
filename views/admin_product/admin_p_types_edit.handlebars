@@ -1,0 +1,56 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+
+               <div class="form__header__title">
+                  <p>Cập nhật loại sản phẩm</p>
+               </div>
+
+
+               <form class="generic__form" method="POST" action="/admin/product/product-type/edit">
+                  <div class="form-group">
+                     <label for="madonvi_input">Mã loại sản phẩm</label>
+                     <div>
+                        <span style="color: #111">{{ type.ma_loai }}</span>
+                     </div>
+                     <input class="d-none" name="type_id" type="text" class="form-control" id="madonvi_input" value="{{ type.ma_loai }}">
+                  </div>
+                  <div class="form-group">
+                     <label for="tendonvi_input">Tên loại</label>
+                     <input name="type_name" type="text" class="form-control" id="tendonvi_input" value="{{ type.ten_loai }}" required>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="dong_input">Thuộc dòng sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Dòng sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
+                     <select name="cate_id" class="form-select form-control"  id="" required>
+                        {{#each cates}}
+                           <option value="{{ cate_id }}" {{#if selected }} selected="true" {{/if}} >{{ cate_id }} - {{ cate_name }}</option>
+                        {{/each}}
+                     </select>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="ghichu_input">Ghi chú</label>
+                     <textarea name="note" style="height: 200px" class="form-control" id="ghichu_onput">{{ type.lsp_ghi_chu }}</textarea>
+
+                  </div>
+                  <button type="submit" class="btn btn-primary">Cập nhật</button>
+               </form>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{{>admin_success}}
+
+{{>admin_footer}}

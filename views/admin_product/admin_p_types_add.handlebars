@@ -1,0 +1,54 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+
+               <div class="form__header__title">
+                  <p>Loại sản phẩm mới</p>
+               </div>
+
+
+               <form class="generic__form" method="POST" action="/admin/product/product-type">
+                  <div class="form-group">
+                     <label for="madonvi_input">Mã loại sản phẩm</label> {{#if existed }}<span class="form__error__text">Mã đơn
+                        vị này đã tồn tại</span>{{/if }}
+                     <input name="type_id" type="text" class="form-control" id="madonvi_input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="tendonvi_input">Tên loại sản phẩm</label>
+                     <input name="type_name" type="text" class="form-control" id="tendonvi_input" required>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="dong_input">Thuộc dòng sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Dòng sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
+                     <select name="cate_id" class="form-select form-control"  id="" required>
+                        {{#each cates}}
+                           <option value="{{ ma_dong }}" >{{ma_dong}} - {{ ten_dong }}</option>
+                        {{/each}}
+                     </select>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="ghichu_input">Ghi chú</label>
+                     <textarea name="note" style="height: 200px" class="form-control" id="ghichu_onput"></textarea>
+
+                  </div>
+                  <button type="submit" class="btn btn-primary">Thêm</button>
+               </form>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{{>admin_success}}
+
+{{>admin_footer}}

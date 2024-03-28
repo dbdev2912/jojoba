@@ -178,16 +178,17 @@ const adminProduct_categoryRecord = (category) => {
 }
 
 const adminProduct_typeRecord = (category) => {
-  const { index, type_id, type_name, note } = category;
+  const { index, type_id, type_name, note, cate_name } = category;
   return `
   <tr>
     <td>${index}</td>
     <td>${type_id}</td>
-    <td>${type_name}</td>    
+    <td>${type_name}</td>   
+    <td>${cate_name}</td>   
     <td>${note}</td>
     <td>
           <div class="d-flex">
-              <a href="/admin/product/products/p/${ type_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
+              <a href="/admin/product/product-types/edit/${ type_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
               <a class="table__icon table__delete__icon category__delete__icon" data="${ type_id }"><i class="fa fa-trash"></i></a>
           </div>
       </td>
@@ -197,12 +198,13 @@ const adminProduct_typeRecord = (category) => {
 
 
 const adminProduct_groupRecord = (category) => {
-  const { index, group_id, group_name, note } = category;
+  const { index, group_id, group_name, note, type_name } = category;
   return `
   <tr>
     <td>${index}</td>
     <td>${group_id}</td>
     <td>${group_name}</td>    
+    <td>${type_name}</td>
     <td>${note}</td>
     <td>
           <div class="d-flex">

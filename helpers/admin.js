@@ -75,7 +75,7 @@ const adminSideBar = () => {
                 <a ${children ?
                 `href="#${id}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"` :
                 `href='${url}'`} ><i class="${icon}" style="color: ${color}"></i> <span>${title}</span></a>
-                <ul class="collapse list-unstyled" id="${id}">
+                <ul class="collapse list-unstyled ${active ? "show" : ""}" id="${id}">
                     ${children?.map(child => {
                     const { title, url } = child;
                     return `
@@ -96,7 +96,7 @@ const adminSideBar = () => {
 const paginate = (page) => {
     const { origin, pageIndex, maxPageIndex } = page;
 
-    
+    console.log( pageIndex,maxPageIndex)
 
     return`<div class="row">
 

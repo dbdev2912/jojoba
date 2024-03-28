@@ -183,7 +183,7 @@ router.get('/products', (req, res) => {
         },
     ]
 
-    res.render('admin_p_products', {
+    res.render('admin_product/admin_p_products', {
         layout: "admin",
         title: `Sản phẩm | ${COMPANY}`,
         auth: req.session.auth,
@@ -201,13 +201,15 @@ router.get('/products/new', (req, res) => {
      * 
      * 
      */
-    res.render('admin_p_add', {
+    res.render('admin_product/admin_p_add', {
         layout: "admin",
         title: `Thêm sản phẩm | ${COMPANY}`,
         auth: req.session.auth,
 
     })
 })
+
+/** PRODUCT CATES */
 
 router.get('/product-categories', async (req, res) => {
 
@@ -240,14 +242,14 @@ router.get('/product-categories', async (req, res) => {
                     ma_dong AS category_id,
                     ten_dong AS category_name,
                     dsp_ghi_chu AS note 
-                FROM DONGSANPHAM LIMIT 12 OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
+                FROM DONGSANPHAM LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
             `)
 
             for( let i = 0 ; i < cates.length; i++ ){
                 cates[i].index = (pageIndex - 1) * RECORDS_PER_PAGE + i + 1;
             }   
           
-            res.render('admin_p_categories', {
+            res.render('admin_product/admin_p_categories', {
                 layout: "admin",
                 title: `Dòng sản phẩm | ${COMPANY}`,
                 auth: req.session.auth,
@@ -278,14 +280,14 @@ router.get('/product-categories', async (req, res) => {
                 ma_dong AS category_id,
                 ten_dong AS category_name,
                 dsp_ghi_chu AS note 
-            FROM DONGSANPHAM LIMIT 12;
+            FROM DONGSANPHAM LIMIT ${ RECORDS_PER_PAGE };
         `)
     
         for( let i = 0 ; i < cates.length; i++ ){
             cates[i].index = i + 1;
         }
     
-        res.render('admin_p_categories', {
+        res.render('admin_product/admin_p_categories', {
             layout: "admin",
             title: `Dòng sản phẩm | ${COMPANY}`,
             auth: req.session.auth,
@@ -299,13 +301,6 @@ router.get('/product-categories', async (req, res) => {
         })
     }
 
-    // res.render('admin_p_categories', {
-    //     layout: "admin",
-    //     title: `Dòng sản phẩm | ${COMPANY}`,
-    //     auth: req.session.auth,
-
-    //     categories,
-    // })
 })
 
 router.get('/product-categories/new', (req, res) => {
@@ -321,7 +316,7 @@ router.get('/product-categories/new', (req, res) => {
      */
     const { existed, success } = req.query;
 
-    res.render('admin_p_categories_add', {
+    res.render('admin_product/admin_p_categories_add', {
         layout: "admin",
         title: `Dòng sản phẩm | ${COMPANY}`,
         auth: req.session.auth,
@@ -387,7 +382,7 @@ router.get('/product-categories/edit/:cate_id', async (req, res) => {
     if( cates && cates.length > 0 ){
         const cate = cates[0]
 
-        res.render('admin_p_category_edit', {
+        res.render('admin_product/admin_p_category_edit', {
             layout: "admin",
             title: `${ cate?.ma_dong } | ${COMPANY}`,
     
@@ -453,89 +448,556 @@ router.post('/product-category/edit', async (req, res) => {
     // }    
 })
 
+/** PRODUCT TYPE */
 
-
-router.get('/product-types', (req, res) => {
+router.get('/product-types', async (req, res) => {
 
     /**
      * 
      *  URL: "/admin/product/product-types"
      * 
+     *  available params:
+     *      - page: <Int>
+     * 
      * 
      */
 
-    const types = [
-        {
-            index: 0,
-            type_id: "TYPE-01",
-            type_name: "Bồn cầu",
-            note: ""
-        },
-        {
-            index: 1,
-            type_id: "TYPE-02",
-            type_name: "Lavabo",
-            note: ""
-        },
-        {
-            index: 2,
-            type_id: "TYPE-03",
-            type_name: "Vòi xịt",
-            note: ""
-        },
-    ]
+    const { page } = req.query;
 
-    res.render('admin_p_types', {
+    if( functions.intValidate(page) ){
+
+        const pageIndex = parseInt( page )
+
+        const totals = await MySQL_QUERY(`
+            SELECT COUNT(*) AS total FROM LOAISANPHAM
+        `);
+        const { total } = totals[0]        
+        const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
+        
+        if( pageIndex > 0 && pageIndex <= maxPageIndex ){
+            
+            const types = await MySQL_QUERY(`
+                SELECT 
+                    MA_LOAI AS type_id, 
+                    TEN_LOAI AS type_name, 
+                    TEN_DONG AS cate_name,
+                    LSP_GHI_CHU AS note
+                FROM 
+                    LOAISANPHAM AS L 
+                        INNER JOIN DONGSANPHAM AS D ON L.DONG_SAN_PHAM = D.MA_DONG 
+                LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
+            `)
+
+            for( let i = 0 ; i < types.length; i++ ){
+                types[i].index = (pageIndex - 1) * RECORDS_PER_PAGE + i + 1;
+            }   
+          
+            res.render('admin_product/admin_p_types', {
+                layout: "admin",
+                title: `Loại sản phẩm | ${COMPANY}`,
+                auth: req.session.auth,
+                paginate: {
+                    pageIndex,
+                    maxPageIndex,
+                    origin: "/admin/product/product-types"
+                },
+                types,
+            })
+            
+        }else{
+            res.render('admin_404_not_found', {
+                layout: "admin",
+                title: `404 - Not found| ${ COMPANY }`,
+            });
+        }
+    
+    }else{
+        const totals = await MySQL_QUERY(`
+            SELECT COUNT(*) AS total FROM LOAISANPHAM
+        `);
+        const { total } = totals[0]     
+        const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
+
+        const types = await MySQL_QUERY(`
+            SELECT 
+                MA_LOAI AS type_id, 
+                TEN_LOAI AS type_name, 
+                TEN_DONG AS cate_name,
+                LSP_GHI_CHU AS note
+            FROM 
+                LOAISANPHAM AS L 
+                    INNER JOIN DONGSANPHAM AS D ON L.DONG_SAN_PHAM = D.MA_DONG 
+            LIMIT ${ RECORDS_PER_PAGE }
+        `)
+    
+        for( let i = 0 ; i < types.length; i++ ){
+            types[i].index = i + 1;
+        }
+    
+        res.render('admin_product/admin_p_types', {
+            layout: "admin",
+            title: `Loại sản phẩm | ${COMPANY}`,
+            auth: req.session.auth,
+            paginate: {
+                pageIndex: 1,
+                maxPageIndex,
+                origin: "/admin/product/product-types"
+            },
+            types,
+           
+        })
+    }
+})
+
+
+router.get('/product-types/new', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-types/new"
+     *  available params:
+     *      - existed,
+     *      - fkconflict
+     *      - success
+     * 
+     */
+    const { existed, success, fkconflict } = req.query;
+
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`);
+
+    res.render('admin_product/admin_p_types_add', {
         layout: "admin",
         title: `Loại sản phẩm | ${COMPANY}`,
         auth: req.session.auth,
-
-        types,
+        success,
+        existed,
+        fkconflict,
+        cates
     })
 })
 
-router.get('/product-groups', (req, res) => {
+
+router.post('/product-type', async (req, res) => {
 
     /**
      * 
-     *  URL: "/admin/product/product-types"
+     *  URL: "/admin/product/product-type"
+     * 
+     */
+
+    const { type_id, type_name, cate_id, note } = req.body;
+    const { auth } = req.session;
+
+    const isPrivileged = functions.isAdmin(auth)
+    /** Kiểm tra quyền, nếu Admin thì đi tiếp  */
+    if( isPrivileged ){        
+
+        const validateData = functions.nullCheck( req.body, ["type_id", "type_name", "cate_id"] )
+
+        if( validateData ){                        
+            
+            const cate = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM WHERE ma_dong='${ cate_id }'`)
+
+            if( cate && cate.length > 0 ){
+                const type = await MySQL_QUERY(`SELECT * FROM LOAISANPHAM WHERE ma_loai='${ type_id }'`)
+
+                if( type && type.length === 0 ){
+                    const insertQuery = `
+                        INSERT INTO LOAISANPHAM(ma_loai, ten_loai, dong_san_pham, lsp_ghi_chu ) 
+                        VALUES( '${ type_id }', '${ type_name }', '${ cate_id }', '${ note }' );
+                    `;
+
+                    await MySQL_QUERY(insertQuery)
+                    res.redirect('/admin/product/product-types/new?success=1')    
+                }else{
+                    res.redirect('/admin/product/product-types/new?existed=1')    
+                }
+            }else{
+                res.redirect('/admin/product/product-types/new?fkconflict=1')
+            }           
+            
+        }else{
+            res.send({ success: false })
+            /** Response này chỉ được truy cập thông qua API, tức là đường k hợp lệ */
+        }
+
+      
+    }else{
+        /** Không có quyền thì đi tới trang 403  */
+        res.redirect('/admin/e/no-privileged')
+    }    
+})
+
+router.get('/product-types/edit/:type_id', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-types/edit/:type_id"
+     *  Tham số khả dĩ
+     * 
+     *  - success: Thành công
+     *  - fkconflict: Xung đột khóa ngoại
+     * 
+     */
+    const { success, fkconflict } = req.query;
+    
+    const { type_id } = req.params;
+    const types = await MySQL_QUERY(`SELECT * FROM LOAISANPHAM WHERE ma_loai = '${ type_id }'`)
+    
+    if( types && types.length > 0 ){
+        const type = types[0];
+
+        const cates = await MySQL_QUERY(`SELECT MA_DONG AS cate_id, TEN_DONG AS cate_name, IF( MA_DONG = '${ type.dong_san_pham }', TRUE, FALSE ) AS selected FROM DONGSANPHAM;`) 
+
+        res.render('admin_product/admin_p_types_edit', {
+            layout: "admin",
+            title: `${ type?.ma_loai } | ${COMPANY}`,
+    
+            auth: req.session.auth,
+            cates,
+            type,
+            success
+        })
+    }else{
+        res.render('admin_404_not_found', {
+            layout: "admin",
+            title: `404 - Not found| ${ COMPANY }`,
+        });
+    }
+})
+
+router.post('/product-type/edit', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-type/edit"
+     *  
+     */
+
+    const { type_id, type_name, cate_id, note } = req.body;
+    const { auth } = req.session;
+    
+
+    const isPrivileged = functions.isAdmin(auth)
+    /** Kiểm tra quyền, nếu Admin thì đi tiếp  */
+    // if( isPrivileged ){        
+
+        const validateData = functions.nullCheck( req.body, ["type_id", "type_name", "cate_id"] )
+
+        if( validateData ){                        
+            
+            const types = await MySQL_QUERY(`SELECT * FROM LOAISANPHAM WHERE ma_loai='${ type_id }'`)
+            
+            if( types && types.length > 0 ){           
+
+                const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM WHERE ma_dong='${ cate_id }'`);
+                if( cates && cates.length > 0 ){
+
+                    const updateQuery = `
+                        UPDATE LOAISANPHAM SET
+                            ten_loai = '${type_name}',
+                            dong_san_pham = '${ cate_id }',
+                            lsp_ghi_chu = '${ note }'
+                        WHERE ma_loai='${type_id}'
+                    `;
+
+                    await MySQL_QUERY(updateQuery);
+                    res.redirect(`/admin/product/product-types/edit/${ type_id }?success=1`)
+
+                }else{
+                    res.redirect('/admin/e/not-found')
+                }
+            }else{
+                res.redirect('/admin/e/not-found')
+            }
+        }else{
+            res.send({ success: false })
+             /** Response này chỉ được truy cập thông qua API, tức là đường k hợp lệ */
+        }
+
+      
+    // }else{
+    //     /** Không có quyền thì đi tới trang 403  */
+    //     res.redirect('/admin/e/no-privileged')
+    // }    
+})
+
+/** PRODUCT GROUP */
+
+router.get('/product-groups', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-groups"
+     * 
+     *  available params:
+     *      - page: <Int>
      * 
      * 
      */
 
-    const groups = [
-        {
-            index: 0,
-            group_id: "TYPE-01",
-            group_name: "Bồn cầu",
-            note: ""
-        },
-        {
-            index: 1,
-            group_id: "TYPE-02",
-            group_name: "Lavabo",
-            note: ""
-        },
-        {
-            index: 2,
-            group_id: "TYPE-03",
-            group_name: "Vòi xịt",
-            note: ""
-        },
-    ]
+    const { page } = req.query;
 
-    res.render('admin_p_groups', {
+    if( functions.intValidate(page) ){
+
+        const pageIndex = parseInt( page )
+
+        const totals = await MySQL_QUERY(`
+            SELECT COUNT(*) AS total FROM NHOMSANPHAM
+        `);
+        const { total } = totals[0]        
+        const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
+        
+        if( pageIndex > 0 && pageIndex <= maxPageIndex ){
+            
+            const groups = await MySQL_QUERY(`
+                SELECT 
+                    MA_NHOM AS group_id, 
+                    TEN_NHOM AS group_name, 
+                    TEN_LOAI AS type_name,
+                    NSP_GHI_CHU AS note
+                FROM 
+                    NHOMSANPHAM AS N 
+                        INNER JOIN LOAISANPHAM AS L ON N.LOAI_SAN_PHAM = L.MA_LOAI 
+                LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
+            `)
+
+            for( let i = 0 ; i < groups.length; i++ ){
+                groups[i].index = (pageIndex - 1) * RECORDS_PER_PAGE + i + 1;
+            }   
+          
+            res.render('admin_product/admin_p_groups', {
+                layout: "admin",
+                title: `Loại sản phẩm | ${COMPANY}`,
+                auth: req.session.auth,
+                paginate: {
+                    pageIndex,
+                    maxPageIndex,
+                    origin: "/admin/product/product-groups"
+                },
+                groups,
+            })
+            
+        }else{
+            res.render('admin_404_not_found', {
+                layout: "admin",
+                title: `404 - Not found| ${ COMPANY }`,
+            });
+        }
+    
+    }else{
+        const totals = await MySQL_QUERY(`
+            SELECT COUNT(*) AS total FROM NHOMSANPHAM
+        `);
+        const { total } = totals[0]     
+        const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
+
+        const groups = await MySQL_QUERY(`
+            SELECT 
+                MA_NHOM AS group_id, 
+                TEN_NHOM AS group_name, 
+                TEN_LOAI AS type_name,
+                NSP_GHI_CHU AS note
+            FROM 
+                NHOMSANPHAM AS N 
+                    INNER JOIN LOAISANPHAM AS L ON N.LOAI_SAN_PHAM = L.MA_LOAI 
+            LIMIT ${ RECORDS_PER_PAGE }
+        `)
+    
+        for( let i = 0 ; i < groups.length; i++ ){
+            groups[i].index = i + 1;
+        }
+    
+        res.render('admin_product/admin_p_groups', {
+            layout: "admin",
+            title: `Loại sản phẩm | ${COMPANY}`,
+            auth: req.session.auth,
+            paginate: {
+                pageIndex: 1,
+                maxPageIndex,
+                origin: "/admin/product/product-groups"
+            },
+            groups,
+           
+        })
+    }
+
+})
+
+router.get('/product-groups/new', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-groups/new"
+     *  available params:
+     *      - existed,
+     *      - fkconflict
+     *      - success
+     * 
+     */
+    const { existed, success, fkconflict } = req.query;
+
+    const types = await MySQL_QUERY(`SELECT * FROM LOAISANPHAM`);
+
+    res.render('admin_product/admin_p_groups_add', {
         layout: "admin",
         title: `Nhóm sản phẩm | ${COMPANY}`,
         auth: req.session.auth,
-
-        groups,
+        success,
+        existed,
+        fkconflict,
+        types
     })
 })
 
+router.post('/product-group', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-group"
+     * 
+     */
+
+    const { group_id, group_name, type_id, note } = req.body;
+    const { auth } = req.session;
+
+    const isPrivileged = functions.isAdmin(auth)
+    /** Kiểm tra quyền, nếu Admin thì đi tiếp  */
+    // if( isPrivileged ){        
+
+        const validateData = functions.nullCheck( req.body, ["group_id", "group_name", "type_id"] )
+
+        if( validateData ){      
+
+            const type = await MySQL_QUERY(`SELECT * FROM LOAISANPHAM WHERE ma_loai='${ type_id }'`)
+
+            if( type && type.length > 0 ){
+                const group = await MySQL_QUERY(`SELECT * FROM NHOMSANPHAM WHERE ma_nhom='${ group_id }'`)
+
+                if( group && group.length === 0 ){
+                    const insertQuery = `
+                        INSERT INTO NHOMSANPHAM(ma_nhom, ten_nhom, loai_san_pham, nsp_ghi_chu ) 
+                        VALUES( '${ group_id }', '${ group_name }', '${ type_id }', '${ note }' );
+                    `;
+                    await MySQL_QUERY(insertQuery)
+                    res.redirect('/admin/product/product-groups/new?success=1')    
+                }else{
+                    res.redirect('/admin/product/product-groups/new?existed=1')    
+                }
+            }else{
+                res.redirect('/admin/product/product-groups/new?fkconflict=1')
+            }
+            
+        }else{
+            res.send({ success: false })
+            /** Response này chỉ được truy cập thông qua API, tức là đường k hợp lệ */
+        }
+
+      
+    // }else{
+    //     /** Không có quyền thì đi tới trang 403  */
+    //     res.redirect('/admin/e/no-privileged')
+    // }    
+})
+
+router.get('/product-groups/edit/:group_id', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/product-groups/edit/:group_id"
+     *  Tham số khả dĩ
+     * 
+     *  - success: Thành công
+     *  - fkconflict: Xung đột khóa ngoại
+     * 
+     */
+    const { success, fkconflict } = req.query;
+    
+    const { group_id } = req.params;
+    const groups = await MySQL_QUERY(`SELECT * FROM NHOMSANPHAM WHERE ma_nhom = '${ group_id }'`)
+    
+    if( groups && groups.length > 0 ){
+        const group = groups[0];
+
+        const types = await MySQL_QUERY(`SELECT MA_LOAI AS type_id, TEN_LOAI AS type_name, IF( MA_LOAI = '${ group.loai_san_pham }', TRUE, FALSE ) AS selected FROM LOAISANPHAM;`) 
+
+        res.render('admin_product/admin_p_groups_edit', {
+            layout: "admin",
+            title: `${ group?.ma_nhom } | ${COMPANY}`,
+    
+            auth: req.session.auth,
+            types,
+            group,
+            fkconflict,
+            success
+        })
+    }else{
+        res.render('admin_404_not_found', {
+            layout: "admin",
+            title: `404 - Not found| ${ COMPANY }`,
+        });
+    }
+})
 
 
+router.post('/product-group/edit', async (req, res) => {
 
+    /**
+     * 
+     *  URL: "/admin/product/product-type/edit"
+     *  
+     */
+
+    const { group_id, group_name, type_id, note } = req.body;
+    const { auth } = req.session;
+    console.log(req.body)
+
+    const isPrivileged = functions.isAdmin(auth)
+    /** Kiểm tra quyền, nếu Admin thì đi tiếp  */
+    // if( isPrivileged ){        
+
+        const validateData = functions.nullCheck( req.body, ["group_id", "group_name", "type_id"] )
+
+        if( validateData ){                        
+            
+            const groups = await MySQL_QUERY(`SELECT * FROM NHOMSANPHAM WHERE ma_nhom='${ group_id }'`)
+            
+            if( groups && groups.length > 0 ){
+                const group = groups[0]               
+
+                const types = await MySQL_QUERY(`SELECT * FROM LOAISANPHAM WHERE ma_loai='${ type_id }'`);
+                if( types && types.length > 0 ){
+
+                    const updateQuery = `
+                        UPDATE NHOMSANPHAM SET
+                            ten_nhom = '${group_name}',
+                            loai_san_pham = '${ type_id }',
+                            nsp_ghi_chu = '${ note }'
+                        WHERE ma_nhom='${group_id}'
+                    `;
+
+                    await MySQL_QUERY(updateQuery);
+                    res.redirect(`/admin/product/product-groups/edit/${ group_id }?success=1`)
+
+                }else{
+                    res.redirect('/admin/e/not-found')
+                }
+            }else{
+                res.redirect('/admin/e/not-found')
+            }
+        }else{
+            res.send({ success: false })
+             /** Response này chỉ được truy cập thông qua API, tức là đường k hợp lệ */
+        }
+
+      
+    // }else{
+    //     /** Không có quyền thì đi tới trang 403  */
+    //     res.redirect('/admin/e/no-privileged')
+    // }    
+})
+
+/** PRODUCT UNIT */
 
 
 router.get('/product-units', async (req, res) => {
@@ -569,7 +1031,7 @@ router.get('/product-units', async (req, res) => {
                     ma_don_vi AS unit_id,
                     ten_don_vi AS unit_name,
                     ghi_chu AS note 
-                FROM DONVITINH LIMIT 12 OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
+                FROM DONVITINH LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
             `)
 
             for( let i = 0 ; i < units.length; i++ ){
@@ -578,7 +1040,7 @@ router.get('/product-units', async (req, res) => {
     
     
         
-            res.render('admin_p_units', {
+            res.render('admin_product/admin_p_units', {
                 layout: "admin",
                 title: `Đơn vị tính | ${COMPANY}`,
                 auth: req.session.auth,
@@ -608,14 +1070,14 @@ router.get('/product-units', async (req, res) => {
                 ma_don_vi AS unit_id,
                 ten_don_vi AS unit_name,
                 ghi_chu AS note 
-            FROM DONVITINH LIMIT 12;
+            FROM DONVITINH LIMIT ${ RECORDS_PER_PAGE };
         `)
     
         for( let i = 0 ; i < units.length; i++ ){
             units[i].index = i + 1;
         }
     
-        res.render('admin_p_units', {
+        res.render('admin_product/admin_p_units', {
             layout: "admin",
             title: `Đơn vị tính | ${COMPANY}`,
             auth: req.session.auth,
@@ -642,7 +1104,7 @@ router.get('/product-units/new', (req, res) => {
 
     
 
-    res.render('admin_p_units_add', {
+    res.render('admin_product/admin_p_units_add', {
         layout: "admin",
         title: `Đơn vị tính | ${COMPANY}`,
 
@@ -669,7 +1131,7 @@ router.get('/product-units/edit/:unit_id', async (req, res) => {
     if( units && units.length > 0 ){
         const unit = units[0]
 
-        res.render('admin_p_units_edit', {
+        res.render('admin_product/admin_p_units_edit', {
             layout: "admin",
             title: `${ unit?.ma_don_vi } | ${COMPANY}`,
     

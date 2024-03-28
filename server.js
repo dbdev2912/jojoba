@@ -6,6 +6,7 @@ const path = require('path');
 
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 
 // Importing files
@@ -17,6 +18,8 @@ const user = require('./routes/user')
 const adminHome = require('./routes/admin.home.js')
 const adminProducts = require('./routes/admin.products.js')
 const adminErrors = require('./routes/admin.errors.js')
+const adminBrands = require('./routes/admin.brands.js')
+
 const { Auth } = require('./api')
 
 const functions = require('./configs/functions')
@@ -24,6 +27,9 @@ const functions = require('./configs/functions')
 const { COMPANY } = require('./configs/enum.js')
 
 // Sending static files with Express 
+app.use(fileUpload());
+
+
 app.use(express.static('public'));
 
 
@@ -36,6 +42,8 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+
 
 
 
@@ -111,6 +119,7 @@ app.use('/api/u', Auth)
 app.use('/admin', adminHome)
 app.use('/admin/product', adminProducts)
 app.use('/admin/e', adminErrors )
+app.use('/admin/brands', adminBrands )
 const PORT = 5000
 
 
