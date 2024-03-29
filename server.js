@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const expbs = require('express-handlebars');
 const path = require('path');
+const cors = require('cors');
 
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -20,7 +21,7 @@ const adminProducts = require('./routes/admin.products.js')
 const adminErrors = require('./routes/admin.errors.js')
 const adminBrands = require('./routes/admin.brands.js')
 
-const { Auth } = require('./api')
+const { Auth, AdminApi_Product } = require('./api')
 
 const functions = require('./configs/functions')
 
@@ -32,6 +33,7 @@ app.use(fileUpload());
 
 app.use(express.static('public'));
 
+app.use(cors())
 
 app.use(session({
     secret: 'your-secret-key',
@@ -115,6 +117,7 @@ app.use('/contact', contact)
 app.use('/u', user)
 
 app.use('/api/u', Auth)
+app.use('/api/admin/product/', AdminApi_Product)
 
 app.use('/admin', adminHome)
 app.use('/admin/product', adminProducts)

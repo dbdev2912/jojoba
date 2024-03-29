@@ -193,7 +193,7 @@ router.get('/products', (req, res) => {
 
 
 
-router.get('/products/new', (req, res) => {
+router.get('/products/new', async (req, res) => {
 
     /**
      * 
@@ -201,13 +201,127 @@ router.get('/products/new', (req, res) => {
      * 
      * 
      */
-    res.render('admin_product/admin_p_add', {
+
+    const queries = {
+        brands: `
+            SELECT * FROM THUONGHIEU
+        `,
+        cates: `
+            SELECT * FROM DONGSANPHAM
+        `,
+        units: `
+            SELECT * FROM DONVITINH
+        `
+    };
+
+    const [ brands, cates, units ] = await Promise.all([
+        MySQL_QUERY(queries.brands),
+        MySQL_QUERY(queries.cates),
+        MySQL_QUERY(queries.units),
+    ])
+
+    res.render('admin_product/admin_p_products_add', {
         layout: "admin",
         title: `Thêm sản phẩm | ${COMPANY}`,
         auth: req.session.auth,
 
+        cates,
+        brands,
+        units,
     })
 })
+
+router.post('/product', (req, res) => {
+    /**
+     * 
+     *  BODY: {
+     *  product_id: <String>,
+        product_name: <String>,
+        
+        group_id: <String>,
+        unit_id: <String>,
+        price: <Int>,
+        is_new: <Bool>,
+        is_for_sale: <Bool>,
+        sale_percentage: <Int>,
+        brand_id: <String>,
+        in_stock: <Bool>,
+        introducing: <String>,
+        description: <String>,
+        technical: <String>
+
+     * }
+
+        FiLES: {
+            product_image: <FILE>,
+            technical_images: <FILE>[]
+        }
+
+
+     * 
+     */
+    
+    
+    
+    
+    res.send({ success: true })
+})
+
+
+// router.get('/initial-info', async (req, res) => {
+
+//     /**
+//      * 
+//      *  URL: "/admin/product/initial-info"
+//      * 
+//      * 
+//      */
+
+
+//     const context = {
+//         success: false,
+//         content: "Not privileges",
+//         data: {}
+//     }
+
+//     const queries = {
+//         types: `
+//             SELECT * FROM LOAISANPHAM
+//         `,
+//         groups: `
+//             SELECT * FROM NHOMSANPHAM
+//         `,
+//     };
+
+//     const [ types, groups ] = await Promise.all([
+//         MySQL_QUERY(queries.types),
+//         MySQL_QUERY(queries.groups),
+//     ])
+    
+//     context.data = {
+//         types,
+//         groups,
+//     }
+
+//     res.send(context)
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** PRODUCT CATES */
 
@@ -759,6 +873,7 @@ router.get('/product-groups', async (req, res) => {
                 FROM 
                     NHOMSANPHAM AS N 
                         INNER JOIN LOAISANPHAM AS L ON N.LOAI_SAN_PHAM = L.MA_LOAI 
+                ORDER BY TEN_LOAI
                 LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
             `)
 
@@ -801,6 +916,7 @@ router.get('/product-groups', async (req, res) => {
             FROM 
                 NHOMSANPHAM AS N 
                     INNER JOIN LOAISANPHAM AS L ON N.LOAI_SAN_PHAM = L.MA_LOAI 
+            ORDER BY TEN_LOAI
             LIMIT ${ RECORDS_PER_PAGE }
         `)
     

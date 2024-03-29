@@ -1,5 +1,6 @@
 const Auth = require('./auth')
-
+const AdminApi_Product = require('./admin.product')
 module.exports = {
-    Auth
+    Auth,
+    AdminApi_Product
 }
