@@ -96,8 +96,6 @@ const adminSideBar = () => {
 const paginate = (page) => {
     const { origin, pageIndex, maxPageIndex } = page;
 
-    console.log( pageIndex,maxPageIndex)
-
     return`<div class="row">
 
             <div class="col-lg-12 text-right">

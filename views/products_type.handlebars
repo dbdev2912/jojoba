@@ -13,41 +13,7 @@
                             {{else}}
                                 <h4>Dòng sản phẩm</h4>
                             {{/if}}
-                        </div>
-                        <div class="categories__accordion">
-                            <div class="accordion" id="accordionExample">
-                                {{#each filter }}
-
-                                    {{#if options }}
-
-                                    <div class="card">
-                                        <div class="card-heading {{ active }}">
-                                            <a data-toggle="collapse" data-target="#{{ id }}">{{ name }}</a>
-                                        </div>
-
-                                        {{#if active }}
-                                        <div id={{ id }} class="collapse show" data-parent="#accordionExample">
-                                        {{else}}
-                                        <div id={{ id }} class="collapse" data-parent="#accordionExample">
-                                        {{/if}}
-
-                                            <div class="card-body">
-                                                <ul>
-                                                    {{#each options }}
-                                                        <li><a href={{ url }}>{{ label }}</a>
-                                                    {{/each}}                                                
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{else}}
-                                        <div class="card">
-                                            <a class="link__not__drop" href="{{ url }}">{{ name }}</a>
-                                        </div>
-                                    {{/if}}
-                                {{/each}}
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
 
                     <div class="sidebar__filter">

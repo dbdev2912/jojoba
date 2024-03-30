@@ -480,6 +480,9 @@ router.post('/product-category', async (req, res) => {
     // }    
 })
 
+
+
+
 router.get('/product-categories/edit/:cate_id', async (req, res) => {
 
     /**
@@ -561,6 +564,74 @@ router.post('/product-category/edit', async (req, res) => {
     //     res.redirect('/admin/e/no-privileged')
     // }    
 })
+
+
+router.delete('/product-category', async (req, res) => {
+
+
+    /**
+     * 
+     *  URL: "/admin/product/product-type"
+     *  
+     */
+
+
+    const { cate_id } = req.body;
+
+    const { auth } = req.session;
+
+    const context = {
+        success: false,
+        content: ""
+    }
+
+    // const isPrivileged = functions.isAdmin( auth )
+
+    // if( isPrivileged){
+        const cates = await MySQL_QUERY(`SELECT * FROM  DONGSANPHAM WHERE ma_dong = '${ cate_id }'`);
+                
+
+        if( cates && cates.length > 0 ){           
+
+            const queries = {
+                dependendedProducts: `SELECT COUNT(*) AS total FROM SANPHAM WHERE dong_san_pham = '${ cate_id }'`,
+                dependendedTypes: `SELECT COUNT(*) AS total FROM LOAISANPHAM WHERE dong_san_pham = '${ cate_id }'`,
+            }
+
+            const [ 
+                dependendedProducts,
+                dependendedTypes
+            ] = await Promise.all([
+                MySQL_QUERY(queries.dependendedProducts),
+                MySQL_QUERY(queries.dependendedTypes),
+            ])
+
+            if( dependendedProducts[0].total === 0 ){       
+                
+                if( dependendedTypes[0].total === 0 ){
+                    
+                    const query = `DELETE FROM DONGSANPHAM WHERE ma_dong='${ cate_id }'`
+                    await MySQL_QUERY( query ); 
+                    context.success = true;
+                    context.content = "Xóa thành công"                               
+
+
+                }else{
+                    context.content = "Tồn tại loại sản phẩm đang thuộc dòng sản phẩm này"
+                }
+            }else{
+                context.content = "Tồn tại sản phẩm đang thuộc dòng sản phẩm này"
+            }
+        }else{
+            context.content = "Dòng sản phẩm không tồn tại hoặc đã bị xóa"
+        }
+    // }else{
+        
+    // }    
+
+    res.send( context )
+})
+
 
 /** PRODUCT TYPE */
 
@@ -836,6 +907,73 @@ router.post('/product-type/edit', async (req, res) => {
     // }    
 })
 
+
+router.delete('/product-type', async (req, res) => {
+
+
+    /**
+     * 
+     *  URL: "/admin/product/product-type"
+     *  
+     */
+
+
+    const { type_id } = req.body;
+
+    const { auth } = req.session;
+
+    const context = {
+        success: false,
+        content: ""
+    }
+
+    // const isPrivileged = functions.isAdmin( auth )
+
+    // if( isPrivileged){
+        const types = await MySQL_QUERY(`SELECT * FROM  LOAISANPHAM WHERE ma_loai='${ type_id }'`);
+
+        
+
+        if( types && types.length > 0 ){           
+
+            const queries = {
+                dependendedProducts: `SELECT COUNT(*) AS total FROM SANPHAM WHERE loai_san_pham = '${ type_id }'`,
+                dependendedGroups: `SELECT COUNT(*) AS total FROM NHOMSANPHAM WHERE loai_san_pham = '${ type_id }'`,
+            }
+            const [ 
+                dependendedProducts,
+                dependendedGroups
+            ] = await Promise.all([
+                MySQL_QUERY(queries.dependendedProducts),
+                MySQL_QUERY(queries.dependendedGroups),
+            ])
+
+            if( dependendedProducts[0].total === 0 ){       
+                
+                if( dependendedGroups[0].total === 0 ){
+                    
+                    const query = `DELETE FROM LOAISANPHAM WHERE ma_loai='${ type_id }'`
+                    await MySQL_QUERY( query ); 
+                    context.success = true;
+                    context.content = "Xóa thành công"                               
+
+
+                }else{
+                    context.content = "Tồn tại nhóm sản phẩm đang thuộc loại sản phẩm này"
+                }
+            }else{
+                context.content = "Tồn tại sản phẩm đang thuộc nhóm sản phẩm này"
+            }
+        }else{
+            context.content = "Loại sản phẩm không tồn tại hoặc đã bị xóa"
+        }
+    // }else{
+        
+    // }    
+
+    res.send( context )
+})
+
 /** PRODUCT GROUP */
 
 router.get('/product-groups', async (req, res) => {
@@ -979,7 +1117,7 @@ router.post('/product-group', async (req, res) => {
 
     const isPrivileged = functions.isAdmin(auth)
     /** Kiểm tra quyền, nếu Admin thì đi tiếp  */
-    // if( isPrivileged ){        
+    if( isPrivileged ){        
 
         const validateData = functions.nullCheck( req.body, ["group_id", "group_name", "type_id"] )
 
@@ -1010,10 +1148,10 @@ router.post('/product-group', async (req, res) => {
         }
 
       
-    // }else{
-    //     /** Không có quyền thì đi tới trang 403  */
-    //     res.redirect('/admin/e/no-privileged')
-    // }    
+    }else{
+        /** Không có quyền thì đi tới trang 403  */
+        res.redirect('/admin/e/no-privileged')
+    }    
 })
 
 router.get('/product-groups/edit/:group_id', async (req, res) => {
@@ -1060,13 +1198,13 @@ router.post('/product-group/edit', async (req, res) => {
 
     /**
      * 
-     *  URL: "/admin/product/product-type/edit"
+     *  URL: "/admin/product/product-group/edit"
      *  
      */
 
     const { group_id, group_name, type_id, note } = req.body;
     const { auth } = req.session;
-    console.log(req.body)
+    
 
     const isPrivileged = functions.isAdmin(auth)
     /** Kiểm tra quyền, nếu Admin thì đi tiếp  */
@@ -1112,6 +1250,55 @@ router.post('/product-group/edit', async (req, res) => {
     //     res.redirect('/admin/e/no-privileged')
     // }    
 })
+
+router.delete('/product-group', async (req, res) => {
+
+
+    /**
+     * 
+     *  URL: "/admin/product/product-group"
+     *  
+     */
+
+
+    const { group_id } = req.body;
+
+    const { auth } = req.session;
+
+    const context = {
+        success: false,
+        content: ""
+    }
+
+    // const isPrivileged = functions.isAdmin( auth )
+
+    // if( isPrivileged){
+        const groups = await MySQL_QUERY(`SELECT * FROM  NHOMSANPHAM WHERE ma_nhom='${ group_id }'`);
+
+        
+
+        if( groups && groups.length > 0 ){           
+            const dependendedProducts = await MySQL_QUERY(`SELECT COUNT(*) AS total FROM SANPHAM WHERE nhom_san_pham = '${ group_id }'`)
+
+            if( dependendedProducts[0].total == 0 ){
+                const query = `DELETE FROM NHOMSANPHAM WHERE ma_nhom='${group_id}'`
+                await MySQL_QUERY( query ); 
+                context.success = true;
+                context.content = "Xóa thành công"                               
+            }else{
+                context.content = "Tồn tại sản phẩm đang thuộc nhóm sản phẩm này"
+            }
+        }else{
+            context.content = "Nhóm không tồn tại hoặc đã bị xóa"
+        }
+    // }else{
+        
+    // }    
+
+    res.send( context )
+})
+
+
 
 /** PRODUCT UNIT */
 
@@ -1353,5 +1540,51 @@ router.post('/product-unit/edit', async (req, res) => {
         res.redirect('/admin/e/no-privileged')
     }    
 })
+
+router.delete('/product-unit', async (req, res) => {
+
+
+    /**
+     * 
+     *  URL: "/admin/product/product-group"
+     *  
+     */
+
+
+    const { unit_id } = req.body;
+
+    const { auth } = req.session;
+
+    const context = {
+        success: false,
+        content: ""
+    }
+
+    // const isPrivileged = functions.isAdmin( auth )
+
+    // if( isPrivileged){
+        const units = await MySQL_QUERY(`SELECT * FROM  DONVITINH WHERE ma_don_vi='${ unit_id }'`);
+
+        if( units && units.length > 0 ){           
+            const dependendedProducts = await MySQL_QUERY(`SELECT COUNT(*) AS total FROM SANPHAM WHERE don_vi_tinh = '${ unit_id }'`);
+
+            if( dependendedProducts[0].total == 0 ){
+                const query = `DELETE FROM DONVITINH WHERE ma_don_vi='${unit_id}'`
+                await MySQL_QUERY( query ); 
+                context.success = true;
+                context.content = "Xóa thành công"                               
+            }else{
+                context.content = "Tồn tại sản phẩm đang thuộc nhóm sản phẩm này"
+            }
+        }else{
+            context.content = "Nhóm không tồn tại hoặc đã bị xóa"
+        }
+    // }else{
+        
+    // }    
+
+    res.send( context )
+})
+
 
 module.exports = router;

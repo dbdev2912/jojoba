@@ -1,0 +1,48 @@
+{{> header }}
+{{> breadcrumb }}
+
+<style>
+    .not__found {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        height: 50vh;
+        justify-content: center;
+        align-self: center;
+    }
+
+    .not__found p {
+        font-weight: bold;
+        width: 100%;
+        color: #999;
+        display: block;        
+        {{!-- text-align: center; --}}
+        margin-top: 1em;
+    }
+
+    .not__found .not__found__title{ 
+        font-size: 3em;        
+    }
+
+    .not__found .not__found__content{
+        font-size: 1.5em;
+    }
+
+</style>
+
+<section class="shop-cart spad">
+    <div class="container">
+    
+        <div class="not__found">
+            <div>
+                <p class="not__found__title">404 - Not found</p>
+                <p class="not__found__content">Trang không tồn tại hoặc đã bị xóa !!!</p>
+            </div>
+        </div>      
+    
+    </div>
+</section>
+
+
+
+{{> footer }}

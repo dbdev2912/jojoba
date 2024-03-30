@@ -189,7 +189,7 @@ const adminProduct_typeRecord = (category) => {
     <td>
           <div class="d-flex">
               <a href="/admin/product/product-types/edit/${ type_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
-              <a class="table__icon table__delete__icon category__delete__icon" data="${ type_id }"><i class="fa fa-trash"></i></a>
+              <a class="table__icon table__delete__icon type__delete__icon" data="${ type_id }"><i class="fa fa-trash"></i></a>
           </div>
       </td>
   </tr>
@@ -209,7 +209,7 @@ const adminProduct_groupRecord = (category) => {
     <td>
           <div class="d-flex">
               <a href="/admin/product/product-groups/edit/${ group_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
-              <a class="table__icon table__delete__icon category__delete__icon" data="${ group_id }"><i class="fa fa-trash"></i></a>
+              <a class="table__icon table__delete__icon group__delete__icon" data="${ group_id }"><i class="fa fa-trash"></i></a>
           </div>
       </td>
   </tr>
@@ -227,7 +227,7 @@ const adminProduct_unitRecord = (category) => {
     <td>
           <div class="d-flex">
               <a href="/admin/product/product-units/edit/${ unit_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
-              <a class="table__icon table__delete__icon category__delete__icon" data="${ unit_id }"><i class="fa fa-trash"></i></a>
+              <a class="table__icon table__delete__icon unit__delete__icon" data="${ unit_id }"><i class="fa fa-trash"></i></a>
           </div>
       </td>
   </tr>

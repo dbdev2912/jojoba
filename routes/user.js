@@ -3,9 +3,10 @@ const router = express.Router();
 
 const { COMPANY } = require('../configs/enum')
 
+const MySQL_QUERY = require('../db/connector')
 // Routing 
 
-router.get('/cart', (req, res) => {
+router.get('/cart', async (req, res) => {
     /**
      * 
      * http://localhost:5000/u/cart
@@ -48,12 +49,14 @@ router.get('/cart', (req, res) => {
         },
     ]
 
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
 
     res.render('cart', {
         title: `Giỏ hàng | ${ COMPANY }`,
         previousPages,
         lastPage,
         auth: req.session.auth,
+        cates,
 
 
         cart,
@@ -62,7 +65,7 @@ router.get('/cart', (req, res) => {
 });
 
 
-router.get('/checkout', (req, res) => {
+router.get('/checkout', async (req, res) => {
 
     /**
      *  http://localhost:5000/u/checkout
@@ -113,6 +116,8 @@ router.get('/checkout', (req, res) => {
         },
     ]
     const total = cart.reduce((acc, curr) => acc + curr.subtotal, 0)
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
+
 
     res.render('checkout', {
         title: `Thanh toán | ${ COMPANY }`,
@@ -122,12 +127,13 @@ router.get('/checkout', (req, res) => {
 
 
         cart,
-        total
+        total,
+        cates
     });
 });
 
 
-router.get('/orders', (req, res) => {
+router.get('/orders', async (req, res) => {
     /**
      * 
      * http://localhost:5000/u/orders
@@ -166,6 +172,7 @@ router.get('/orders', (req, res) => {
         },
     ]
     
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
 
     res.render('orders', {
         title: `Giỏ hàng | ${ COMPANY }`,
@@ -173,12 +180,13 @@ router.get('/orders', (req, res) => {
         lastPage,
         auth: req.session.auth,
 
-        orders
+        orders,
+        cates,
     });
 });
 
 
-router.get('/order/:order_id', (req, res) => {
+router.get('/order/:order_id', async (req, res) => {
     /**
      * 
      * http://localhost:5000/u/order/:order_id
@@ -229,7 +237,7 @@ router.get('/order/:order_id', (req, res) => {
         },
     ]
 
-
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
     res.render('order', {
         title: `Đơn hàng ${ order_id } | ${ COMPANY }`,
         previousPages,
@@ -238,7 +246,7 @@ router.get('/order/:order_id', (req, res) => {
 
 
         cart,
-
+        cates,
     });
 });
 

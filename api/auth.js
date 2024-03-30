@@ -34,7 +34,7 @@ router.post('/signin', async (req, res) => {
     if (nullCheck) {
 
         if( username === ADMIN.username && password === ADMIN.password ){
-            req.session.auth = { ...ADMIN, ten_dang_nhap: ADMIN.username }
+            req.session.auth = { ...ADMIN, ten_dang_nhap: ADMIN.username, role: ROLES.admin }
             res.redirect('/admin')
         }else{            
             const user = await MySQL_QUERY(`SELECT * FROM TAIKHOAN WHERE ten_dang_nhap = '${username}' AND mat_khau='${password}'`)
@@ -44,14 +44,14 @@ router.post('/signin', async (req, res) => {
     
                 if ( role == ROLES.admin ) {
     
-                    req.session.auth = { ...user[0] }
+                    req.session.auth = { ...user[0], role: ROLES.admin }
                     res.redirect('/admin')
     
                 } else {
                     const customer = await MySQL_QUERY(`SELECT * FROM KHACHHANG WHERE ten_dang_nhap = '${username}'`)
                     
                     if (customer && customer[0]) {
-                        req.session.auth = { ...user[0], ...customer[0] }
+                        req.session.auth = { ...user[0], ...customer[0], role: ROLES.khachhang }
                     }
     
                     res.redirect('/')

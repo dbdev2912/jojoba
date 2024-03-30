@@ -15,6 +15,7 @@ const home = require('./routes/home');
 const products = require('./routes/products')
 const contact = require('./routes/contact')
 const user = require('./routes/user')
+const userError = require('./routes/user.error.js')
 
 const adminHome = require('./routes/admin.home.js')
 const adminProducts = require('./routes/admin.products.js')
@@ -25,7 +26,7 @@ const { Auth, AdminApi_Product } = require('./api')
 
 const functions = require('./configs/functions')
 
-const { COMPANY } = require('./configs/enum.js')
+const { COMPANY, ROLES } = require('./configs/enum.js')
 
 // Sending static files with Express 
 app.use(fileUpload());
@@ -115,6 +116,7 @@ app.use('/', home);
 app.use('/products', products);
 app.use('/contact', contact)
 app.use('/u', user)
+app.use('/e/', userError)
 
 app.use('/api/u', Auth)
 app.use('/api/admin/product/', AdminApi_Product)
@@ -127,10 +129,20 @@ const PORT = 5000
 
 
 app.use((req, res) => {
-    res.render('admin_404_not_found', {
-        layout: "admin",
-        title: `404 - Not found| ${COMPANY }`,
-    });
+
+    const { auth } = req.session;
+    if( !auth || auth.role === ROLES.khachhang){
+        res.render('404_not_found', {
+            title: `404 - Not found| ${COMPANY }`,
+        });
+    }else{
+
+        res.render('admin_404_not_found', {
+            layout: "admin",
+            title: `404 - Not found| ${COMPANY }`,
+        });
+    }
+
 })
 
 app.listen(PORT, () => {

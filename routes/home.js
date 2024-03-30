@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router(); 
 const lang = require('../configs/lang')
 
+const functions = require('../configs/functions');
+const MySQL_QUERY = require('../db/connector');
+
 const { COMPANY } = require('../configs/enum')
 
 // Routing 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
     const newProducts = [
         {
@@ -98,12 +101,14 @@ router.get('/', (req, res) => {
         },
     ]
 
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
+
     res.render('index', {
         title: COMPANY,
         auth: req.session.auth,
         active_position: 0, 
 
-        
+        cates,
         products: newProducts,
         trending: trendingItems
     });

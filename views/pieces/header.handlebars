@@ -51,21 +51,12 @@
                             {{/if}}
                             <a href="/products">Sản phẩm</a>
                             <ul class="dropdown">
+                                {{#each cates }}
                                 <li>
-                                    <a href="/">Thiết bị nhà vệ sinh</a>
+                                    <a href="/products/cate/{{ ma_dong }}">{{ ten_dong }}</a>
                                 </li>
-                                <li>
-                                    <a href="/">Thiết bị nhà tắm</a>
-                                </li>
-                                <li>
-                                    <a href="/">Thiết bị ngành nước</a>
-                                </li>
-                                <li>
-                                    <a href="/">Thiết bị nhà bếp</a>
-                                </li>
-                                <li>
-                                    <a href="/">Dịch vụ</a>
-                                </li>
+                                {{/each}}
+                                
                             </ul>
                         </li>
                         <li>
