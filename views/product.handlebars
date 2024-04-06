@@ -11,7 +11,7 @@
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
                             <img data-hash="product-1" class="product__big__img"
-                                src="/img/product/details/product-1.jpg" alt="" />
+                                src="{{ product.image }}" alt="" />
                         </div>
                     </div>
                 </div>
@@ -92,13 +92,22 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
                             <h6>Mô tả</h6>
-                            <p>{{ product.description }}</p>
+                            {{#paragraph product.description }}{{/paragraph}}
+                            {{!-- <p>{{ product.description }}</p> --}}
 
                         </div>
                         <div class="tab-pane" id="tabs-2" role="tabpanel">
-                            <h6>Thông số kĩ thuật</h6>
-
-                            <p>{{ product.specification }}</p>
+                            <h6>Hình ảnh khác</h6>
+                            <div class="row">
+                                {{#each images }}
+                                <div class="tech__img">
+                                    <img src="{{url}}" alt="">
+                                </div>
+                                {{/each}}
+                            </div>
+                            <h6>Thông số</h6>
+                            {{#paragraph product.specification }}{{/paragraph}}
+                            {{!-- <p>{{ product.specification }}</p> --}}
                         </div>
                         {{!-- <div class="tab-pane" id="tabs-3" role="tabpanel">
                             PREVIEWS GOES HERE
@@ -107,13 +116,14 @@
                 </div>
             </div>
         </div>
+        {{#if relatives.length }}
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="related__title">
                     <h5>SẢN PHẨM LIÊN QUAN</h5>
                 </div>
             </div>
-
+        {{/if}}
 
             {{#each relatives}}
             {{#product this }}{{/product}}

@@ -66,7 +66,7 @@ const hbs = expbs.create({
         list: (value, options) => {           
         },
 
-        eq: (x, y, options) => {
+        eq: (x, y, options) => {            
             return x == y
         },
         and: (x, y, options) => {
@@ -89,6 +89,8 @@ const hbs = expbs.create({
         formatPriceAfterTax: (price, TAX, options) => {
             return functions.renderPrice( price + Math.floor(price * TAX  / 100) )
         },
+
+        paragraph: Helpers.paragraph,
 
         product: Helpers.product,
         product_md4: Helpers.product_md4,

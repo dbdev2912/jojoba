@@ -32,8 +32,9 @@ $(async () => {
         const corespondingTypes = types.filter(type => type.dong_san_pham == currentCate)
 
         $('#types').html(`
+            <option value="none">Không</option>
             ${corespondingTypes.map(type => `
-                <option value="${type.ma_loai}" >${type.ma_loai} - ${type.ten_loai}</option>
+                <option value="${type.ma_loai}" >${type.ten_loai}</option>
             `).join(' ')}
         `)
 
@@ -42,8 +43,9 @@ $(async () => {
             const corespondingGroups = groups.filter(group => group.loai_san_pham == firstType.ma_loai)
 
             $('#groups').html(`
+                    <option value="none">Không</option>
                     ${corespondingGroups.map(group => `
-                        <option value="${group.ma_nhom}" >${group.ma_nhom} - ${group.ten_nhom}</option>
+                        <option value="${group.ma_nhom}" >${group.ten_nhom}</option>
                     `).join(' ')}
                 `)
         } else {
@@ -64,8 +66,9 @@ $(async () => {
         const currentType = e.target.value;
         const corespondingGroups = groups.filter(group => group.loai_san_pham == currentType)
         $('#groups').html(`
+            <option value="none">Không</option>
             ${corespondingGroups.map(group => `
-                <option value="${group.ma_nhom}" >${group.ma_nhom} - ${group.ten_nhom}</option>
+                <option value="${group.ma_nhom}" >${group.ten_nhom}</option>
             `).join(' ')}
         `)
     })
@@ -81,16 +84,18 @@ $(async () => {
         const corespondingTypes = types.filter(type => type.dong_san_pham == selectedCate);
         if (corespondingTypes && corespondingTypes.length > 0) {
             $('#types').html(`
+                <option value="none">Không</option>
                 ${corespondingTypes.map(type => `
-                    <option value="${type.ma_loai}" >${type.ma_loai} - ${type.ten_loai}</option>
+                    <option value="${type.ma_loai}" >${type.ten_loai}</option>
                 `).join(' ')}
             `)
             const firstType = corespondingTypes[0]
             const corespondingGroups = groups.filter(group => group.loai_san_pham == firstType.ma_loai)
             if (corespondingGroups && corespondingGroups.length > 0) {
                 $('#groups').html(`
+                    <option value="none">Không</option>
                     ${corespondingGroups.map(group => `
-                        <option value="${group.ma_nhom}" >${group.ma_nhom} - ${group.ten_nhom}</option>
+                        <option value="${group.ma_nhom}" >${group.ten_nhom}</option>
                     `).join(' ')}
                 `)
             }

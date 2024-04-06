@@ -8,9 +8,8 @@
           <div class="categories__item categories__large__item set-bg" 
             style="background-image: url(&quot;img/categories/category-1.jpg&quot;);">
             <div class="categories__text">
-              <h1>Women’s fashion</h1>
-              <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore edolore magna
-                aliquapendisse ultrices gravida.</p><a href="#">Shop now</a>
+              <h1>Toilet</h1>
+              <p>Sự tiện lợi và thoải mái cho cuộc sống thường ngày</p><a href="/products/cate/thiet-bi-nha-ve-sinh">Shop now</a>
             </div>
           </div>
         </div>
@@ -20,8 +19,8 @@
               <div class="categories__item set-bg" 
                 style="background-image: url(&quot;img/categories/category-2.jpg&quot;);">
                 <div class="categories__text">
-                  <h4>Men’s fashion</h4>
-                  <p>358 items</p><a href="#">Shop now</a>
+                  <h4>Thiết bị phòng tắm</h4>
+                  <p>358 items</p><a href="/products/cate/thiet-bi-phong-tam">Shop now</a>
                 </div>
               </div>
             </div>
@@ -29,8 +28,8 @@
               <div class="categories__item set-bg" 
                 style="background-image: url(&quot;img/categories/category-3.jpg&quot;);">
                 <div class="categories__text">
-                  <h4>Kid’s fashion</h4>
-                  <p>273 items</p><a href="#">Shop now</a>
+                  <h4>Thiết bị phòng bếp</h4>
+                  <p>273 items</p><a href="/products/cate/thiet-bi-nha-bep">Shop now</a>
                 </div>
               </div>
             </div>
@@ -38,8 +37,8 @@
               <div class="categories__item set-bg" 
                 style="background-image: url(&quot;img/categories/category-4.jpg&quot;);">
                 <div class="categories__text">
-                  <h4>Cosmetics</h4>
-                  <p>159 items</p><a href="#">Shop now</a>
+                  <h4>Phụ tùng - Phụ kiện</h4>
+                  <p>159 items</p><a href="/products/cate/phu-tung-phu-kien">Shop now</a>
                 </div>
               </div>
             </div>
@@ -47,8 +46,8 @@
               <div class="categories__item set-bg" 
                 style="background-image: url(&quot;img/categories/category-5.jpg&quot;);">
                 <div class="categories__text">
-                  <h4>Accessories</h4>
-                  <p>792 items</p><a href="#">Shop now</a>
+                  <h4>Các sản phẩm khác</h4>
+                  <p>792 items</p><a href="/products/cate/thiet-bi-khac">Shop now</a>
                 </div>
               </div>
             </div>
@@ -67,32 +66,38 @@
         </div>
         <div class="col-lg-8 col-md-8">
           <ul class="filter__controls">
-            <li class="active" data-filter="*">Tất cả</li>
-            <li>Bồn cầu</li>
-            <li>Lavabo</li>
-            <li>Gương</li>
-            <li>Vòi sen</li>
-            <li>Khác</li>
+            <li class="active" data-filter="all">Tất cả</li>
+            {{#each hotProductOptions}}
+            <li data-filter="{{ name }}">{{ label }}</li>         
+            {{/each}}   
           </ul>
         </div>
       </div>
-      <div class="row property__gallery">
-
-        {{#each products }}
-          {{#product this}}
-          {{/product}}
-        {{/each}}
-
-
-
+      <div class="product__gallary" style="display: block" id="all">
+        <div class="row property__gallery">
+          {{#each products }}
+            {{#product this}}
+            {{/product}}
+          {{/each}}
+        </div>
       </div>
+       {{#each hotProductOptions}}
+       <div class="product__gallary" id="{{ name }}" style="display: none">
+          <div class="row property__gallery">
+            {{#each this.products }}
+              {{#product this}}
+              {{/product}}
+            {{/each}}
+          </div>
+       </div>
+        {{/each}}   
     </div>
   </section>
 
 
   {{!-- SESSIONING COLLECTION --}}
 
-  <section class="banner set-bg" data-setbg="img/banner/banner-1.jpg"
+  {{!-- <section class="banner set-bg" data-setbg="img/banner/banner-1.jpg"
     style="background-image: url(&quot;img/banner/banner-1.jpg&quot;);">
     <div class="container">
       <div class="row">
@@ -122,7 +127,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
 
 
@@ -140,15 +145,17 @@
               <h4>{{ title }}</h4>
             </div>
             {{#each items }}
-            <div class="trend__item">
-              <div class="trend__item__pic"><img src={{ image }} alt=""></div>
-              <div class="trend__item__text">
-                <h6>{{ product_name }}</h6>
-                <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                    class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <div class="product__price"> {{#formatPrice price }}{{/formatPrice }}</div>
+            <a href="/products/p/{{ product_id }}">
+              <div class="trend__item">
+                <div class="trend__item__pic"><img class="trend__item__image" src={{ image }} alt="{{ product_id }} - {{ product_name }}"></div>
+                <div class="trend__item__text">
+                  <h6>{{ product_name }}</h6>
+                  <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                      class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                  <div class="product__price"> {{#formatPrice price }}{{/formatPrice }}</div>
+                </div>
               </div>
-            </div>
+            </a>
              {{/each }}
             
           </div>
@@ -219,7 +226,7 @@
       </div>
     </div>
   </section>
-  <div class="instagram">
+  {{!-- <div class="instagram">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-2 col-md-4 col-sm-4 p-0">
@@ -260,7 +267,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
   <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
       <div class="search-close-switch">+</div>

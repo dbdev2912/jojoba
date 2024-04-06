@@ -21,14 +21,15 @@ Created: Colorib
         /*------------------
             Product filter
         --------------------*/
-        $('.filter__controls li').on('click', function () {
+        $('.filter__controls li').on('click', function (e) {
             $('.filter__controls li').removeClass('active');
             $(this).addClass('active');
+
+            const filter = $(e.target).attr("data-filter")
+            $('.product__gallary').hide()
+            $(`#${ filter }`).show()
         });
-        if ($('.property__gallery').length > 0) {
-            var containerEl = document.querySelector('.property__gallery');
-            var mixer = mixitup(containerEl);
-        }
+        
     });
 
     /*------------------
@@ -232,5 +233,7 @@ Created: Colorib
         $(".size__btn label").removeClass('active');
         $(this).addClass('active');
     });
+
+
 
 })(jQuery);

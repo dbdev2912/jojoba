@@ -7,6 +7,8 @@ const { order_record } = require('./orders')
 
 const { adminSideBar, paginate } = require('./admin')
 
+const { paragraph } = require('./text')
+
 
 module.exports = {
     product,
@@ -19,5 +21,6 @@ module.exports = {
     adminProduct_typeRecord,
     adminProduct_groupRecord,
     adminProduct_unitRecord,
-    paginate
+    paginate,
+    paragraph
 }

@@ -93,9 +93,10 @@ const adminSideBar = () => {
 }
 
 
-const paginate = (page) => {
+const paginate = (page = {}) => {
     const { origin, pageIndex, maxPageIndex } = page;
-
+    
+    
     return`<div class="row">
 
             <div class="col-lg-12 text-right">

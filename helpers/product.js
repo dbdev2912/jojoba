@@ -2,6 +2,7 @@ const functions = require('../configs/functions')
 
 const product = (product, options) => {
   const {
+    product_id,
     is_sale,
     is_new,
     stars,
@@ -16,8 +17,12 @@ const product = (product, options) => {
     `
         <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="product__item ${is_sale ? "sale" : ""}">
-          <div class="product__item__pic set-bg" 
-            style="background-image: url(${image});">
+          <div class="product__item__pic">
+            <a href="/products/p/${ product_id }">
+              <div class="product__image">
+                <img src="${image}" alt="product_name"/>
+              </div>
+            </a>
                 ${is_sale ? `<div class="label">sale</div> ` : ""}
                 
               
@@ -33,7 +38,7 @@ const product = (product, options) => {
             </ul>
           </div>
           <div class="product__item__text">
-            <h6><a href="#">${product_name}</a></h6>
+            <h6><a href="/products/p/${ product_id }">${product_name}</a></h6>
             <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                 class="fa fa-star"></i><i class="fa fa-star"></i></div>
             <div class="product__price">
@@ -53,6 +58,7 @@ const product = (product, options) => {
 
 const product_md4 = (product, options) => {
   const {
+    product_id,
     is_sale,
     is_new,
     stars,
@@ -65,10 +71,14 @@ const product_md4 = (product, options) => {
 
   return (
     `
-        <div class="col-lg-4 col-md-4 col-sm-6">
+      <div class="col-lg-4 col-md-4 col-sm-6">
         <div class="product__item ${is_sale ? "sale" : ""}">
-          <div class="product__item__pic set-bg" 
-            style="background-image: url(${image});">
+          <div class="product__item__pic">
+            <a href="/products/p/${ product_id }">
+              <div class="product__image">
+                <img src="${image}" alt="product_name"/>
+              </div>
+            </a>
                 ${is_sale ? `<div class="label">sale</div> ` : ""}
                 
               
@@ -84,7 +94,7 @@ const product_md4 = (product, options) => {
             </ul>
           </div>
           <div class="product__item__text">
-            <h6><a href="#">${product_name}</a></h6>
+            <h6><a href="/products/p/${ product_id }">${product_name}</a></h6>
             <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                 class="fa fa-star"></i><i class="fa fa-star"></i></div>
             <div class="product__price">
@@ -150,7 +160,7 @@ const adminProduct_tableRecord = (product) => {
       <td>${group}</td>
       <td>
           <div class="d-flex">
-              <a href="/admin/product/products/p/${product_id}" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
+              <a href="/admin/product/products/edit/${product_id}" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
               <a class="table__icon table__delete__icon product__delete__icon" data="${product_id}"><i class="fa fa-trash"></i></a>
           </div>
       </td>

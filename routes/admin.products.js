@@ -9,186 +9,109 @@ const functions = require('../configs/functions')
 const { ROLES, ADMIN, RECORDS_PER_PAGE } = require('../configs/enum')
 
 
-router.get('/products', (req, res) => {
+router.get('/products', async (req, res) => {
     /**
      * 
      *  URL: "/admin/product/products"
      * 
+     *  available params:
+     *      - page: <Int>
+     * 
      * 
      */
-    const products = [
-        {
 
-            index: 1,
-            product_id: "BC - 01",
-            image: "/img/product/product-1.jpg",
-            product_name: "Buttons tweed blazer",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: true,
-            is_sale: true,
-            is_new: true
-        },
-        {
-            index: 2,
-            product_id: "BC - 01",
-            image: "/img/product/product-2.jpg",
-            product_name: "Flowy striped skirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: true,
-            is_new: true,
-        },
-        {
-            index: 3,
-            product_id: "BC - 01",
-            image: "/img/product/product-3.jpg",
-            product_name: "Cotton T-shirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-            is_sale: true,
-        },
-        {
-            index: 4,
-            product_id: "BC - 01",
-            image: "/img/product/product-4.jpg",
-            product_name: "Slim strped pocket shirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-        },
-        {
-            index: 5,
-            product_id: "BC - 01",
-            image: "/img/product/product-5.jpg",
-            product_name: "Fit micro codouroy shirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-        },
-        {
-            index: 6,
-            product_id: "BC - 01",
-            image: "/img/product/product-6.jpg",
-            product_name: "Tropical kimono",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-        },
-        {
-            index: 7,
-            product_id: "BC - 01",
-            image: "/img/product/product-7.jpg",
-            product_name: "Contrasting sunglasses",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: true,
-        },
-        {
-            index: 8,
-            product_id: "BC - 01",
-            image: "/img/product/product-8.jpg",
-            product_name: "Water resistant backpack",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-        },
-        {
-            index: 9,
-            product_id: "BC - 01",
-            image: "/img/product/product-2.jpg",
-            product_name: "Flowy striped skirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-            is_new: true,
-        },
-        {
-            index: 10,
-            product_id: "BC - 01",
-            image: "/img/product/product-5.jpg",
-            product_name: "Fit micro codouroy shirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-        },
-        {
-            index: 11,
-            product_id: "BC - 01",
-            image: "/img/product/product-2.jpg",
-            product_name: "Flowy striped skirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: true,
-            is_new: true,
-        },
-        {
-            index: 12,
-            product_id: "BC - 01",
-            image: "/img/product/product-3.jpg",
-            product_name: "Cotton T-shirt",
-            price: 5900000,
-            sale_percentage: 10,
-            stars: 5,
-            category: "Bồn cầu",
-            group: "Bồn cầu sứ",
-            type: "Bồn cầu xả",
-            status: false,
-            is_sale: true,
-        },
-    ]
+    const { page } = req.query;
 
-    res.render('admin_product/admin_p_products', {
-        layout: "admin",
-        title: `Sản phẩm | ${COMPANY}`,
-        auth: req.session.auth,
-        products
-    })
+    if( functions.intValidate(page) ){
+
+        const pageIndex = parseInt( page )
+
+        const totals = await MySQL_QUERY(`
+            SELECT COUNT(*) AS total FROM SANPHAM
+        `);
+        const { total } = totals[0]        
+        const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
+        
+        if( pageIndex > 0 && pageIndex <= maxPageIndex ){
+            
+            const products = await MySQL_QUERY(`
+            SELECT                     
+                ma_san_pham as product_id,
+                ten_san_pham as product_name,
+                trang_thai as status,
+                ( select ten_dong from DONGSANPHAM where ma_dong = dong_san_pham ) as category,
+                ( select ten_loai from LOAISANPHAM where ma_loai = loai_san_pham ) as type,
+                ( select ten_nhom from NHOMSANPHAM where ma_nhom = nhom_san_pham ) as _group_
+            FROM 
+                SANPHAM
+            LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
+            `)
+
+
+            for( let i = 0 ; i < products.length; i++ ){
+                products[i].index = (pageIndex - 1) * RECORDS_PER_PAGE + i + 1;
+                products[i].group = products[i]._group_
+            }
+    
+    
+        
+            res.render('admin_product/admin_p_products', {
+                layout: "admin",
+                title: `Sản phẩm | ${COMPANY}`,
+                auth: req.session.auth,
+                paginate: {
+                    pageIndex,
+                    maxPageIndex,
+                    origin: "/admin/product/products",
+                    total
+                },
+                products,
+            })
+        }else{
+            res.render('admin_404_not_found', {
+                layout: "admin",
+                title: `404 - Not found| ${ COMPANY }`,
+            });
+        }
+    
+    }else{
+        const totals = await MySQL_QUERY(`
+            SELECT COUNT(*) AS total FROM SANPHAM
+        `);
+        const { total } = totals[0]     
+        const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
+
+        const products = await MySQL_QUERY(`
+            SELECT                     
+                ma_san_pham as product_id,
+                ten_san_pham as product_name,
+                trang_thai as status,
+                ( select ten_dong from DONGSANPHAM where ma_dong = dong_san_pham ) as category,
+                ( select ten_loai from LOAISANPHAM where ma_loai = loai_san_pham ) as type,
+                ( select ten_nhom from NHOMSANPHAM where ma_nhom = nhom_san_pham ) as _group_
+            FROM 
+                SANPHAM
+            LIMIT ${ RECORDS_PER_PAGE };
+            `)
+    
+        for( let i = 0 ; i < products.length; i++ ){
+            products[i].index = i + 1;
+            products[i].group = products[i]._group_
+        }
+    
+        res.render('admin_product/admin_p_products', {
+            layout: "admin",
+            title: `Sản phẩm | ${COMPANY}`,
+            auth: req.session.auth,
+            paginate: {
+                pageIndex: 1,
+                maxPageIndex,
+                origin: "/admin/product/products",
+                total
+            },
+            products
+        })
+    }
 })
 
 
@@ -199,8 +122,11 @@ router.get('/products/new', async (req, res) => {
      * 
      *  URL: "/admin/product/products/new"
      * 
-     * 
+     *  tham số khả dĩ
+     *      existed
      */
+
+    
 
     const queries = {
         brands: `
@@ -228,16 +154,19 @@ router.get('/products/new', async (req, res) => {
         cates,
         brands,
         units,
+
+        ...req.query,
     })
 })
 
-router.post('/product', (req, res) => {
+router.post('/product', async (req, res) => {
     /**
      * 
      *  BODY: {
      *  product_id: <String>,
         product_name: <String>,
-        
+        cate_id: <String>,
+        type_id: <String>,
         group_id: <String>,
         unit_id: <String>,
         price: <Int>,
@@ -250,6 +179,10 @@ router.post('/product', (req, res) => {
         description: <String>,
         technical: <String>
 
+        relatve_1,
+        relatve_2,
+        relatve_3,
+        relatve_4,
      * }
 
         FiLES: {
@@ -259,14 +192,392 @@ router.post('/product', (req, res) => {
 
 
      * 
+
+
+        CHƯA TEST
      */
     
     
     
+    const { 
+        product_id,
+        product_name,
+        cate_id,
+        type_id,
+        group_id,
+        unit_id,
+        brand_id,
+
+        price,
+        is_new,
+        is_for_sale,
+        sale_percentage,
+        in_stock,
+
+        introducing,
+        description,
+        technical,
+
+        relatve_1,
+        relatve_2,
+        relatve_3,
+        relatve_4 
+    } = req.body;
+
+    const {
+        product_image,
+        technical_images, 
+    } = req.files ? req.files : {}
+
+    const dataValidate = functions.nullCheck(req.body, ["product_id", "product_name", "cate_id", "price", "is_new", "introducing", "description", "technical" ])
+
+    if( dataValidate ){
+
+        const existedProduct = await MySQL_QUERY(`SELECT COUNT(*) AS total FROM SANPHAM WHERE ma_san_pham = '${ product_id }'`)
+        
+        if( existedProduct[0].total == 0 ){
+            
+            if( product_image ){
+
+                const ext = product_image.name.split('.').pop()
+                const filename = `${product_id}-${functions.getFormatedUUID()}.${ext}`
     
-    res.send({ success: true })
+                const imagePath = `public/assets/products/${ filename }`
+                const savePath = `/assets/products/${ filename }`
+    
+                product_image.mv( imagePath )
+    
+                const insertQuery = `
+                    INSERT INTO SANPHAM(ma_san_pham, ten_san_pham, gioi_thieu, mo_ta, thong_so_ky_thuat, gia, dang_giam_gia,
+                        phan_tram_giam, san_pham_moi, anh_dai_dien,
+                        dong_san_pham, loai_san_pham, nhom_san_pham, don_vi_tinh, thuong_hieu, trang_thai
+                    )
+                    VALUES('${product_id}', '${ product_name }', '${ introducing }', '${ description }', '${ technical }', ${price}, ${ is_for_sale ? "True": "False" }, 
+                        ${ sale_percentage }, ${ is_new ? "True": "False" }, '${savePath}',
+                        '${cate_id}', '${ type_id }', '${group_id}', '${unit_id}', '${brand_id}', ${ in_stock ? "True": "False" }
+                    )
+                `;                
+                await MySQL_QUERY(insertQuery)
+
+                if( technical_images ){                  
+                    const queries = []
+                    for( let i = 0 ; i < technical_images.length; i++ ){
+                        const img = technical_images[i]
+                        const ext = img.name.split('.').pop()
+                        const img_id = functions.getFormatedUUID();
+
+                        const filename = `${img_id}.${ext}`
+            
+                        const imagePath = `public/assets/products/exts/${ filename }`
+                        const savePath = `/assets/products/exts/${ filename }`
+            
+                        img.mv( imagePath )
+                        const query = `
+                            ('${ product_id }','${ savePath }', '${ filename } - ${ product_id } - ${product_name}' )
+                        `
+                        queries.push( query )                        
+                    }
+
+                    const head = `INSERT INTO ANHBOSUNG(ma_san_pham, url, abs_ghi_chu) VALUES`
+                    const tail = queries.join(', ')
+                    const extendedImageQuery = head + tail;
+                    await MySQL_QUERY( extendedImageQuery )
+                }
+
+                const uniqueSet = new Set( [ relatve_1, relatve_2, relatve_3, relatve_4 ])
+                const relativeProducts = [...uniqueSet]
+                
+                const relQueries = []
+                for( let i = 0; i < relativeProducts.length; i++ ){
+                    const rel = relativeProducts[i]
+                    if( rel ){
+                        const query = `
+                            ( '${ product_id }', '${ rel }' )                            
+                        `;
+                        relQueries.push( query )
+                    }
+                }
+
+                const relQuery = `INSERT INTO SANPHAMLIENQUAN VALUES ${ relQueries.join(', ') }`;
+                MySQL_QUERY( relQuery )
+
+                res.redirect(`/admin/product/products/new`)    
+            }else{
+                res.redirect(`/admin/product/products/new?image=1`)    
+            }           
+        }else{
+            res.redirect(`/admin/product/products/new?existed=1`)
+        }    
+    }else{
+        res.send({ success: false })
+    }
 })
 
+
+
+
+router.post('/product/edit', async (req, res) => {
+    /**
+     * 
+     *  BODY: {
+     *  product_id: <String>,
+        product_name: <String>,
+        cate_id: <String>,
+        type_id: <String>,
+        group_id: <String>,
+        unit_id: <String>,
+        price: <Int>,
+        is_new: <Bool>,
+        is_for_sale: <Bool>,
+        sale_percentage: <Int>,
+        brand_id: <String>,
+        in_stock: <Bool>,
+        introducing: <String>,
+        description: <String>,
+        technical: <String>
+
+        relatve_1,
+        relatve_2,
+        relatve_3,
+        relatve_4,
+     * }
+
+        FiLES: {
+            product_image: <FILE>,
+            technical_images: <FILE>[]
+        }
+
+
+     * 
+
+
+        CHƯA TEST
+     */
+    
+    
+    
+    const { 
+        product_id,
+        product_name,
+        cate_id,
+        type_id,
+        group_id,
+        unit_id,
+        brand_id,
+
+        price,
+        is_new,
+        is_for_sale,
+        sale_percentage,
+        in_stock,
+
+        introducing,
+        description,
+        technical,
+
+        relatve_1,
+        relatve_2,
+        relatve_3,
+        relatve_4 
+    } = req.body;
+
+    const {
+        product_image,
+        technical_images, 
+    } =  req.files ? req.files : {}
+    
+
+
+    const dataValidate = functions.nullCheck(req.body, ["product_id", "product_name", "cate_id", "price", "is_new", "introducing", "description", "technical" ])
+    
+    if( dataValidate ){
+
+        const existedProduct = await MySQL_QUERY(`SELECT * FROM SANPHAM WHERE ma_san_pham = '${ product_id }'`)
+        
+        if( existedProduct.length > 0 ){
+            
+            if( product_image ){
+                console.log("START CHANGE IMAGE")
+                const ext = product_image.name.split('.').pop()
+                const filename = `${product_id}-${functions.getFormatedUUID()}.${ext}`
+    
+                const imagePath = `public/assets/products/${ filename }`
+                const savePath = `/assets/products/${ filename }`
+
+                await MySQL_QUERY(`
+                    UPDATE SANPHAM SET anh_dai_dien='${ savePath }' WHERE ma_san_pham = '${product_id}'
+                `)
+                product_image.mv(imagePath)
+
+                console.log("COMPLETED CHANGE IMAGE")
+                
+            }
+            
+            if(  technical_images ){
+                let Technical_images = technical_images
+                if( technical_images.length == undefined ){
+                    Technical_images = [technical_images]
+                }
+
+                await MySQL_QUERY(`DELETE FROM ANHBOSUNG WHERE ma_san_pham='${product_id}'`)
+
+                 const queries = []
+                    for( let i = 0 ; i < Technical_images.length; i++ ){
+                        const img = Technical_images[i]
+                        const ext = img.name.split('.').pop()
+                        const img_id = functions.getFormatedUUID();
+
+                        const filename = `${img_id}.${ext}`
+            
+                        const imagePath = `public/assets/products/exts/${ filename }`
+                        const savePath = `/assets/products/exts/${ filename }`
+            
+                        img.mv( imagePath )
+                        const query = `
+                            ('${ product_id }','${ savePath }', '${ filename } - ${ product_id } - ${product_name}' )
+                        `
+                        queries.push( query )
+                    }
+
+                    const head = `INSERT INTO ANHBOSUNG(ma_san_pham, url, abs_ghi_chu) VALUES`
+                    const tail = queries.join(', ')
+                    const extendedImageQuery = head + tail;
+                    await MySQL_QUERY( extendedImageQuery )
+            }
+
+
+    
+    
+                const updateQuery = `
+                    UPDATE SANPHAM SET
+                        ten_san_pham = '${ product_name }',
+                        dong_san_pham ='${ cate_id }',
+                        loai_san_pham = '${type_id}',
+                        nhom_san_pham = '${group_id}',
+                        don_vi_tinh = '${unit_id}',
+                        thuong_hieu = '${brand_id}',
+
+                        gia = ${price},
+                        san_pham_moi = ${is_new ? "True" : "False" },
+                        dang_giam_gia = ${is_for_sale ? "True" : "False" },
+                        phan_tram_giam = ${sale_percentage},
+                        trang_thai = ${in_stock ? "True": "False"},
+
+                        gioi_thieu = '${introducing}',
+                        mo_ta = '${description}',
+                        thong_so_ky_thuat = '${technical}'
+                    WHERE ma_san_pham = '${ product_id }'
+                `;        
+                
+                
+                await MySQL_QUERY( updateQuery )
+                await MySQL_QUERY(`DELETE FROM SANPHAMLIENQUAN WHERE san_pham_goc='${product_id}'`)       
+
+                const uniqueSet = new Set( [ relatve_1, relatve_2, relatve_3, relatve_4 ])
+                const relativeProducts = [...uniqueSet]
+                
+                const relQueries = []
+                for( let i = 0; i < relativeProducts.length; i++ ){
+                    const rel = relativeProducts[i]
+                    if( rel ){
+                        const query = `
+                            ( '${ product_id }', '${ rel }' )                            
+                        `;
+                        relQueries.push( query )
+                    }
+                }
+
+                const relQuery = `INSERT INTO SANPHAMLIENQUAN VALUES ${ relQueries.join(', ') }`;
+                MySQL_QUERY( relQuery )
+
+                res.redirect(`/admin/product/products/edit/${ product_id }?success=1`)    
+                  
+        }else{
+            res.redirect(`/admin/product/products/edit/${ product_id }`)
+        }    
+    }else{
+        res.send({ success: false })
+    }
+    
+})
+
+
+
+
+
+router.get('/products/edit/:product_id', async (req, res) => {
+
+    /**
+     * 
+     *  URL: "/admin/product/products/new"
+     *  
+     *  PARAMS: 
+     *      - product_id: <String>
+     * 
+     *  tham số khả dĩ
+     *      existed
+     */
+
+    const { product_id } = req.params;
+
+    const queries = {
+        brands: `
+            SELECT * FROM THUONGHIEU
+        `,
+        cates: `
+            SELECT * FROM DONGSANPHAM
+        `,
+        units: `
+            SELECT * FROM DONVITINH
+        `,
+        product: `SELECT * FROM SANPHAM WHERE ma_san_pham = '${ product_id }'`
+    };
+    
+
+    const [ brands, cates, units, product ] = await Promise.all([
+        MySQL_QUERY(queries.brands),
+        MySQL_QUERY(queries.cates),
+        MySQL_QUERY(queries.units),
+        MySQL_QUERY(queries.product)
+    ])
+
+    if( product && product.length > 0 ){
+        const extendedImagesQuery = `SELECT * FROM ANHBOSUNG WHERE ma_san_pham='${ product_id }'`
+        const relativeProductsQuery = `
+            SELECT san_pham_goc, ma_san_pham, anh_dai_dien
+                FROM SANPHAM AS S
+                    INNER JOIN SANPHAMLIENQUAN as L on S.ma_san_pham = L.san_pham_lien_quan
+            WHERE san_pham_goc = '${ product_id }';
+        `
+        const [ extendedImages, relativeProducts ] = await Promise.all([
+            MySQL_QUERY(extendedImagesQuery),
+            MySQL_QUERY(relativeProductsQuery)
+        ])
+
+        res.render('admin_product/admin_p_products_edit', {
+            layout: "admin",
+            title: `Thêm sản phẩm | ${COMPANY}`,
+            auth: req.session.auth,
+            product: product[0],
+            cates,
+            brands,
+            units,
+            extendedImages: extendedImages.length > 0 ? extendedImages : undefined,
+            relative_1: relativeProducts[0],
+            relative_2: relativeProducts[1],
+            relative_3: relativeProducts[2],
+            relative_4: relativeProducts[3],
+
+            ...req.query,
+        })
+
+    }else{
+        res.render('admin_404_not_found', {
+            layout: "admin",
+            title: `404 - Not found| ${ COMPANY }`,
+        });
+    }
+})
 
 // router.get('/initial-info', async (req, res) => {
 

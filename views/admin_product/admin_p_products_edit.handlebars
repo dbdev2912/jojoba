@@ -1,0 +1,249 @@
+{{>admin_header}}
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid product__add__form">
+
+               <div class="form__header__title">
+                  <p>Cập nhật sản phẩm</p>
+               </div>
+
+
+               <form class="generic__form" method="POST" action="/admin/product/product/edit" enctype="multipart/form-data">
+                  <div class="row ">
+
+                     <div class="col-6">
+                        <div class="form__side__part">
+
+                          <div class="form-group">
+                              <label for="madonvi_input">Mã sản phẩm</label>
+                              <div>
+                                 <span style="color: #111">{{ product.ma_san_pham }}</span>
+                              </div>
+                              <input class="d-none" name="product_id" type="text" class="form-control" id="madonvi_input" value="{{ product.ma_san_pham }}">
+                           </div>
+                           <div class="form-group">
+                              <label for="tendonvi_input">Tên sản phẩm</label>
+                              <input name="product_name" type="text" class="form-control" id="" value="{{ product.ten_san_pham }}" required>
+                           </div>
+
+
+                           <div class="form-group">
+                              <label for="dong_input">Thuộc dòng sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Dòng sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
+                              <select name="cate_id" class="form-select form-control auto__complete"  id="cates" required value="{{ product.dong_san_pham }}">
+                                 {{#each cates}}
+                                    <option value="{{ ma_dong }}">{{ ten_dong }}</option>                                                                        
+                                 {{/each}}
+                              </select>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="loai_input">Thuộc loại sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Loại sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
+                              <select name="type_id" class="form-select form-control auto__complete"  id="types" value="{{ product.loai_san_pham }}">
+                                 {{!-- <option value="" >{{ma_loai}} - {{ ten_loai }}</option> --}}
+                              </select>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="nhom_input">Thuộc nhóm sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Nhóm sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
+                              <select name="group_id" class="form-select form-control auto__complete"  id="groups" value="{{ product.nhom_san_pham }}">
+                                 {{!-- <option value="" >{{ma_loai}} - {{ ten_loai }}</option> --}}
+                              </select>
+                           </div>
+
+
+                           <div class="form-group">
+                              <label for="dong_input">Đơn vị tính</label>{{#if fkconflict }}<span class="form__error__text">Đơn vị tính không tồn tại hoặc đã bị xóa</span>{{/if }}
+                              <select name="unit_id" class="form-select form-control auto__complete"  id="units" required value="{{ product.don_vi_tinh }}">
+                                 {{#each units}}
+                                    <option value="{{ ma_don_vi }}" >{{ma_don_vi}} - {{ ten_don_vi }}</option>
+                                 {{/each}}
+                              </select>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="tendonvi_input">Giá</label>
+                              <input name="price" type="number" class="form-control auto__complete" id="" required value="{{ product.gia }}">
+                           </div>
+
+                           <div class="form-group">
+                              <label for="dong_input">Sản phẩm mới</label>
+                              <select name="is_new" class="form-select form-control auto__complete"  id="" required>
+
+                                 {{#if (eq product.san_pham_moi true) }}
+                                    <option value="false">Không</option>
+                                    <option value="true" selected="true">Mới</option>
+                                 {{else}}
+                                    <option value="false" selected="true">Không</option>
+                                    <option value="true">Mới</option>
+                                 {{/if}}
+                              </select>
+                           </div>
+
+                           <div class="form-group row">
+                              <div class="col-6">
+                                 <label for="nhom_input">Giảm giá</label>
+                                 <select name="is_for_sale" class="form-select form-control"  id="">
+                                    {{#if (eq product.dang_giam_gia true) }}
+                                       <option value="false">Không</option>
+                                       <option value="true" selected="true">Giảm giá</option>
+                                    {{else}}
+                                       <option value="false" selected="true">Không</option>
+                                       <option value="true" >Giảm giá</option>
+                                    {{/if}}
+                                 </select>
+                              </div>
+                              <div class="col-6">
+                                 <label for="tendonvi_input">%</label>
+                                 <input name="sale_percentage" type="number" class="form-control " id="" value="{{ product.phan_tram_giam }}" required>
+                              </div>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="dong_input">Thương hiệu</label>{{#if fkconflict }}<span class="form__error__text">Thương hiệu không tồn tại hoặc đã bị xóa</span>{{/if }}
+                              <select name="brand_id" class="form-select form-control"  id="" required value="{{ product.thuong_hieu }}">
+                                 {{#each brands}}
+                                    <option value="{{ ma_thuong_hieu }}" >{{ma_thuong_hieu}} - {{ ten_thuong_hieu }}</option>
+                                 {{/each}}
+                              </select>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="dong_input">Trạng thái</label>
+                              <select name="in_stock" class="form-select form-control"  id="" required>
+                                 {{#if (eq product.trang_thai true) }}
+                                    <option value="true" selected="true">Còn hàng</option>
+                                    <option value="false">Hết hàng</option>
+                                 {{else}}
+                                    <option value="true">Còn hàng</option>
+                                    <option value="false" selected="true">Hết hàng</option>
+                                 {{/if}}
+                              </select>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="ghichu_input">Giới thiệu</label>
+                              <textarea name="introducing" style="height: 200px" class="form-control" id="">{{ product.gioi_thieu }}</textarea>
+                           </div>
+
+                            <div class="form-group">
+                              <label for="mota_input">Mô tả</label>
+                              <textarea name="description" style="height: 200px" class="form-control" id="">{{ product.mo_ta }}</textarea>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="mota_input">Thông số kĩ thuật</label>
+                              <textarea name="technical" style="height: 200px" class="form-control" id="">{{ product.thong_so_ky_thuat }}</textarea>
+                           </div>
+                        </div>
+
+
+                     </div>
+
+                     <div class="col-6">
+
+                        <div class="form-group brand-preview">
+                           <label for="">Hình ảnh</label>{{#if image }}<span class="form__error__text">Ảnh sản phẩm không được để trống</span>{{/if }}
+                           <div class="preview-box">
+                              <img id="preview-img" class="preview-img" src="{{ product.anh_dai_dien }}" alt="">
+                              <div id="preview-btn" style="display: none" class="brand-img-btn">Chọn file</div>
+                              <input name="product_image" id="preview-file-input" type="file" class="d-none" accept="image/*">
+                           </div>
+                        </div>
+
+                        <div class="form-group technical-preview">
+                           <label for="">Hình ảnh khác</label>
+                           <div class="preview-box preview-tech-image">
+                              <div class="row preview-tech-img" {{#if extendedImages  }} style="display: flex" {{else}} style="display: none" {{/if}} id="tech-images">                                 
+                                 {{#each extendedImages }}
+                                 <div class="tech-img">
+                                    <img class="preview-img" src="{{ url }}" alt="">
+                                 </div>
+                                 {{/each}}
+                                 
+                              </div>
+                             
+                              <div id="tech-preview-btn"  {{#if extendedImages  }} style="display: none" {{else}} style="display: block" {{/if}} class="brand-img-btn">Chọn file</div>
+                            
+                              <input name="technical_images" id="preview-tech-file-input" type="file" class="d-none" accept="image/*" multiple>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label for="relatives">Sản phẩm liên quan</label>
+                           <div class="row">
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_1"  data-toggle="modal" data-target="#myModal">
+                                    {{#if relative_1 }}
+                                       <img src={{  relative_1.anh_dai_dien }} alt="">
+                                       <input class="hidden" type="text" value="{{  relative_1.ma_san_pham}}" id="relatve_1" name="relatve_1">
+                                    {{else}}
+                                       <img src="/assets/products/default.png" alt="">
+                                       <input class="hidden" type="text" id="relatve_1" name="relatve_1">
+                                    {{/if}}
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_2" data-toggle="modal" data-target="#myModal">
+                                    {{#if relative_2 }}
+                                       <img src={{  relative_2.anh_dai_dien }} alt="">
+                                       <input class="hidden" type="text" value="{{  relative_2.ma_san_pham}}" id="relatve_2" name="relatve_2">
+                                    {{else}}
+                                       <img src="/assets/products/default.png" alt="">
+                                       <input class="hidden" type="text" id="relatve_2" name="relatve_2">
+                                    {{/if}}
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_3" data-toggle="modal" data-target="#myModal">
+                                    {{#if relative_3 }}
+                                       <img src={{  relative_3.anh_dai_dien }} alt="">
+                                       <input class="hidden" type="text" value="{{  relative_3.ma_san_pham}}" id="relatve_3" name="relatve_3">
+                                    {{else}}
+                                       <img src="/assets/products/default.png" alt="">
+                                       <input class="hidden" type="text" id="relatve_3" name="relatve_3">
+                                    {{/if}}
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_4" data-toggle="modal" data-target="#myModal">
+                                    {{#if relative_4 }}
+                                       <img src={{  relative_4.anh_dai_dien }} alt="">
+                                       <input class="hidden" type="text" value="{{  relative_4.ma_san_pham}}" id="relatve_4" name="relatve_4">
+                                    {{else}}
+                                       <img src="/assets/products/default.png" alt="">
+                                       <input class="hidden" type="text" id="relatve_4" name="relatve_4">
+                                    {{/if}}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+
+
+                  </div>
+                  <button type="submit" class="btn btn-primary">Cập nhật</button>
+               </form>
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<script src="/admin/js/admin.product.js"></script>
+
+
+{{>select_relative }}
+
+<script src="/admin/js/admin-update.product.js"></script>
+
+{{>admin_success}}
+
+{{>admin_footer}}

@@ -19,3 +19,47 @@
 .link__not__drop:hover{
     color: #111111;
 }
+
+.product__image img{
+    max-width: 200px;
+    display: block;
+    margin: auto;
+}
+
+.product__item__pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: unset;
+    min-height: 360px;
+}
+
+.trend__item__pic{
+    height: 120px;
+    width: 90px;
+    overflow: hidden;
+}
+
+.trend__item__pic .trend__item__image{
+    width: 90px;
+}
+
+.owl-carousel .owl-item img{
+    width: auto;
+    min-width: 150px;
+
+}
+
+.tech__img{
+    height: 224px;
+    overflow: hidden;
+    margin: 12px;
+    border: 1px solid #ccc;
+    padding: 12px;
+}
+
+.tech__img img{
+    display: block;
+    height: 200px;
+    margin: auto;
+}

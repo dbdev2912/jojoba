@@ -31,22 +31,22 @@
                               <label for="dong_input">Thuộc dòng sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Dòng sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
                               <select name="cate_id" class="form-select form-control"  id="cates" required>
                                  {{#each cates}}
-                                    <option value="{{ ma_dong }}" >{{ma_dong}} - {{ ten_dong }}</option>
+                                    <option value="{{ ma_dong }}" >{{ ten_dong }}</option>
                                  {{/each}}
                               </select>
                            </div>
 
                            <div class="form-group">
                               <label for="loai_input">Thuộc loại sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Loại sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
-                              <select name="type_id" class="form-select form-control"  id="types" required>
-                                 {{!-- <option value="" >{{ma_loai}} - {{ ten_loai }}</option> --}}
+                              <select name="type_id" class="form-select form-control"  id="types">
+                                 {{!-- <option value="" >{{ ten_loai }}</option> --}}
                               </select>
                            </div>
 
                            <div class="form-group">
                               <label for="nhom_input">Thuộc nhóm sản phẩm</label>{{#if fkconflict }}<span class="form__error__text">Nhóm sản phẩm không tồn tại hoặc đã bị xóa.</span>{{/if }}
-                              <select name="group_id" class="form-select form-control"  id="groups" required>
-                                 {{!-- <option value="" >{{ma_loai}} - {{ ten_loai }}</option> --}}
+                              <select name="group_id" class="form-select form-control"  id="groups">
+                                 {{!-- <option value="" >{{ ten_loai }}</option> --}}
                               </select>
                            </div>
 
@@ -55,7 +55,7 @@
                               <label for="dong_input">Đơn vị tính</label>{{#if fkconflict }}<span class="form__error__text">Đơn vị tính không tồn tại hoặc đã bị xóa</span>{{/if }}
                               <select name="unit_id" class="form-select form-control"  id="" required>
                                  {{#each units}}
-                                    <option value="{{ ma_don_vi }}" >{{ma_don_vi}} - {{ ten_don_vi }}</option>
+                                    <option value="{{ ma_don_vi }}" >{{ ten_don_vi }}</option>
                                  {{/each}}
                               </select>
                            </div>
@@ -91,7 +91,7 @@
                               <label for="dong_input">Thương hiệu</label>{{#if fkconflict }}<span class="form__error__text">Thương hiệu không tồn tại hoặc đã bị xóa</span>{{/if }}
                               <select name="brand_id" class="form-select form-control"  id="" required>
                                  {{#each brands}}
-                                    <option value="{{ ma_thuong_hieu }}" >{{ma_thuong_hieu}} - {{ ten_thuong_hieu }}</option>
+                                    <option value="{{ ma_thuong_hieu }}" >{{ ten_thuong_hieu }}</option>
                                  {{/each}}
                               </select>
                            </div>
@@ -126,7 +126,7 @@
                      <div class="col-6">
 
                         <div class="form-group brand-preview">
-                           <label for="">Hình ảnh</label>
+                           <label for="">Hình ảnh</label>{{#if image }}<span class="form__error__text">Ảnh sản phẩm không được để trống</span>{{/if }}
                            <div class="preview-box">
                               <img id="preview-img" style="display: none" class="preview-img" src="/assets/brands/jojoba.png" alt="">
                               <div id="preview-btn" class="brand-img-btn">Chọn file</div>
@@ -148,6 +148,35 @@
                               <input name="technical_images" id="preview-tech-file-input" type="file" class="d-none" accept="image/*" multiple>
                            </div>
                         </div>
+                        <div class="form-group">
+                           <label for="relatives">Sản phẩm liên quan</label>
+                           <div class="row">
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_1"  data-toggle="modal" data-target="#myModal">
+                                    <img src="/assets/products/default.png" alt="">
+                                    <input class="hidden" type="text" id="relatve_1" name="relatve_1">
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_2" data-toggle="modal" data-target="#myModal">
+                                    <img src="/assets/products/default.png" alt="">
+                                    <input class="hidden" type="text" id="relatve_2" name="relatve_2">
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_3" data-toggle="modal" data-target="#myModal">
+                                    <img src="/assets/products/default.png" alt="">
+                                    <input class="hidden" type="text" id="relatve_3" name="relatve_3">
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="relative__product" target="#relatve_4" data-toggle="modal" data-target="#myModal">
+                                    <img src="/assets/products/default.png" alt="">
+                                    <input class="hidden" type="text" id="relatve_4" name="relatve_4">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
 
                      </div>
 
@@ -167,6 +196,8 @@
 </div>
 
 <script src="/admin/js/admin.product.js"></script>
+
+{{>select_relative }}
 
 {{>admin_success}}
 
