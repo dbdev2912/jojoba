@@ -20,7 +20,7 @@
                 style="background-image: url(&quot;img/categories/category-2.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Thiết bị phòng tắm</h4>
-                  <p>358 items</p><a href="/products/cate/thiet-bi-phong-tam">Shop now</a>
+                  <p>{{ cateCounts.tbpt }} sản phẩm</p><a href="/products/cate/thiet-bi-phong-tam">Mua sắm ngay</a>
                 </div>
               </div>
             </div>
@@ -29,7 +29,7 @@
                 style="background-image: url(&quot;img/categories/category-3.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Thiết bị phòng bếp</h4>
-                  <p>273 items</p><a href="/products/cate/thiet-bi-nha-bep">Shop now</a>
+                  <p>{{ cateCounts.tbnb }} sản phẩm</p><a href="/products/cate/thiet-bi-nha-bep">Mua sắm ngay</a>
                 </div>
               </div>
             </div>
@@ -38,7 +38,7 @@
                 style="background-image: url(&quot;img/categories/category-4.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Phụ tùng - Phụ kiện</h4>
-                  <p>159 items</p><a href="/products/cate/phu-tung-phu-kien">Shop now</a>
+                  <p>{{ cateCounts.ptpk }} sản phẩm</p><a href="/products/cate/phu-tung-phu-kien">Mua sắm ngay</a>
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
                 style="background-image: url(&quot;img/categories/category-5.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Các sản phẩm khác</h4>
-                  <p>792 items</p><a href="/products/cate/thiet-bi-khac">Shop now</a>
+                  <p>{{ cateCounts.tbk }} sản phẩm</p><a href="/products/cate/thiet-bi-khac">Mua sắm ngay</a>
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
       <div class="row">
         <div class="col-lg-4 col-md-4">
           <div class="section-title">
-            <h4>sản phẩm mới</h4>
+            <p class="section__title__content">sản phẩm mới</h4>
           </div>
         </div>
         <div class="col-lg-8 col-md-8">
@@ -142,7 +142,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6">
           <div class="trend__content">
             <div class="section-title">
-              <h4>{{ title }}</h4>
+              <p class="section__title__content">{{ title }}</p>
             </div>
             {{#each items }}
             <a href="/products/p/{{ product_id }}">

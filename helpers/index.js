@@ -1,6 +1,6 @@
 const { 
     product, product_md4 , product_record, 
-    adminProduct_tableRecord, adminProduct_categoryRecord, adminProduct_typeRecord, adminProduct_groupRecord, adminProduct_unitRecord 
+    adminProduct_tableRecord, adminProduct_categoryRecord, adminProduct_typeRecord, adminProduct_groupRecord, adminProduct_unitRecord, adminProduct_statusRecord
 } = require('./product');
 
 const { order_record } = require('./orders')
@@ -21,6 +21,7 @@ module.exports = {
     adminProduct_typeRecord,
     adminProduct_groupRecord,
     adminProduct_unitRecord,
+    adminProduct_statusRecord,
     paginate,
     paragraph
 }

@@ -15,6 +15,20 @@ const defaultAccount = {
     password: "1"
 }
 
+const descriptions = [
+    "Cửa hàng Xuân Dũng",
+    "Bàn cầu Cần Thơ", "đồ inox giá tốt",
+    "Bàn cầu JOJOBA", "Bàn cầu nhập khẩu", "Bàn cầu sứ cao cấp", "Bàn cầu Đài Loan", 
+    "Thiết bị nhà vệ sinh", "Thiết bị nhà tắm", "máy nước nóng",
+    "Toilet", "Porcelain toilet",
+    "Dũng vòi", "Dũng inox"
+]
+
+const keywords = [
+    "Cần Thơ", "Xuân Dũng rosta",
+    "JOJOBA", "Rosta", "Caesar", "Greenlife"   
+]
+
 module.exports = {
     TAX,
     PASSWORD_MIN_LENGTH,
@@ -24,5 +38,8 @@ module.exports = {
     RECORDS_PER_PAGE,
 
     ROLES: roles,
-    ADMIN: defaultAccount
+    ADMIN: defaultAccount,
+    DESCRIPTIONS: descriptions,
+    KEYWORDS: keywords,
+    
 }

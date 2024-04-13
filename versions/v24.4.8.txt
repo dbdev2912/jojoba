@@ -1,0 +1,114 @@
+Tính năng hoàn thành
+- Khách:
+	+ UI trang chủ
+		1. Banner danh mục sản phẩm
+			a. Hoàn thành:
+				- Hình ảnh
+				- Văn bản mô tả
+			b. Chưa hoàn thành
+				+ Số liệu tổng trên từng danh mục
+				+ Dịch "Shop now" => "Mua ngay"
+		
+		2. Danh mục sản phẩm mới
+			a. Hoàn thành:
+				- UI list 8 sản phẩm
+				- UI các tab theo loại sản phẩm
+			b. Chưa hoàn thành
+				- Dữ liệu lấy theo dạng từ trên xuống chưa đúng với điều kiện product.san_pham_moi = True
+				- Tab "Tất cả" hiện đang dùng chung data với tab "Bàn cầu"
+				- UI của từng sản phẩm còn đơn điệu
+
+		3. Danh mục sản phẩm trending
+			a. Hoàn thành
+				- UI các danh mục và sản phẩm tương ứng
+			b. Chưa hoàn thành:
+				- Tính năng cài đặt phần này cho Admin
+				- Ảnh sản phẩm có thể bị vỡ
+
+
+		4. Banner khuyến mãi
+			a. Hoàn thành:
+				- UI cơ sở
+				- Tính năng đếm ngược
+			b. Chưa hoàn thành
+				- Thời gian đếm ngược đang được set cứng
+				- Dịch "Shop now" => "Mua ngay"
+		5. Ưu đãi - Done
+
+
+		
+	+ UI liên hệ 
+		1. Thông tin liên hệ
+			a. Hoàn thành:
+				- UI hiển thị thông tin
+				- Email cskh đã có thể sử dụng				
+			b. Chưa hoàn thành
+				- Số đường dây nóng chưa có		
+		
+		2. Biểu mẫu liên hệ
+			a. Hoàn thành:
+				- UI biểu mẫu
+			b. Chưa hoàn thành:
+				- Biểu mẫu liên hệ chưa có API xử lý
+
+		3. Mini map hiển thị địa chỉ thực trên bản đồ thế giới
+			a. Hoàn thành:
+				- UI biểu đồ
+			b. Chưa hoàn thành:
+				- Định vị chính xác vị trí của cty
+
+
+	+ UI Sản phẩm
+		1. Bộ lọc và chỉ mục
+			a. Hoàn thành:
+				- Chỉ mục dòng sản phẩm và loại sản phẩm tương ứng
+			b. Chưa hoàn thành:
+				- Chỉ mục sắp xếp ngẫu nhiên
+				- Lọc theo giá 
+
+		2. Danh mục sản phẩm:
+			a. Hoàn thành:
+				- Danh sách sản phẩm theo phân trang 12 sản phẩm mỗi trang
+			b. Chưa hoàn thành 
+				- UI của từng sản phẩm còn đơn điệu
+
+
+	+ UI chi tiết sản phẩm:
+		1. Thông tin
+			a. Hoàn thành:
+				- Thông tin cơ bản gồm tên, thương hiệu, giá ( & giảm giá ), mô tả
+				- UI tính năng thêm vào giỏ hàng
+				- UI sản phẩm liên quan
+			b. Chưa hoàn thành:
+				- Logic cho tính năng thêm giỏ hàng
+
+
+
+
+- Người dùng:
+	+ Tính năng đăng nhập, đăng xuất ( Done ).
+	+ Tính năng mua hàng: Xong UI cơ bản
+		1. Giỏ hàng
+		2. Thanh toán
+		3. Lịch sử mua sắm
+
+
+- Admin:
+	+ Sản phẩm
+		1. Trang danh sách tổng
+			a. Hoàn thành:
+				- Danh mục sản phẩm dạng bảng
+				- Phân trang
+			b. Chưa hoàn thành
+				- Danh mục sản phẩm dạng thẻ
+		2. Thêm & Cập nhật sản phẩm 
+			a. Hoàn thành
+				- Logic thêm sửa 
+			b. Nâng cấp:
+				- UI chọn sản phẩm liên quan bị vỡ do kích cở màng hình
+			
+		3. 
+		
+		
+			
+					

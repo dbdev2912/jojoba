@@ -1,5 +1,6 @@
 $(() => {
     const proxy = "http://localhost:5000"
+    // const proxy = "http://xuandung.com.vn"
 
     $('.category__delete__icon i').click((e) => {
         const $target = $(e.target).closest('.category__delete__icon')
@@ -224,5 +225,65 @@ $(() => {
     }) 
 
 
+    $('.status__delete__icon i').click(e => {
 
+
+        const $target = $(e.target).closest('.status__delete__icon')
+        const status_id = $target.attr('data')
+
+        Swal.fire({
+            title: 'Cảnh báo',
+            text: `Xóa trạng thái ${ status_id } ?` ,
+            icon: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Có',
+      
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Không',
+         }).then(( confirm ) => {
+            if( confirm.isConfirmed ){
+                /**
+                 * 
+                 * SEND REQUEST HERE
+                 * 
+                 */
+
+                console.log(status_id)
+
+                fetch(`${proxy}/admin/status`, {
+                    method: "delete",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify({ status_id })
+                }).then(res => res.json()).then( res => {
+                    const { success, content } = res;
+                    if( success ){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Xóa thành công',                                                
+                        }).then(() => {
+                            setTimeout(() => {
+                                
+                                window.location.reload()
+                            }, 1000)
+                        });                       
+
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: content,                            
+                        });
+                    }
+               }) 
+
+            }else{
+                
+            }
+         })
+
+    }) 
 })

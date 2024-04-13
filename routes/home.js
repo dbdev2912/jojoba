@@ -5,7 +5,7 @@ const lang = require('../configs/lang')
 const functions = require('../configs/functions');
 const MySQL_QUERY = require('../db/connector');
 
-const { COMPANY } = require('../configs/enum')
+const { COMPANY, DESCRIPTIONS, KEYWORDS } = require('../configs/enum')
 
 // Routing 
 router.get('/', async (req, res) => {
@@ -29,9 +29,10 @@ router.get('/', async (req, res) => {
             gia AS price,
             dang_giam_gia AS is_sale,
             san_pham_moi AS is_new,
-            IF( dang_giam_gia = 1, gia * phan_tram_giam / 100, 0) AS sale_price,
+            IF( dang_giam_gia = 1, gia - (gia * phan_tram_giam / 100), 0) AS sale_price,
             anh_dai_dien AS image,
-            5 AS stars
+            5 AS stars,
+            (SELECT ten_thuong_hieu FROM THUONGHIEU where ma_thuong_hieu = thuong_hieu) as brand_name
         FROM SANPHAM 
         WHERE loai_san_pham = 'ban-cau'
         LIMIT 8
@@ -55,10 +56,11 @@ router.get('/', async (req, res) => {
                 gia AS price,
                 dang_giam_gia AS is_sale,
                 san_pham_moi AS is_new,
-                IF( dang_giam_gia = 1, gia * phan_tram_giam / 100, 0) AS sale_price,
+                IF( dang_giam_gia = 1, gia - (gia * phan_tram_giam / 100), 0) AS sale_price,
                 anh_dai_dien AS image,
                 5 AS stars,
-                loai_san_pham
+                loai_san_pham,
+                (SELECT ten_thuong_hieu FROM THUONGHIEU where ma_thuong_hieu = thuong_hieu) as brand_name
             FROM SANPHAM 
             WHERE loai_san_pham = '${ name }'
             LIMIT 8
@@ -101,6 +103,10 @@ router.get('/', async (req, res) => {
         },
     ]
 
+
+    
+
+
     const trendingProducts_id = []
     for( let i = 0 ; i < trendingItems.length; i++ ){
         trendingProducts_id.push( ...trendingItems[i].ids )        
@@ -112,7 +118,8 @@ router.get('/', async (req, res) => {
             ten_san_pham AS product_name,
             anh_dai_dien AS image,
             gia AS price,
-            5 AS stars
+            5 AS stars,
+            (SELECT ten_thuong_hieu FROM THUONGHIEU where ma_thuong_hieu = thuong_hieu) as brand_name
         FROM SANPHAM 
         WHERE ma_san_pham IN (${ trendingProducts_id.map(id => `'${ id }'`).join(',') })
     `)
@@ -139,15 +146,39 @@ router.get('/', async (req, res) => {
 
     const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
 
+    const cateCounts = await MySQL_QUERY(`
+        SELECT 
+            ( SELECT COUNT(*) FROM SANPHAM WHERE dong_san_pham = 'thiet-bi-phong-tam') AS tbpt,
+            ( SELECT COUNT(*) FROM SANPHAM WHERE dong_san_pham = 'thiet-bi-nha-bep') AS tbnb,
+            ( SELECT COUNT(*) FROM SANPHAM WHERE dong_san_pham = 'phu-tung-phu-kien') AS ptpk,
+            ( SELECT COUNT(*) FROM SANPHAM WHERE dong_san_pham = 'thiet-bi-khac') AS tbk
+    `)
+
+
+    const descriptions = [
+        ...DESCRIPTIONS,
+        "bàn cầu khuyến mãi",
+    ]
+
+    const keywords = [
+        ...KEYWORDS,
+        "bàn cầu", "lavabo", "bồn tắm", "sen tắm", "gương soi"
+    ]
+
     res.render('index', {
         title: COMPANY,
         auth: req.session.auth,
         active_position: 0, 
+        DESCRIPTION: descriptions.join(','),
+        KEYWORDS: keywords.join(','),
 
         cates,
         products: newProducts,
         hotProductOptions,
-        trending: trendingItems
+        trending: trendingItems,
+        cateCounts: cateCounts[0],
+
+        
     });
 });
 

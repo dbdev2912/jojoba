@@ -105,7 +105,11 @@
                               <label for="dong_input">Thương hiệu</label>{{#if fkconflict }}<span class="form__error__text">Thương hiệu không tồn tại hoặc đã bị xóa</span>{{/if }}
                               <select name="brand_id" class="form-select form-control"  id="" required value="{{ product.thuong_hieu }}">
                                  {{#each brands}}
-                                    <option value="{{ ma_thuong_hieu }}" >{{ma_thuong_hieu}} - {{ ten_thuong_hieu }}</option>
+                                    {{#if (eq ma_thuong_hieu ../product.thuong_hieu)}}
+                                       <option value="{{ ma_thuong_hieu }}" selected="true" >{{ ten_thuong_hieu }}</option>
+                                    {{else}}
+                                       <option value="{{ ma_thuong_hieu }}"  >{{ ten_thuong_hieu }}</option>
+                                    {{/if}}
                                  {{/each}}
                               </select>
                            </div>

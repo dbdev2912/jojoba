@@ -11,6 +11,7 @@ const product = (product, options) => {
     product_name,
     price,
     sale_price,
+    brand_name,
   } = product;
 
   return (
@@ -20,7 +21,7 @@ const product = (product, options) => {
           <div class="product__item__pic">
             <a href="/products/p/${ product_id }">
               <div class="product__image">
-                <img src="${image}" alt="product_name"/>
+                <img src="${image}" alt="${ brand_name ? brand_name: "" } - ${product_name}"/>
               </div>
             </a>
                 ${is_sale ? `<div class="label">sale</div> ` : ""}
@@ -33,8 +34,8 @@ const product = (product, options) => {
               
             <ul class="product__hover">
               <li><a href="${image}" class="image-popup"><span class="arrow_expand"></span></a></li>
-              <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-              <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+              <li><a><span class="icon_heart_alt"></span></a></li>
+              <li><a><span class="icon_bag_alt cart__add" data="${product_id }"></span></a></li>
             </ul>
           </div>
           <div class="product__item__text">
@@ -67,6 +68,7 @@ const product_md4 = (product, options) => {
     product_name,
     price,
     sale_price,
+    brand_name
   } = product;
 
   return (
@@ -76,7 +78,7 @@ const product_md4 = (product, options) => {
           <div class="product__item__pic">
             <a href="/products/p/${ product_id }">
               <div class="product__image">
-                <img src="${image}" alt="product_name"/>
+                <img src="${image}" alt="${ brand_name ? brand_name: "" } - ${product_name}"/>
               </div>
             </a>
                 ${is_sale ? `<div class="label">sale</div> ` : ""}
@@ -89,8 +91,8 @@ const product_md4 = (product, options) => {
               
             <ul class="product__hover">
               <li><a href="${image}" class="image-popup"><span class="arrow_expand"></span></a></li>
-              <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-              <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+              <li><a><span class="icon_heart_alt"></span></a></li>
+              <li><a><span class="icon_bag_alt cart__add" data="${product_id }"></span></a></li>
             </ul>
           </div>
           <div class="product__item__text">
@@ -113,7 +115,7 @@ const product_md4 = (product, options) => {
 const product_record = (product, options) => {
   return (`<tr>
     <td class="cart__product__item">
-        <img src="${product.image}" alt="" />
+        <img src="${product.image}" alt="${product.brand_name} - ${ product.product_name }" />
         <div class="cart__product__item__title">
             <h6>${product.product_name}</h6>
             <div class="rating">
@@ -125,14 +127,18 @@ const product_record = (product, options) => {
             </div>
         </div>
     </td>
-    <td class="cart__price">${functions.renderPrice(product.price)}</td>
+    ${ product.is_for_sale ? 
+      `<td class="cart__price">${functions.renderPrice(product.price)} <i class="sale__off">-${ product.sale_off }%</i></td>`
+      :
+      `<td class="cart__price">${functions.renderPrice(product.price)}</td>`
+    }
     <td class="cart__quantity">
-        <div class="pro-qty">
-            <input type="text" value=${product.quantity} />
+        <div class="pro-qty" data="${ product.product_id }">
+            <input class="product__quantity" price="${ product.price }" type="text" value=${product.quantity} />
         </div>
     </td>
     <td class="cart__total">${product.quantity * product.price}</td>
-    <td class="cart__close"><span class="icon_close"></span></td>
+    <td class="cart__close"><span class="icon_close cart__remove" data="${ product.product_id }"></span></td>
 </tr>`
   )
 }
@@ -244,6 +250,25 @@ const adminProduct_unitRecord = (category) => {
 `
 }
 
+const adminProduct_statusRecord = (category) => {
+  const { index, status_id, status_name, note, is_default } = category;
+  return `
+  <tr>
+    <td>${index}</td>
+    <td>${status_id}</td>
+    <td>${status_name}</td>    
+    <td>${note}</td>
+    <td>${ is_default ? "Mặc định": "" }</td>
+    <td>
+          <div class="d-flex">
+              <a href="/admin/status/edit/${ status_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
+              <a class="table__icon table__delete__icon status__delete__icon" data="${ status_id }"><i class="fa fa-trash"></i></a>
+          </div>
+      </td>
+  </tr>
+`
+}
+
 
 module.exports = {
   product,
@@ -253,6 +278,7 @@ module.exports = {
   adminProduct_categoryRecord,
   adminProduct_typeRecord,
   adminProduct_groupRecord,
-  adminProduct_unitRecord 
+  adminProduct_unitRecord,
+  adminProduct_statusRecord
 
 }

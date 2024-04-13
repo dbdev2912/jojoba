@@ -12,23 +12,23 @@
                     here to enter your code.</h6> --}}
             </div>
         </div>
-        <form action="#" class="checkout__form">
+        <form action="/u/checkout" class="checkout__form" method="POST">
             <div class="row">
                 <div class="col-lg-8">
                     <h5>CHI TIẾT ĐƠN HÀNG</h5>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-12">
                             <div class="checkout__form__input">
-                                <p>Họ & chữ lót <span>*</span></p>
-                                <input type="text">
+                                <p>Họ tên <span>*</span></p>
+                                <input name="fullname" type="text">
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Tên <span>*</span></p>
                                 <input type="text">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-lg-12">
                             {{!-- <div class="checkout__form__input">
                                 <p>Quốc gia <span>*</span></p>
@@ -37,61 +37,67 @@
 
                             <div class="checkout__form__input">
                                 <p>Tỉnh / Thành phố <span>*</span></p>
-                                <input type="text">
+                                <select id="provices" class="form-select form-control form__control__select"
+                                    name="province" id="">
+
+                                </select>
                             </div>
                             <div class="checkout__form__input">
                                 <p>Quận / Huyện <span>*</span></p>
-                                <input type="text">
+                                <select id="districts" class="form-select form-control form__control__select"
+                                    name="district" id="">
+
+                                </select>
                             </div>
 
                             <div class="checkout__form__input">
                                 <p>Xã / Phường / Thị Trấn <span>*</span></p>
-                                <input type="text">
+                                <select id="wards" class="form-select form-control form__control__select" name="ward"
+                                    id="">
+
+                                </select>
                             </div>
                             <div class="checkout__form__input">
                                 <p>Địa chỉ <span>*</span></p>
-                                <input type="text" placeholder="Đường & Số nhà">
+                                <input type="text" name="address" placeholder="Đường & Số nhà">
                             </div>
 
+                            <div class="checkout__form__input">
+                                <p>Ghi chú</p>
+                                <input type="text" placeholder="VD: Hàng dễ vỡ, lối đi phù hợp, ... ">
+                            </div>
                         </div>
+
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Di động <span>*</span></p>
-                                <input type="text">
+                                <input name="phone" type="text">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Email <span>*</span></p>
-                                <input type="text">
+                                <input name="email" type="text">
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__checkbox">
                                 <label for="acc">
                                     Tạo tài khoản ?
-                                    <input type="checkbox" id="acc">
+                                    <input type="checkbox" id="acc" name="create_account">
                                     <span class="checkmark"></span>
                                 </label>
                                 <p>Tạo một tài khoản bằng cách nhập thông tin dưới đây. Nếu bạn là khách hàng cũ,
-                                    <br />hãy đăng nhập ở đầu trang. Username của bạn cũng chính là <b>Email bạn đã nhập
-                                        ở trên</b> !!</p>
+                                    <br />hãy đăng nhập ở đầu trang. Username của bạn cũng chính là <b>Email bạn đã nhập ở trên</b> !!
+                                    <br /> Bằng việc tạo tài khoản, bạn có thể theo dõi đơn hàng của mình bất cứ khi nào mong muốn.
+                                </p>
                             </div>
                             <div class="checkout__form__input">
                                 <p>Mật khẩu<span>*</span></p>
-                                <input type="text">
+                                <input type="password" name="password">
                             </div>
-                            <div class="checkout__form__checkbox">
-                                <label for="note">
-                                    Ghi chú đặc biệt cho đơn hàng và/hoặc người giao hàng
-                                    <input type="checkbox" id="note">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__form__input">
-                                <p>Ghi chú <span>*</span></p>
-                                <input type="text" placeholder="VD: Hàng dễ vỡ, lối đi phù hợp, ... ">
-                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -141,5 +147,5 @@
         </form>
     </div>
 </section>
-
+<script src="/js/provinces.js"></script>
 {{> footer }}

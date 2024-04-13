@@ -9,7 +9,53 @@ Created: Colorib
 
 'use strict';
 
+
+const formatComnaSeperatedNumber = (number) => {
+    /**
+     * @type: function
+     * 
+     * @libr: uuid 
+     * 
+     * @desc: translate 1000 to 1,000
+     * 
+     */
+
+
+    let numString = number.toString();
+    let formattedNumber = '';
+    let count = 0;
+
+    for (let i = numString.length - 1; i >= 0; i--) {
+        count++;
+        formattedNumber = numString[i] + formattedNumber;
+        if (count % 3 === 0 && i !== 0) {
+            formattedNumber = ',' + formattedNumber;
+        }
+    }
+
+    return formattedNumber;
+}
+
+
+const reCalculateTotal = () => {
+    const $quantities = $('.shop__cart__table .product__quantity')
+    let total = 0
+    for (let i = 0; i < $quantities.length; i++) {
+        const $item = $($quantities[i])
+
+        const quan = $item.val()
+        const price = parseInt($item.attr("price"))
+
+        total += quan * price
+    }
+
+    $('#cart__total text').html(`${formatComnaSeperatedNumber(total)}<sup>đ</sup>`)
+}
+
+
 (function ($) {
+    const proxy = "http://127.0.0.1:5000";
+    // const proxy = "http://xuandung.com.vn"
 
     /*------------------
         Preloader
@@ -27,9 +73,9 @@ Created: Colorib
 
             const filter = $(e.target).attr("data-filter")
             $('.product__gallary').hide()
-            $(`#${ filter }`).show()
+            $(`#${filter}`).show()
         });
-        
+
     });
 
     /*------------------
@@ -47,7 +93,7 @@ Created: Colorib
 
     $('.search-close-switch').on('click', function () {
         $('.search-model').fadeOut(400, function () {
-            $('#search-input').val('');cd 
+            $('#search-input').val(''); cd
         });
     });
 
@@ -64,8 +110,8 @@ Created: Colorib
     });
 
     /*------------------
-		Navigation
-	--------------------*/
+        Navigation
+    --------------------*/
     $(".header__menu").slicknav({
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
@@ -104,22 +150,22 @@ Created: Colorib
         items: 1,
         dots: false,
         nav: true,
-        navText: ["<i class='arrow_carrot-left'></i>","<i class='arrow_carrot-right'></i>"],
+        navText: ["<i class='arrow_carrot-left'></i>", "<i class='arrow_carrot-right'></i>"],
         smartSpeed: 1200,
         autoHeight: false,
         autoplay: false,
         mouseDrag: false,
         startPosition: 'URLHash'
-    }).on('changed.owl.carousel', function(event) {
+    }).on('changed.owl.carousel', function (event) {
         var indexNum = event.item.index + 1;
         product_thumbs(indexNum);
     });
 
-    function product_thumbs (num) {
+    function product_thumbs(num) {
         var thumbs = document.querySelectorAll('.product__thumb a');
         thumbs.forEach(function (e) {
             e.classList.remove("active");
-            if(e.hash.split("-")[1] == num) {
+            if (e.hash.split("-")[1] == num) {
                 e.classList.add("active");
             }
         })
@@ -127,7 +173,7 @@ Created: Colorib
 
 
     /*------------------
-		Magnific
+        Magnific
     --------------------*/
     $('.image-popup').magnificPopup({
         type: 'image'
@@ -135,12 +181,12 @@ Created: Colorib
 
 
     $(".nice-scroll").niceScroll({
-        cursorborder:"",
-        cursorcolor:"#dddddd",
-        boxzoom:false,
+        cursorborder: "",
+        cursorcolor: "#dddddd",
+        boxzoom: false,
         cursorwidth: 5,
         background: 'rgba(0, 0, 0, 0.2)',
-        cursorborderradius:50,
+        cursorborderradius: 50,
         horizrailenabled: false
     });
 
@@ -153,7 +199,7 @@ Created: Colorib
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
-    if(mm == 12) {
+    if (mm == 12) {
         mm = '01';
         yyyy = yyyy + 1;
     } else {
@@ -168,72 +214,125 @@ Created: Colorib
 
     /* var timerdate = "2020/12/30" */
 
-	$("#countdown-time").countdown(timerdate, function(event) {
+    $("#countdown-time").countdown(timerdate, function (event) {
         $(this).html(event.strftime("<div class='countdown__item'><span>%D</span> <p>Day</p> </div>" + "<div class='countdown__item'><span>%H</span> <p>Hour</p> </div>" + "<div class='countdown__item'><span>%M</span> <p>Min</p> </div>" + "<div class='countdown__item'><span>%S</span> <p>Sec</p> </div>"));
     });
 
     /*-------------------
-		Range Slider
-	--------------------- */
-	var rangeSlider = $(".price-range"),
-    minamount = $("#minamount"),
-    maxamount = $("#maxamount"),
-    minPrice = rangeSlider.data('min'),
-    maxPrice = rangeSlider.data('max');
+        Range Slider
+    --------------------- */
+    var rangeSlider = $(".price-range"),
+        minamount = $("#minamount"),
+        maxamount = $("#maxamount"),
+        minPrice = rangeSlider.data('min'),
+        maxPrice = rangeSlider.data('max');
     rangeSlider.slider({
-    range: true,
-    min: minPrice,
-    max: maxPrice,
-    values: [minPrice, maxPrice],
-    slide: function (event, ui) {
-        minamount.val(ui.values[0]);
-        maxamount.val(ui.values[1]);
+        range: true,
+        min: minPrice,
+        max: maxPrice,
+        values: [minPrice, maxPrice],
+        slide: function (event, ui) {
+            minamount.val(ui.values[0]);
+            maxamount.val(ui.values[1]);
         }
     });
     minamount.val(rangeSlider.slider("values", 0));
     maxamount.val(rangeSlider.slider("values", 1));
 
     /*------------------
-		Single Product
-	--------------------*/
-	$('.product__thumb .pt').on('click', function(){
-		var imgurl = $(this).data('imgbigurl');
-		var bigImg = $('.product__big__img').attr('src');
-		if(imgurl != bigImg) {
-			$('.product__big__img').attr({src: imgurl});
-		}
+        Single Product
+    --------------------*/
+    $('.product__thumb .pt').on('click', function () {
+        var imgurl = $(this).data('imgbigurl');
+        var bigImg = $('.product__big__img').attr('src');
+        if (imgurl != bigImg) {
+            $('.product__big__img').attr({ src: imgurl });
+        }
     });
-    
+
     /*-------------------
-		Quantity change
-	--------------------- */
+        Quantity change
+    --------------------- */
     var proQty = $('.pro-qty');
-	proQty.prepend('<span class="dec qtybtn">-</span>');
-	proQty.append('<span class="inc qtybtn">+</span>');
-	proQty.on('click', '.qtybtn', function () {
-		var $button = $(this);
-		var oldValue = $button.parent().find('input').val();
-		if ($button.hasClass('inc')) {
-			var newVal = parseFloat(oldValue) + 1;
-		} else {
-			// Don't allow decrementing below zero
-			if (oldValue > 0) {
-				var newVal = parseFloat(oldValue) - 1;
-			} else {
-				newVal = 0;
-			}
-		}
-		$button.parent().find('input').val(newVal);
-    });
-    
+    proQty.prepend('<span class="dec qtybtn">-</span>');
+    proQty.append('<span class="inc qtybtn">+</span>');
+    proQty.on('click', '.qtybtn', function () {
+        var $button = $(this);
+
+        const product_id = $button.parent().attr("data")               
+        
+        var oldValue = $button.parent().find('input').val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 1) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 1;
+            }
+        }
+        $button.parent().find('input').val(newVal);        
+        reCalculateTotal()
+
+        fetch(`${ proxy }/api/product/cart__update`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ product_id, quantity: newVal })
+        })
+    });    
+
     /*-------------------
-		Radio Btn
-	--------------------- */
+        Radio Btn
+    --------------------- */
     $(".size__btn label").on('click', function () {
         $(".size__btn label").removeClass('active');
         $(this).addClass('active');
     });
 
 
+
+    $('.cart__add').click(async (e) => {
+        const $target = $(e.target)
+
+        const req = await fetch(`${proxy}/api/product/add__cart`, {
+            method: "post",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({ product_id: $target.attr("data") })
+        })
+        const res = await req.json()
+        const { success, type, len } = res
+        if (success) {
+            $('.cart__count').text(len)
+        }
+    })
+
+    fetch(`${proxy}/api/product/cart__count`).then(res => res.json()).then(res => {
+        $('.cart__count').text(res.data)
+    })
+
+
+    $('.cart__remove').click((e) => {
+
+        const $target = $(e.target)
+         
+        reCalculateTotal()
+
+        fetch(`${ proxy }/api/product/cart__remove`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ product_id: $target.attr("data") })
+        }).then(res => res.json()).then(res => {
+            $target.closest('tr').remove()
+            reCalculateTotal()
+        })
+    })
 
 })(jQuery);

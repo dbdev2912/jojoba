@@ -1,0 +1,72 @@
+{{>admin_header}}
+
+<div class="full_container">
+   <div class="container-fluid">
+      <div>
+
+         <div class="midde_cont">
+            <div class="container-fluid">
+               <div class="row column_title">
+                  <div class="col-md-12">
+                     <div class="row page_title">
+                        <h2>TRẠNG THÁI</h2>
+                        <div class="ml-auto">
+                           <a class="btn btn-primary" href="/admin/status/new">Thêm mới</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- row -->
+               <div class="row">
+                  <!-- table section -->
+                  <div class="col-md-12">
+                     <div class="white_shd full margin_bottom_30">
+                        <div class="table_section padding_infor_info">
+                           <div class="table-responsive-sm">
+                              <table class="table">
+                                 <thead>
+                                    <tr>
+                                       <th>#</th>
+                                       <th>Mã trạng thái</th>
+                                       <th>Tên gọi</th>
+                                       <th>Ghi chú</th>
+                                       <th>Mặc định</th> 
+                                       <th>Thao tác</th>                                       
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {{#each status }}
+                                       {{#adminProduct_statusRecord this}}{{/adminProduct_statusRecord}}
+                                    {{/each}}
+                                 </tbody>
+                              </table>
+                           </div>
+
+                           
+
+                           {{#tablePaginate paginate}}{{/tablePaginate}}
+
+                           
+
+
+
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+
+
+
+
+            </div>
+
+            <!-- footer -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+
+{{>admin_footer}}

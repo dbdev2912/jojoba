@@ -63,3 +63,13 @@
     height: 200px;
     margin: auto;
 }
+
+.product__hover a{
+    cursor: pointer;
+}
+
+
+.form__control__select{
+    height: 50px;
+    margin-bottom: 25px;
+}

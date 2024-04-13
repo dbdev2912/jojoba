@@ -24,30 +24,50 @@ router.get('/cart', async (req, res) => {
         name: "Giỏ hàng",
     }
 
+    const currentCart = req.session.cart;
+    let cart = []    
+    // cart = [
+    //     {
+    //         product_id: 285
+    //         product_name: "Chain bucket bag",
+    //         image: "/img/shop-cart/cp-1.jpg",
+    //         price: 1700000,
+    //         quantity: 2,
+    //         start: 5            
+    //     },
+    // ]
+    if( currentCart && currentCart.length > 0 ){
+        const productIds = currentCart.map( item => item.product_id )
+        const query = `
+            SELECT 
+                ma_san_pham AS product_id,
+                ten_san_pham AS product_name,
+                anh_dai_dien AS image,
+                dang_giam_gia AS is_for_sale,
+                if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS price,
 
-    const cart = [
-        {
-            product_name: "Chain bucket bag",
-            image: "/img/shop-cart/cp-1.jpg",
-            price: 1700000,
-            quantity: 2,
-            start: 5            
-        },
-        {
-            product_name: "Zip-pockets pebbled tote briefcase",
-            image: "/img/shop-cart/cp-2.jpg",
-            price: 1000000,
-            quantity: 1,
-            start: 5            
-        },
-        {
-            product_name: "Black jean",
-            image: "/img/shop-cart/cp-3.jpg",
-            price: 2000000,
-            quantity: 3,
-            start: 5         
-        },
-    ]
+                phan_tram_giam AS sale_off
+            FROM SANPHAM
+            WHERE ma_san_pham IN (${ productIds.map( id => `'${id}'` ).join(', ') })
+        `;
+
+        const products = await MySQL_QUERY(query)
+        products.map( product => {
+            const { product_id } = product;
+            const cartItem = currentCart.find( item => item.product_id == product_id )
+            if( cartItem ){
+                product.quantity = cartItem.quantity
+            }
+        })       
+        cart = products
+    }
+
+    let total = 0;
+
+    for( let i = 0 ; i < cart.length; i++ ){
+        const { price, quantity } = cart[i]
+        total += quantity * price;
+    }
 
     const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
 
@@ -58,7 +78,7 @@ router.get('/cart', async (req, res) => {
         auth: req.session.auth,
         cates,
 
-
+        total,
         cart,
 
     });
@@ -89,47 +109,84 @@ router.get('/checkout', async (req, res) => {
         name: "Thanh toán",
     }
 
-    const cart = [
-        {
-            product_name: "Chain bucket bag",
-            image: "/img/shop-cart/cp-1.jpg",
-            price: 1700000,
-            quantity: 2,
-            start: 5, 
-            subtotal: 1700000 * 2
-        },
-        {
-            product_name: "Zip-pockets pebbled tote briefcase",
-            image: "/img/shop-cart/cp-2.jpg",
-            price: 1000000,
-            quantity: 1,
-            start: 5,    
-            subtotal: 1000000 * 1            
-        },
-        {
-            product_name: "Black jean",
-            image: "/img/shop-cart/cp-3.jpg",
-            price: 2000000,
-            quantity: 3,
-            start: 5,   
-            subtotal: 2000000 * 3             
-        },
-    ]
-    const total = cart.reduce((acc, curr) => acc + curr.subtotal, 0)
+    // const cart = [
+    //     {
+    //         product_name: "Chain bucket bag",
+    //         image: "/img/shop-cart/cp-1.jpg",
+    //         price: 1700000,
+    //         quantity: 2,
+    //         start: 5, 
+    //         subtotal: 1700000 * 2
+    //     },        
+    // ]
+
+
+
+    const currentCart = req.session.cart;
+    let cart = []   
+    if( currentCart && currentCart.length > 0 ){
+        const productIds = currentCart.map( item => item.product_id )
+        const query = `
+            SELECT 
+                ma_san_pham AS product_id,
+                ten_san_pham AS product_name,
+                anh_dai_dien AS image,
+                dang_giam_gia AS is_for_sale,
+                if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS price,
+
+                phan_tram_giam AS sale_off
+            FROM SANPHAM
+            WHERE ma_san_pham IN (${ productIds.map( id => `'${id}'` ).join(', ') })
+        `;
+
+        const products = await MySQL_QUERY(query)
+        products.map( product => {
+            const { product_id } = product;
+            const cartItem = currentCart.find( item => item.product_id == product_id )
+            if( cartItem ){
+                product.quantity = cartItem.quantity
+            }
+        })       
+        cart = products
+    }
+
+    let total = 0;
+
+    for( let i = 0 ; i < cart.length; i++ ){
+        const { price, quantity } = cart[i]
+        cart[i].subtotal = price*quantity;
+
+        total += quantity * price;
+    }
+    
     const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
 
+    if( cart && cart.length > 0){
 
-    res.render('checkout', {
-        title: `Thanh toán | ${ COMPANY }`,
-        previousPages,
-        lastPage,
-        auth: req.session.auth,
-
-
-        cart,
-        total,
-        cates
-    });
+        res.render('checkout', {
+            title: `Thanh toán | ${ COMPANY }`,
+            previousPages,
+            lastPage,
+            auth: req.session.auth,
+    
+    
+            cart,
+            total,
+            cates
+        });
+    }else{
+        res.render('checkout-not-found', {
+            title: `Thanh toán | ${ COMPANY }`,
+            previousPages,
+            lastPage,
+            auth: req.session.auth,
+    
+    
+            cart,
+            total,
+            cates
+        });
+    }
 });
 
 
@@ -310,6 +367,11 @@ router.get('/signout', (req, res) => {
 
 
 
+
+router.post('/checkout', (req, res) => {
+    console.log(req.body)
+    res.redirect('/u/checkout')
+})
 
 
 

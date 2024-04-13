@@ -9,6 +9,7 @@ const state = {
 
 $(async () => {
     const url = 'http://localhost:5000/api/admin/product/initial-info'
+    // const url = 'http://xuandung.com.vn/api/admin/product/initial-info'
     const req = await fetch(url)
     const res = await req.json()    
 
@@ -35,7 +36,7 @@ $(async () => {
     const setFiltedDataToUI = () => {
 
         $('#rel__products').html(state.filtedData.map( product => `
-            <div class="col-2 rel__product__card" product_id=${ product.product_id }>
+            <div class="col-2 rel__product__card" product_id="${ product.product_id }">
                 <div class="rel__product_img">
                     <img src="${product.image}" alt=""/>
                 </div>
@@ -50,7 +51,7 @@ $(async () => {
         $('.rel__product__card *').click(e => {
             const product_id = $(e.target).closest('.rel__product__card').attr('product_id')
             const product = state.filtedData.find( p => p.product_id == product_id )
-            
+
             const img = $(state.currentInput).closest('.relative__product').find('img')
             $(img).attr('src', product.image)
             $(state.currentInput).val( product_id )

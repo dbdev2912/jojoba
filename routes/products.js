@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const lang = require('../configs/lang')
 
-const { COMPANY, ROLES, ADMIN, RECORDS_PER_PAGE } = require('../configs/enum')
+const { COMPANY, ROLES, ADMIN, RECORDS_PER_PAGE, DESCRIPTIONS, KEYWORDS } = require('../configs/enum')
 const functions = require('../configs/functions')
 
 const MySQL_QUERY = require('../db/connector')
@@ -95,6 +95,15 @@ router.get('/', async (req, res) => {
     //     FROM SANPHAM;
     // `)
 
+    const keywords = [
+        ...KEYWORDS,
+        cates.map( cate => cate.ten_dong ),
+        types.map( type => type.ten_loai )
+    ]
+    
+    
+    
+
     const { page } = req.query
     if (functions.intValidate(page)) {
 
@@ -131,7 +140,7 @@ router.get('/', async (req, res) => {
                 previousPages,
                 lastPage,
                 auth: req.session.auth,
-
+                KEYWORDS: keywords.join(',').slice(0, 250),
 
                 products,
                 cates,
@@ -179,7 +188,7 @@ router.get('/', async (req, res) => {
             previousPages,
             lastPage,
             auth: req.session.auth,
-
+            KEYWORDS: keywords.join(',').slice(0, 250),
 
             products,
             cates,
@@ -218,6 +227,9 @@ router.get('/p/:product_id', async (req, res) => {
             5 AS rating,
             thuong_hieu AS brand_id,
             (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu = thuong_hieu) AS brand_name,
+            (SELECT ten_dong FROM DONGSANPHAM WHERE ma_dong = dong_san_pham) AS cate,
+            (SELECT ten_loai FROM LOAISANPHAM WHERE ma_loai = loai_san_pham) AS type,
+            (SELECT ten_nhom FROM NHOMSANPHAM WHERE ma_nhom = nhom_san_pham) AS grou_p,
             gia AS price,
             if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
             dang_giam_gia AS is_sale,
@@ -283,6 +295,7 @@ router.get('/p/:product_id', async (req, res) => {
     // }
 
     const product = products[0]
+
     // console.log(product)
     if( product ){
 
@@ -326,13 +339,31 @@ router.get('/p/:product_id', async (req, res) => {
         // ]
     
         const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
-    
+        
+        const descriptions = [
+            ...DESCRIPTIONS,
+            product.product_name,
+            product.product_id,
+            product.brand_name,
+            product.cate,
+            product.type,
+            product.grou_p
+        ]
+        const keywords = [
+            ...KEYWORDS,
+            product.cate,
+            product.type,
+            product.grou_p    
+        ]
+
         res.render('product', {
             title: `${product.product_id} | ${product.product_name} | ${COMPANY}`,
             previousPages,
             lastPage,
             auth: req.session.auth,
-    
+            
+            DESCRIPTION: descriptions.join(',').slice(0, 250),
+            KEYWORDS: keywords.join(',').slice(0, 250),
             cates,
             product,
             relatives,
@@ -432,9 +463,17 @@ router.get('/cate/:cate_id', async (req, res) => {
             name: cate.ten_dong
         }
 
+        const descriptions = [
+            ...DESCRIPTIONS,
+            cate.ten_dong,
+        ]
 
-
-
+        const keywords = [
+            ...KEYWORDS,
+            cate.ma_dong,
+            cate.ten_dong,
+            types.map( t => t.ten_loai )
+        ]
 
 
 
@@ -478,6 +517,8 @@ router.get('/cate/:cate_id', async (req, res) => {
                     auth: req.session.auth,
                     accordion_title: cate.ten_dong,
 
+                    DESCRIPTION: descriptions.join(',').slice(0, 250),
+                    KEYWORDS: keywords.join(',').slice(0, 250),
 
                     products,
                     cates,
@@ -533,6 +574,8 @@ router.get('/cate/:cate_id', async (req, res) => {
                 auth: req.session.auth,
                 accordion_title: cate.ten_dong,
 
+                DESCRIPTION: descriptions.join(',').slice(0, 250),
+                KEYWORDS: keywords.join(',').slice(0, 250),
                 products,
                 cates,
 

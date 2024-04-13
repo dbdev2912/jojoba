@@ -458,10 +458,10 @@ router.post('/product/edit', async (req, res) => {
                         thuong_hieu = '${brand_id}',
 
                         gia = ${price},
-                        san_pham_moi = ${is_new ? "True" : "False" },
-                        dang_giam_gia = ${is_for_sale ? "True" : "False" },
+                        san_pham_moi = ${is_new },
+                        dang_giam_gia = ${is_for_sale },
                         phan_tram_giam = ${sale_percentage},
-                        trang_thai = ${in_stock ? "True": "False"},
+                        trang_thai = ${in_stock },
 
                         gioi_thieu = '${introducing}',
                         mo_ta = '${description}',
@@ -486,9 +486,10 @@ router.post('/product/edit', async (req, res) => {
                         relQueries.push( query )
                     }
                 }
-
-                const relQuery = `INSERT INTO SANPHAMLIENQUAN VALUES ${ relQueries.join(', ') }`;
-                MySQL_QUERY( relQuery )
+                if( relQueries.length > 0 ){
+                    const relQuery = `INSERT INTO SANPHAMLIENQUAN VALUES ${ relQueries.join(', ') }`;
+                    MySQL_QUERY( relQuery )
+                }
 
                 res.redirect(`/admin/product/products/edit/${ product_id }?success=1`)    
                   
@@ -528,7 +529,7 @@ router.get('/products/edit/:product_id', async (req, res) => {
             SELECT * FROM DONGSANPHAM
         `,
         units: `
-            SELECT * FROM DONVITINH
+            SELECT * FROM DONVITINH ORDER ma_don_vi DESC
         `,
         product: `SELECT * FROM SANPHAM WHERE ma_san_pham = '${ product_id }'`
     };
@@ -556,7 +557,7 @@ router.get('/products/edit/:product_id', async (req, res) => {
 
         res.render('admin_product/admin_p_products_edit', {
             layout: "admin",
-            title: `Thêm sản phẩm | ${COMPANY}`,
+            title: `${ product_id } - Cập nhật sản phẩm | ${COMPANY}`,
             auth: req.session.auth,
             product: product[0],
             cates,
@@ -567,7 +568,7 @@ router.get('/products/edit/:product_id', async (req, res) => {
             relative_2: relativeProducts[1],
             relative_3: relativeProducts[2],
             relative_4: relativeProducts[3],
-
+            
             ...req.query,
         })
 
