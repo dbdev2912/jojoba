@@ -59,13 +59,14 @@ CREATE TABLE THUONGHIEU(
 CREATE TABLE TRANGTHAI(
 	`ma_trang_thai` VARCHAR(255) PRIMARY KEY NOT NULL,
     `ten_trang_thai` TEXT,    
+    `mac_dinh` BOOL DEFAULT FALSE,
     `ghi_chu` TEXT
 );
 
 
 CREATE TABLE DONVITINH(
 	`ma_don_vi` VARCHAR(255) PRIMARY KEY NOT NULL,
-	`ten_don_vi` TEXT,
+	`ten_don_vi` TEXT NOT NULL,
     `trang_thai_mac_dinh` BOOL DEFAULT FALSE, 
     `ghi_chu` TEXT
 );
@@ -82,14 +83,14 @@ CREATE TABLE SANPHAM(
     `phan_tram_giam` INT,
     `san_pham_moi` BOOL DEFAULT FALSE,
     `anh_dai_dien` TEXT,
+    `dong_san_pham` VARCHAR(255),
+    `loai_san_pham` VARCHAR(255),
     `nhom_san_pham` VARCHAR(255),
     `don_vi_tinh` VARCHAR(255),
     `thuong_hieu` VARCHAR(255),
-    `san_pham_nhieu_kich_co` BOOL DEFAULT FALSE,
     `trang_thai` BOOL DEFAULT TRUE
 );
 
-ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_nsp` FOREIGN KEY (`nhom_san_pham`) REFERENCES NHOMSANPHAM(`ma_nhom`);
 ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_th` FOREIGN KEY (`thuong_hieu`) REFERENCES THUONGHIEU(`ma_thuong_hieu`);
 ALTER TABLE SANPHAM ADD CONSTRAINT `fk_sp_dvt` FOREIGN KEY (`don_vi_tinh`) REFERENCES DONVITINH(`ma_don_vi`);
 
