@@ -34,6 +34,7 @@ router.get('/', async (req, res) => {
     //     {
     //         name: "Women",
     //         id: "category_1",
+    //         url: "/cate/category_1"  
     //         active: "active",
     //         options: [
     //             { url: "/", label: "Coats" },
@@ -49,6 +50,7 @@ router.get('/', async (req, res) => {
         const cloneCate = {
             name: cate.ten_dong,
             id: cate.ma_dong,
+            url: `/products/cate/${ cate.ma_dong }`,
             options: []
         }
 
@@ -300,7 +302,7 @@ router.get('/p/:product_id', async (req, res) => {
     if( product ){
 
         const lastPage = {
-            name: `${product.product_name} ${product.product_id}`
+            name: `${product.product_name} `
         }
     
         // const relatives = [

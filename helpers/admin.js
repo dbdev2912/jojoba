@@ -94,22 +94,22 @@ const adminSideBar = () => {
 
 
 const paginate = (page = {}) => {
-    const { origin, pageIndex, maxPageIndex } = page;
+    const { origin, pageIndex, maxPageIndex, query } = page;
     
     
     return`<div class="row">
 
             <div class="col-lg-12 text-right">
                 <div class="pagination__option">
-                    <a href="${ origin }?page=1"><i class="fa fa-angle-double-left"></i></a>
-                    <a style="display: ${ pageIndex === 1 ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex - 1 }"><i class="fa fa-angle-left"></i></a>
+                    <a href="${ origin }?page=1${ query ? `&query=${ query }`: "" }"><i class="fa fa-angle-double-left"></i></a>
+                    <a style="display: ${ pageIndex === 1 ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex - 1 }${ query ? `&query=${ query }`: "" }"><i class="fa fa-angle-left"></i></a>
 
-                    <a style="display: ${ pageIndex === 1 ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex - 1 }">${pageIndex - 1}</a>
+                    <a style="display: ${ pageIndex === 1 ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex - 1 }${ query ? `&query=${ query }`: "" }">${pageIndex - 1}</a>
                     <a class="active" href="#">${ pageIndex }</a>
-                    <a style="display: ${ pageIndex === maxPageIndex ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex + 1 }">${pageIndex + 1}</a>
+                    <a style="display: ${ pageIndex === maxPageIndex ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex + 1 }${ query ? `&query=${ query }`: "" }">${pageIndex + 1}</a>
 
-                    <a style="display: ${ pageIndex === maxPageIndex ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex + 1 }"><i class="fa fa-angle-right"></i></a>
-                    <a href="${ origin }?page=${ maxPageIndex }"><i class="fa fa-angle-double-right"></i></a>
+                    <a style="display: ${ pageIndex === maxPageIndex ? "none": "inline-block" }" href="${ origin }?page=${ pageIndex + 1 }${ query ? `&query=${ query }`: "" }"><i class="fa fa-angle-right"></i></a>
+                    <a href="${ origin }?page=${ maxPageIndex }${ query ? `&query=${ query }`: "" }"><i class="fa fa-angle-double-right"></i></a>
                 </div>
             </div>
 

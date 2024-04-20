@@ -43,7 +43,16 @@ router.post('/signin', async (req, res) => {
                 const { role } = user[0]
     
                 if ( role == ROLES.admin ) {
-    
+                    /**
+                     * 
+                     * session.auth = {
+                     *     ten_dang_nhap: <String>,
+                     *     mat_khau: <String>,
+                     *     trang_thai: <Bool>,
+                     *     role: "Admin"
+                     * }
+                     * 
+                     */
                     req.session.auth = { ...user[0], role: ROLES.admin }
                     res.redirect('/admin')
     
@@ -51,6 +60,24 @@ router.post('/signin', async (req, res) => {
                     const customer = await MySQL_QUERY(`SELECT * FROM KHACHHANG WHERE ten_dang_nhap = '${username}'`)
                     
                     if (customer && customer[0]) {
+
+                        /**
+                         * 
+                         * session.auth = {
+                         *     ten_dang_nhap: <String>,
+                         *     mat_khau: <String>,
+                         *     trang_thai: <Bool>,
+                         *     role: "khachhang",
+                         *     ma_khach_hang: <String><Unique>,
+                         *     ho: <String>,
+                         *     ten: <String>,
+                         *     so_dien_thoai <String>,
+                         *     dia_chi: <String>
+                         * }
+                         * 
+                         */
+
+
                         req.session.auth = { ...user[0], ...customer[0], role: ROLES.khachhang }
                     }
     

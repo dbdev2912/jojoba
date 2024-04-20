@@ -28,8 +28,8 @@ $(async () => {
     const resetPage = () => {
         state.currentPage = 1
         $('#p_1').hide()
-        $('#p_2').show().text(state.currentPage - 1 )
-        $('#p_3').show().text(state.currentPage)
+        $('#p_2').show().text(state.currentPage )
+        $('#p_3').show().text(state.currentPage + 1)
     }
 
 
@@ -110,7 +110,7 @@ $(async () => {
             state.filtedData = filtedData;
             state.maxPageIndex = maxPageIndex
             setFiltedDataToUI()  
-            
+            console.log(state.currentPage)
             if( state.currentPage == 1 ){
                 $('#p_1').hide()                
             }else{
@@ -120,7 +120,7 @@ $(async () => {
             if( state.currentPage == state.maxPageIndex - 1 ){
                 $('#p_3').hide()
             }else{
-                $('#p_1, #p_2, #p_3').show()
+                // $('#p_1, #p_2, #p_3').show()                
             }
 
             $('#p_1').text(state.currentPage - 1)

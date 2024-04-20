@@ -286,4 +286,67 @@ $(() => {
          })
 
     }) 
+
+
+    $('.product__delete__icon i').click(e => {
+        const $target = $(e.target).closest('.product__delete__icon')
+        const product_id = $target.attr('data')
+
+
+        Swal.fire({
+            title: 'Cảnh báo',
+            text: `Xóa sản phẩm ${ product_id } ?` ,
+            icon: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Có',
+      
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Không',
+         }).then(( confirm ) => {
+            if( confirm.isConfirmed ){
+                /**
+                 * 
+                 * SEND REQUEST HERE
+                 * 
+                 */
+
+                console.log(product_id)
+
+                fetch(`${proxy}/admin/product`, {
+                    method: "delete",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify({ product_id })
+                }).then(res => res.json()).then( res => {
+                    const { success, content } = res;
+                    if( success ){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Xóa thành công',                                                
+                        }).then(() => {
+                            setTimeout(() => {                                
+                                window.location.reload()
+                            }, 1000)
+                        });                       
+
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: content,                            
+                        });
+                    }
+               }) 
+
+            }else{
+                
+            }
+         })
+
+
+    })
+
 })

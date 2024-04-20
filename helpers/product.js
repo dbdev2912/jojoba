@@ -144,6 +144,31 @@ const product_record = (product, options) => {
 }
 
 
+
+const product_order_record = (product, options) => {
+  return (`<tr>
+    <td class="cart__product__item">
+        <img src="${product.image}" alt="${product.brand_name} - ${ product.product_name }" />
+        <div class="cart__product__item__title">
+            <h6>${product.product_name}</h6>           
+        </div>
+    </td>
+    ${ product.is_for_sale ? 
+      `<td class="cart__price">${functions.renderPrice(product.price)} <i class="sale__off">-${ product.sale_off }%</i></td>`
+      :
+      `<td class="cart__price">${functions.renderPrice(product.price)}</td>`
+    }
+    <td class="cart__quantity">
+        <div class="pro-qty-disabled text-center">            
+            <span>${product.quantity}</span>
+        </div>
+    </td>
+    <td class="cart__total">${product.quantity * product.price}</td>
+    <td class="cart__close"><span class="icon_close cart__remove" data="${ product.product_id }"></span></td>
+</tr>`
+  )
+}
+
 const adminProduct_tableRecord = (product) => {
   const {
     index,
@@ -196,20 +221,20 @@ const adminProduct_categoryRecord = (category) => {
 const adminProduct_typeRecord = (category) => {
   const { index, type_id, type_name, note, cate_name } = category;
   return `
-  <tr>
-    <td>${index}</td>
-    <td>${type_id}</td>
-    <td>${type_name}</td>   
-    <td>${cate_name}</td>   
-    <td>${note}</td>
-    <td>
-          <div class="d-flex">
-              <a href="/admin/product/product-types/edit/${ type_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
-              <a class="table__icon table__delete__icon type__delete__icon" data="${ type_id }"><i class="fa fa-trash"></i></a>
-          </div>
-      </td>
-  </tr>
-`
+    <tr>
+      <td>${index}</td>
+      <td>${type_id}</td>
+      <td>${type_name}</td>   
+      <td>${cate_name}</td>   
+      <td>${note}</td>
+      <td>
+            <div class="d-flex">
+                <a href="/admin/product/product-types/edit/${ type_id }" class="table__icon table__edit__icon"><i class="fa fa-edit"></i></a>
+                <a class="table__icon table__delete__icon type__delete__icon" data="${ type_id }"><i class="fa fa-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+  `
 }
 
 
@@ -279,6 +304,6 @@ module.exports = {
   adminProduct_typeRecord,
   adminProduct_groupRecord,
   adminProduct_unitRecord,
-  adminProduct_statusRecord
-
+  adminProduct_statusRecord,
+  product_order_record
 }

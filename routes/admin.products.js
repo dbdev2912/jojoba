@@ -16,11 +16,12 @@ router.get('/products', async (req, res) => {
      * 
      *  available params:
      *      - page: <Int>
+     *      - query: <String>
      * 
      * 
      */
 
-    const { page } = req.query;
+    const { page, query } = req.query;
 
     if( functions.intValidate(page) ){
 
@@ -28,6 +29,7 @@ router.get('/products', async (req, res) => {
 
         const totals = await MySQL_QUERY(`
             SELECT COUNT(*) AS total FROM SANPHAM
+            ${ query ? `WHERE ma_san_pham LIKE '%${ query }%'` : "" }
         `);
         const { total } = totals[0]        
         const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
@@ -44,6 +46,7 @@ router.get('/products', async (req, res) => {
                 ( select ten_nhom from NHOMSANPHAM where ma_nhom = nhom_san_pham ) as _group_
             FROM 
                 SANPHAM
+                    ${ query ? `WHERE ma_san_pham LIKE '%${ query }%'` : "" }
             LIMIT ${ RECORDS_PER_PAGE } OFFSET ${ (pageIndex - 1) * RECORDS_PER_PAGE };
             `)
 
@@ -62,7 +65,8 @@ router.get('/products', async (req, res) => {
                 paginate: {
                     pageIndex,
                     maxPageIndex,
-                    origin: "/admin/product/products",
+                    origin: `/admin/product/products`,
+                    query,
                     total
                 },
                 products,
@@ -77,6 +81,7 @@ router.get('/products', async (req, res) => {
     }else{
         const totals = await MySQL_QUERY(`
             SELECT COUNT(*) AS total FROM SANPHAM
+            ${ query ? `WHERE ma_san_pham LIKE '%${ query }%'` : "" }
         `);
         const { total } = totals[0]     
         const maxPageIndex = Math.ceil( total / RECORDS_PER_PAGE )
@@ -91,6 +96,7 @@ router.get('/products', async (req, res) => {
                 ( select ten_nhom from NHOMSANPHAM where ma_nhom = nhom_san_pham ) as _group_
             FROM 
                 SANPHAM
+                ${ query ? `WHERE ma_san_pham LIKE '%${ query }%'` : "" }
             LIMIT ${ RECORDS_PER_PAGE };
             `)
     
@@ -106,7 +112,8 @@ router.get('/products', async (req, res) => {
             paginate: {
                 pageIndex: 1,
                 maxPageIndex,
-                origin: "/admin/product/products",
+                origin: `/admin/product/products`,
+                query,
                 total
             },
             products
@@ -529,7 +536,7 @@ router.get('/products/edit/:product_id', async (req, res) => {
             SELECT * FROM DONGSANPHAM
         `,
         units: `
-            SELECT * FROM DONVITINH ORDER ma_don_vi DESC
+            SELECT * FROM DONVITINH ORDER by ma_don_vi DESC
         `,
         product: `SELECT * FROM SANPHAM WHERE ma_san_pham = '${ product_id }'`
     };
@@ -619,6 +626,11 @@ router.get('/products/edit/:product_id', async (req, res) => {
 // })
 
 
+
+router.delete('/', (req, res)=> {
+    console.log(req.body)
+    res.send({ success: true })
+})
 
 
 

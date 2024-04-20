@@ -266,3 +266,30 @@
 	width: 80%;
 	margin: auto;
 }
+
+
+.table__btn__group{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin: 12px 0;
+}
+
+.table__btn__group .table__btn__container{
+	margin-left: 12px;	
+}
+
+.table__btn__group .table__btn__container .table__btn{
+	display: flex;
+	width: 24px;
+	height: 24px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	background-color: #0d0d0d;
+	color: #fff;
+	font-size: 12px;
+}

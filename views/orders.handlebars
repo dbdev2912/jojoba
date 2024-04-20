@@ -1,15 +1,22 @@
 {{> header }}
-{{> breadcrumb }}
+{{> breadcrumb_fluid }}
+
+<style>
+    .shop__cart__table table tr th{
+        font-size: unset;
+    }
+</style>
 
 <section class="shop-cart spad">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <div class="shop__cart__table">
+                <div class="shop__cart__table" style="font-size: 0.8em">
 
                     <table>
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Số hóa đơn</th>
                                 <th>Ngày lập<br>
                                     <i style=" font-size: 14px; font-weight: 500; text-transform: none">(dd/MM/yyyy)</i>
@@ -32,10 +39,13 @@
 
 
                 </div>
+
+                {{#tablePaginate paginate}}{{/tablePaginate}}
+
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-top: 15px">
 
             {{!-- <div class="col-lg-4">
                 <div class="cart__total__procced">

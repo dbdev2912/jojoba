@@ -12,7 +12,7 @@
                             <tr>
                                 <th>Sản phẩm</th>
                                 <th>Giá</th>
-                                <th>Số lượng</th>
+                                <th class="text-center">Số lượng</th>
                                 <th>Tổng</th>
                                 <th></th>
                             </tr>
@@ -20,7 +20,7 @@
                         <tbody>
 
                             {{#each cart }}
-                            {{#product_record this}}{{/product_record}}
+                            {{#product_order_record this}}{{/product_order_record}}
                             {{/each}}
 
                         </tbody>
@@ -35,13 +35,34 @@
             
             <div class="col-lg-4">
                 <div class="cart__total__procced">
-                    <h6>Tổng giá trị</h6>
+                    <h6>ĐƠN HÀNG</h6>
                     <ul style="margin: 0">                        
-                        <li>Sản phẩm <span>{{#formatPrice 10600000}}{{/formatPrice}}</span></li>
-                        <li>Phí vận chuyển <span>{{#formatPrice NULL}}{{/formatPrice}}</span></li>
+                        <li>Ngày đặt <span>{{ order.ngay_lap }}</span></li>
+                        <li>Trạng thái <span >{{ order.ten_trang_thai }}</span></li>
                     </ul>                    
                 </div>
-            </div>          
+            </div>   
+            
+            <div class="col-lg-4">
+                <div class="cart__total__procced">
+                    <h6>Tổng giá trị</h6>
+                    <ul style="margin: 0">                        
+                        <li>Sản phẩm <span>{{#formatPrice total}}{{/formatPrice}}</span></li>
+                        <li>Phí vận chuyển <span>{{#formatPrice order.phi_van_chuyem}}{{/formatPrice}}</span></li>
+                    </ul>                    
+                </div>
+            </div>  
+
+            <div class="col-lg-4">
+                <div class="cart__total__procced">
+                     <h6>Nhận hàng</h6>
+                    <ul style="margin: 0">                        
+                        <li>Người nhận <span>{{ order.nguoi_nhan }}</span></li>                       
+                    </ul>                       
+                    <p>{{ order.full_dia_chi }}</p>
+                </div>
+            </div>  
+
         </div>
 
 

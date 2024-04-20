@@ -29,6 +29,28 @@ const formatComnaSeperatedNumber = (number) => {
 }
 
 
+const formatEscapeString = (string = "") => {
+    /**
+     * @type: function
+     * 
+     * @desc: translate raw string to escape string
+     * 
+     */
+
+    const specialChars = [        
+        "\\",
+        '"',
+        "'",
+    ]
+
+    let result = string;
+    for( let i = 0; i < specialChars.length; i++ ){
+        const char = specialChars[i]
+        result = result.replaceAll(char, `\\${ char }`)
+    }
+    return result;
+}
+
 
 const renderPrice = ( price ) => {
 
@@ -52,6 +74,13 @@ const renderPrice = ( price ) => {
 }
 
 
+const decFormat = (num) => {
+    if( num < 10 ){
+        return `0${ num }`
+    }
+    return `${ num }`
+}
+
 
 const formatDate = ( dateStr ) => {
 
@@ -67,7 +96,7 @@ const formatDate = ( dateStr ) => {
    if( dateStr != undefined ){
 
         const date = new Date( dateStr );
-        return `${ date.getDate() }/${ date.getMonth() + 1 }/${ date.getFullYear() }`
+        return `${ decFormat(date.getDate()) }/${ decFormat(date.getMonth() + 1) }/${ date.getFullYear() }`
 
         return 
     }
@@ -88,7 +117,7 @@ const formateDateTime = ( dateStr ) => {
    if( dateStr != undefined ){
 
         const date = new Date( dateStr );
-        return `${ date.getDate() }/${ date.getMonth() + 1 }/${ date.getFullYear() } ${ date.getHours() }:${ date.getMinutes() }`
+        return `${decFormat( date.getDate()) }/${ decFormat(date.getMonth() + 1) }/${ date.getFullYear() } ${ decFormat(date.getHours()) }:${ decFormat(date.getMinutes()) }`
         
     }
    return `--/--/-- --:--`
@@ -216,7 +245,8 @@ module.exports = {
     renderPrice,
     nullCheck,
     formatComnaSeperatedNumber,
-
+    formatEscapeString,
+    
     getFormatedUUID,
     formatDate,
     formateDateTime,

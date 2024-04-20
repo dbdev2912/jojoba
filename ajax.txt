@@ -2,3 +2,12 @@ E:\code\server\public\admin\js\admin.product.js
 E:\code\server\public\admin\js\admin-update.product.js.js
 E:\code\server\public\admin\js\deleter.js
 E:\code\server\public\admin\js\select_relative.js
+E:\code\server\public\admin\js\select_product.js
+
+
+
+
+
+Note:
+    - Của hàng xuân dũng => Nhà phân phối Xuân Dũng
+    

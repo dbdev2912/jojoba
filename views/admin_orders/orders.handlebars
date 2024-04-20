@@ -9,13 +9,9 @@
                <div class="row column_title">
                   <div class="col-md-12">
                      <div class="row page_title">
-                        <h2>SẢN PHẨM</h2>
-                        <div class="ml-auto d-flex">
-                           <div class="form-group d-flex">
-                              <input class="form-control" type="text" id="search-input" placeholder="Tìm kiếm..."/>
-                              <a class="btn btn-primary d-block" style="margin-left: 1em;" href="/admin/product/products/new">Thêm mới</a>
-                           </div>
-                        </div>
+                        <h2>Đơn hàng</h2>
+
+                            {{!-- SEARCH GOES HERE --}}
                      </div>
                   </div>
                </div>
@@ -30,26 +26,29 @@
                                  <thead>
                                     <tr>
                                        <th>#</th>
-                                       <th>Mã sản phẩm</th>
-                                       <th>Tên sản phẩm</th>
+                                       <th>Số hóa đơn</th>
+                                       <th>Ngày đặt</th>
+                                       <th>Người đặt</th>
+                                       <th>Đơn giá</th> 
+                                       <th>Địa chỉ</th> 
+                                       <th>Người nhận</th> 
                                        <th>Trạng thái</th>
-                                       <th>Dòng sản phẩm</th>
-                                       <th>Loại sản phẩm</th>
-                                       <th>Nhóm sản phẩm</th>
-                                       <th>Thao tác</th>
+                                       <th>Thao tác</th>                                       
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    {{#each products }}
-                                       {{#adminProduct_tableRecord this}}{{/adminProduct_tableRecord}}
+                                    {{#each orders }}
+                                       {{#admin_order this}}{{/admin_order}}
                                     {{/each}}
                                  </tbody>
                               </table>
                            </div>
 
+                           
 
+                           {{#tablePaginate paginate}}{{/tablePaginate}}
 
-                            {{#tablePaginate paginate}}{{/tablePaginate}}
+                           
 
 
 

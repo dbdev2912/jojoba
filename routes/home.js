@@ -44,6 +44,8 @@ router.get('/', async (req, res) => {
         {name: "lavabo", label: "Lavabo" }, 
         {name: "guong-soi", label: "Gương soi" }, 
         {name: "sen-tam", label: "Sen tắm" }, 
+        {name: "chau-rua-chen", label: "Chậu rửa chén"},
+        {name: "voi-nuoc", label: "Vòi nước"},
 
     ]
 

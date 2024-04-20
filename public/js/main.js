@@ -335,4 +335,10 @@ const reCalculateTotal = () => {
         })
     })
 
+
+    $('.order__record__redirect').click(e => {
+        const link = $(e.target).closest('.order__record__redirect').attr('to')
+        window.location = link
+    })
+
 })(jQuery);

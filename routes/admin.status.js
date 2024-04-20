@@ -138,6 +138,7 @@ router.get('/new', (req, res) => {
     res.render('admin_status/admin_status_add', {
         layout: "admin",
         title: `Thêm trạng thái | ${COMPANY }`,
+        auth: req.session.auth,
         logo, success, existed
     });
 });
@@ -169,6 +170,7 @@ router.get('/edit/:status_id', async (req, res) => {
             layout: "admin",
             title: `${ status_id } | ${COMPANY }`,
             logo, success, existed,
+            auth: req.session.auth,
             status: status[0]
         });
 

@@ -16,19 +16,27 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h5>CHI TIẾT ĐƠN HÀNG</h5>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="checkout__form__input">
-                                <p>Họ tên <span>*</span></p>
-                                <input name="fullname" type="text">
+                    <div class="row">                        
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Họ<span>*</span></p>
+                                    {{#if auth }}
+                                    <input type="text" name="firstname" value="{{ auth.ho }}">
+                                    {{else}}
+                                    <input type="text" name="firstname">
+                                    {{/if}}
+                                </div>
                             </div>
-                        </div>
-                        {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>Tên <span>*</span></p>
-                                <input type="text">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Tên <span>*</span></p>
+                                    {{#if auth}}
+                                    <input type="text" name="lastname" value="{{ auth.ten }}">
+                                    {{else}}
+                                    <input type="text" name="lastname">
+                                    {{/if}}
+                                </div>
                             </div>
-                        </div> --}}
                         <div class="col-lg-12">
                             {{!-- <div class="checkout__form__input">
                                 <p>Quốc gia <span>*</span></p>
@@ -59,27 +67,41 @@
                             </div>
                             <div class="checkout__form__input">
                                 <p>Địa chỉ <span>*</span></p>
+                                {{#if auth}}
+                                <input type="text" name="address" placeholder="Đường & Số nhà"  value="{{auth.dia_chi}}">
+                                {{else}}
                                 <input type="text" name="address" placeholder="Đường & Số nhà">
+                                {{/if}}
                             </div>
 
                             <div class="checkout__form__input">
                                 <p>Ghi chú</p>
-                                <input type="text" placeholder="VD: Hàng dễ vỡ, lối đi phù hợp, ... ">
-                            </div>
+                                <input type="text" name="note" placeholder="VD: Hàng dễ vỡ, lối đi phù hợp, ... ">
+                            </div>                          
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Di động <span>*</span></p>
+                                {{#if auth }}
+                                <input name="phone" type="text" value="{{auth.so_dien_thoai}}">
+                                {{else}}
                                 <input name="phone" type="text">
+                                {{/if}}
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
-                                <p>Email <span>*</span></p>
+                                <p>Email <span>*</span> {{#if existed }}<span class="form__error__text">Email này đã được dùng để tạo tài khoản!</span>{{/if }}</p>
+                                {{#if auth}}
+                                <span class="false__input">{{auth.ten_dang_nhap}}</span>
+                                <input style="display:none" name="email" type="text" value="{{auth.ten_dang_nhap}}">
+                                {{else}}
                                 <input name="email" type="text">
+                                {{/if}}
                             </div>
                         </div>
+                        {{#unless auth }}
                         <div class="col-lg-12">
                             <div class="checkout__form__checkbox">
                                 <label for="acc">
@@ -93,12 +115,13 @@
                                 </p>
                             </div>
                             <div class="checkout__form__input">
-                                <p>Mật khẩu<span>*</span></p>
+                                <p>Mật khẩu<span>*</span> {{#if pwd }}<span class="form__error__text">Không để trống trường này!!</span>{{/if }} </p>
                                 <input type="password" name="password">
                             </div>
 
 
                         </div>
+                        {{/unless}}
                     </div>
                 </div>
                 <div class="col-lg-4">

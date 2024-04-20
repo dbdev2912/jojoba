@@ -22,9 +22,10 @@ const adminProducts = require('./routes/admin.products.js')
 const adminErrors = require('./routes/admin.errors.js')
 const adminBrands = require('./routes/admin.brands.js')
 const adminStatus = require('./routes/admin.status.js')
+const adminOrders = require('./routes/admin.orders.js')
 
 
-const { Auth, AdminApi_Product, ApiProducts } = require('./api')
+const { Auth, AdminApi_Product, ApiProducts, AdminApi_Order } = require('./api')
 
 const functions = require('./configs/functions')
 
@@ -98,6 +99,7 @@ const hbs = expbs.create({
         product_md4: Helpers.product_md4,
         product_record: Helpers.product_record,
         order_record: Helpers.order_record,
+        product_order_record: Helpers.product_order_record,
 
         adminSideBar: Helpers.adminSideBar,
         adminProduct_tableRecord: Helpers.adminProduct_tableRecord,
@@ -106,6 +108,7 @@ const hbs = expbs.create({
         adminProduct_groupRecord: Helpers.adminProduct_groupRecord,
         adminProduct_unitRecord : Helpers.adminProduct_unitRecord,
         adminProduct_statusRecord: Helpers.adminProduct_statusRecord, 
+        admin_order: Helpers.admin_order,
         
         tablePaginate: Helpers.paginate
     }
@@ -126,6 +129,7 @@ app.use('/e/', userError)
 
 app.use('/api/u', Auth)
 app.use('/api/admin/product/', AdminApi_Product)
+app.use('/api/admin/order/', AdminApi_Order)
 app.use('/api/product/', ApiProducts)
 
 app.use('/admin', adminHome)
@@ -133,6 +137,7 @@ app.use('/admin/product', adminProducts)
 app.use('/admin/e', adminErrors )
 app.use('/admin/brands', adminBrands )
 app.use('/admin/status', adminStatus )
+app.use('/admin/orders', adminOrders )
 
 
 
