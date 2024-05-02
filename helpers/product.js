@@ -164,7 +164,7 @@ const product_order_record = (product, options) => {
         </div>
     </td>
     <td class="cart__total">${product.quantity * product.price}</td>
-    <td class="cart__close"><span class="icon_close cart__remove" data="${ product.product_id }"></span></td>
+    <td class="cart__close" style="display: none"><span class="icon_close cart__remove" data="${ product.product_id }"></span></td>
 </tr>`
   )
 }

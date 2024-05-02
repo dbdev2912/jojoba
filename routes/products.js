@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
         const cloneCate = {
             name: cate.ten_dong,
             id: cate.ma_dong,
-            url: `/products/cate/${ cate.ma_dong }`,
+            url: `/products/cate/${cate.ma_dong}`,
             options: []
         }
 
@@ -99,12 +99,12 @@ router.get('/', async (req, res) => {
 
     const keywords = [
         ...KEYWORDS,
-        cates.map( cate => cate.ten_dong ),
-        types.map( type => type.ten_loai )
+        cates.map(cate => cate.ten_dong),
+        types.map(type => type.ten_loai)
     ]
-    
-    
-    
+
+    let { query } = req.query
+    const splitedQuery = query ? query.split(';') : []
 
     const { page } = req.query
     if (functions.intValidate(page)) {
@@ -113,7 +113,15 @@ router.get('/', async (req, res) => {
 
         const totals = await MySQL_QUERY(`
             SELECT COUNT(*) AS total FROM SANPHAM
+            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                `WHERE gia >= ${ splitedQuery[0] } 
+                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                            AND gia <= ${ splitedQuery[1] }
+                        `: `` }
+                    `: 
+                `` }
         `);
+        
         const { total } = totals[0]
         const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
 
@@ -126,9 +134,19 @@ router.get('/', async (req, res) => {
                     if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                     dang_giam_gia AS is_sale,
                     san_pham_moi AS is_new,
+                    (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                     anh_dai_dien AS image,
                     5 as stars
                 FROM SANPHAM
+
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `WHERE gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+
                     LIMIT ${RECORDS_PER_PAGE} OFFSET ${(pageIndex - 1) * RECORDS_PER_PAGE};
             `)
 
@@ -150,7 +168,8 @@ router.get('/', async (req, res) => {
                 paginate: {
                     pageIndex,
                     maxPageIndex,
-                    origin: "/products"
+                    origin: "/products",
+                    query: req.query.query
                 },
             })
 
@@ -173,10 +192,20 @@ router.get('/', async (req, res) => {
                     gia AS price,
                     if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                     dang_giam_gia AS is_sale,
+                    (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                     san_pham_moi AS is_new,
                     anh_dai_dien AS image,
                     5 as stars
                 FROM SANPHAM
+                
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `WHERE gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+
                     LIMIT ${RECORDS_PER_PAGE};
             `)
 
@@ -198,7 +227,8 @@ router.get('/', async (req, res) => {
             paginate: {
                 pageIndex: 1,
                 maxPageIndex,
-                origin: "/products"
+                origin: "/products",
+                query: req.query.query
             },
         })
     }
@@ -221,7 +251,7 @@ router.get('/p/:product_id', async (req, res) => {
 
     const { product_id } = req.params;
 
-
+// 
     const query = `
         SELECT 
             ma_san_pham AS product_id,
@@ -244,9 +274,9 @@ router.get('/p/:product_id', async (req, res) => {
             thong_so_ky_thuat AS specification
 
         FROM SANPHAM
-            WHERE MA_SAN_PHAM = '${ product_id }'
+            WHERE MA_SAN_PHAM = '${product_id}'
     `;
-    
+
     const relativesQuery = `
         SELECT 
             ma_san_pham AS product_id,
@@ -261,14 +291,14 @@ router.get('/p/:product_id', async (req, res) => {
         FROM SANPHAM 
             AS S INNER JOIN SANPHAMLIENQUAN AS L ON L.san_pham_lien_quan = S.ma_san_pham
         WHERE 
-            L.san_pham_goc = '${ product_id }'
+            L.san_pham_goc = '${product_id}'
     `;
 
     const extendedImageQuery = `
-        SELECT * FROM ANHBOSUNG WHERE ma_san_pham = '${ product_id }';
+        SELECT * FROM ANHBOSUNG WHERE ma_san_pham = '${product_id}';
     `
 
-    const [products, cates, relatives, images ] = await Promise.all([
+    const [products, cates, relatives, images] = await Promise.all([
         MySQL_QUERY(query),
         MySQL_QUERY(`SELECT * FROM DONGSANPHAM`),
         MySQL_QUERY(relativesQuery),
@@ -299,12 +329,12 @@ router.get('/p/:product_id', async (req, res) => {
     const product = products[0]
 
     // console.log(product)
-    if( product ){
+    if (product) {
 
         const lastPage = {
             name: `${product.product_name} `
         }
-    
+
         // const relatives = [
         //     {
         //         image: "/img/product/product-1.jpg",
@@ -339,9 +369,9 @@ router.get('/p/:product_id', async (req, res) => {
         //         stars: 5,
         //     },
         // ]
-    
+
         const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`)
-        
+
         const descriptions = [
             ...DESCRIPTIONS,
             product.product_name,
@@ -355,7 +385,7 @@ router.get('/p/:product_id', async (req, res) => {
             ...KEYWORDS,
             product.cate,
             product.type,
-            product.grou_p    
+            product.grou_p
         ]
 
         res.render('product', {
@@ -363,7 +393,7 @@ router.get('/p/:product_id', async (req, res) => {
             previousPages,
             lastPage,
             auth: req.session.auth,
-            
+
             DESCRIPTION: descriptions.join(',').slice(0, 250),
             KEYWORDS: keywords.join(',').slice(0, 250),
             cates,
@@ -371,13 +401,13 @@ router.get('/p/:product_id', async (req, res) => {
             relatives,
             images
         })
-    }else{
+    } else {
         const lastPage = {
-            name: `${ product_id }`
+            name: `${product_id}`
         }
         res.render('404_not_found', {
 
-            title: `404 - Not found| ${ COMPANY }`,
+            title: `404 - Not found| ${COMPANY}`,
             previousPages,
             lastPage,
             auth: req.session.auth,
@@ -474,10 +504,11 @@ router.get('/cate/:cate_id', async (req, res) => {
             ...KEYWORDS,
             cate.ma_dong,
             cate.ten_dong,
-            types.map( t => t.ten_loai )
+            types.map(t => t.ten_loai)
         ]
 
-
+        const { query } = req.query;
+        const splitedQuery = query ? query.split(';') : []
 
 
         const { page } = req.query
@@ -487,6 +518,13 @@ router.get('/cate/:cate_id', async (req, res) => {
 
             const totals = await MySQL_QUERY(`
             SELECT COUNT(*) AS total FROM SANPHAM  WHERE dong_san_pham='${cate.ma_dong}'
+            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                `AND gia >= ${ splitedQuery[0] } 
+                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                            AND gia <= ${ splitedQuery[1] }
+                        `: `` }
+                    `: 
+                `` }
         `);
             const { total } = totals[0]
             const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
@@ -499,11 +537,19 @@ router.get('/cate/:cate_id', async (req, res) => {
                     gia AS price,
                     if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                     dang_giam_gia AS is_sale,
+                    (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                     san_pham_moi AS is_new,
                     anh_dai_dien AS image,
                     5 as stars
                 FROM SANPHAM
                 WHERE dong_san_pham='${cate.ma_dong}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
                     LIMIT ${RECORDS_PER_PAGE} OFFSET ${(pageIndex - 1) * RECORDS_PER_PAGE};
             `)
 
@@ -528,7 +574,8 @@ router.get('/cate/:cate_id', async (req, res) => {
                     paginate: {
                         pageIndex,
                         maxPageIndex,
-                        origin: `/products/cate/${cate.ma_dong}`
+                        origin: `/products/cate/${cate.ma_dong}`,
+                        query,
                     },
                 })
 
@@ -540,7 +587,7 @@ router.get('/cate/:cate_id', async (req, res) => {
                     lastPage,
                     auth: req.session.auth,
                     cates,
-
+                    
                 });
             }
         } else {
@@ -557,10 +604,18 @@ router.get('/cate/:cate_id', async (req, res) => {
                     if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                     dang_giam_gia AS is_sale,
                     san_pham_moi AS is_new,
+                    (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                     anh_dai_dien AS image,
                     5 as stars
                 FROM SANPHAM
                     WHERE dong_san_pham='${cate.ma_dong}'
+                    ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                        `AND gia >= ${ splitedQuery[0] } 
+                                ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                    AND gia <= ${ splitedQuery[1] }
+                                `: `` }
+                            `: 
+                        `` }
                     LIMIT ${RECORDS_PER_PAGE};
             `)
 
@@ -584,7 +639,8 @@ router.get('/cate/:cate_id', async (req, res) => {
                 paginate: {
                     pageIndex: 1,
                     maxPageIndex,
-                    origin: `/products/cate/${cate.ma_dong}`
+                    origin: `/products/cate/${cate.ma_dong}`,
+                    query,
                 },
             })
         }
@@ -622,6 +678,8 @@ router.get('/group/:group_id', async (req, res) => {
     const categoriesFilter = []
 
     const { group_id } = req.params;
+
+
     const groups = await MySQL_QUERY(`
         SELECT ma_nhom, ten_nhom, ma_loai, ten_loai, ma_dong, ten_dong
         FROM NHOMSANPHAM AS N 
@@ -653,13 +711,24 @@ router.get('/group/:group_id', async (req, res) => {
 
 
 
-        const { page } = req.query
+        const { page, query } = req.query
+
+        const splitedQuery = query ? query.split(';') : []
         if (functions.intValidate(page)) {
 
             const pageIndex = parseInt(page)
 
             const totals = await MySQL_QUERY(`
-                SELECT COUNT(*) AS total FROM SANPHAM  WHERE nhom_san_pham='${group.ma_nhom}'`);
+                SELECT COUNT(*) AS total FROM SANPHAM  WHERE nhom_san_pham='${group.ma_nhom}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+                
+            `);
             const { total } = totals[0]
             const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
 
@@ -672,10 +741,20 @@ router.get('/group/:group_id', async (req, res) => {
                 if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                 dang_giam_gia AS is_sale,
                 san_pham_moi AS is_new,
+                (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                 anh_dai_dien AS image,
                 5 as stars
             FROM SANPHAM
             WHERE nhom_san_pham='${group.ma_nhom}'
+
+            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                `AND gia >= ${ splitedQuery[0] } 
+                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                            AND gia <= ${ splitedQuery[1] }
+                        `: `` }
+                    `: 
+                `` }
+
                 LIMIT ${RECORDS_PER_PAGE} OFFSET ${(pageIndex - 1) * RECORDS_PER_PAGE};
         `)
 
@@ -697,7 +776,8 @@ router.get('/group/:group_id', async (req, res) => {
                     paginate: {
                         pageIndex,
                         maxPageIndex,
-                        origin: `/products/group/${group.ma_nhom}`
+                        origin: `/products/group/${group.ma_nhom}`,
+                        query,
                     },
                 })
 
@@ -726,10 +806,19 @@ router.get('/group/:group_id', async (req, res) => {
                 if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                 dang_giam_gia AS is_sale,
                 san_pham_moi AS is_new,
+                (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                 anh_dai_dien AS image,
                 5 as stars
             FROM SANPHAM
                 WHERE nhom_san_pham='${group.ma_nhom}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+
                 LIMIT ${RECORDS_PER_PAGE};
         `)
 
@@ -752,7 +841,8 @@ router.get('/group/:group_id', async (req, res) => {
                 paginate: {
                     pageIndex: 1,
                     maxPageIndex,
-                    origin: `/products/group/${group.ma_nhom}`
+                    origin: `/products/group/${group.ma_nhom}`,
+                    query
                 },
             })
         }
@@ -833,13 +923,24 @@ router.get('/type/:type_id', async (req, res) => {
 
 
 
-        const { page } = req.query
+        const { page, query } = req.query
+        const splitedQuery = query ? query.split(';') : []
+
+
         if (functions.intValidate(page)) {
 
             const pageIndex = parseInt(page)
 
             const totals = await MySQL_QUERY(`
-        SELECT COUNT(*) AS total FROM SANPHAM  WHERE loai_san_pham='${type.ma_loai}'`);
+                SELECT COUNT(*) AS total FROM SANPHAM  WHERE loai_san_pham='${type.ma_loai}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }    
+            `);
             const { total } = totals[0]
             const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
 
@@ -852,10 +953,20 @@ router.get('/type/:type_id', async (req, res) => {
                 if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                 dang_giam_gia AS is_sale,
                 san_pham_moi AS is_new,
+                (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                 anh_dai_dien AS image,
                 5 as stars
             FROM SANPHAM
             WHERE loai_san_pham='${type.ma_loai}'
+
+            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                `AND gia >= ${ splitedQuery[0] } 
+                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                            AND gia <= ${ splitedQuery[1] }
+                        `: `` }
+                    `: 
+                `` } 
+
                 LIMIT ${RECORDS_PER_PAGE} OFFSET ${(pageIndex - 1) * RECORDS_PER_PAGE};
         `)
 
@@ -878,7 +989,8 @@ router.get('/type/:type_id', async (req, res) => {
                     paginate: {
                         pageIndex,
                         maxPageIndex,
-                        origin: `/products/type/${type.ma_loai}`
+                        origin: `/products/type/${type.ma_loai}`,
+                        query,
                     },
                 })
 
@@ -907,10 +1019,20 @@ router.get('/type/:type_id', async (req, res) => {
                 if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
                 dang_giam_gia AS is_sale,
                 san_pham_moi AS is_new,
+                (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
                 anh_dai_dien AS image,
                 5 as stars
             FROM SANPHAM
                 WHERE loai_san_pham='${type.ma_loai}'
+
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` } 
+
                 LIMIT ${RECORDS_PER_PAGE};
         `)
 
@@ -933,7 +1055,8 @@ router.get('/type/:type_id', async (req, res) => {
                 paginate: {
                     pageIndex: 1,
                     maxPageIndex,
-                    origin: `/products/type/${type.ma_loai}`
+                    origin: `/products/type/${type.ma_loai}`,
+                    query,
                 },
             })
         }
@@ -955,5 +1078,194 @@ router.get('/type/:type_id', async (req, res) => {
 
 })
 
+
+
+
+router.get('/brand/:brand_id', async (req, res) => {
+    const previousPages = [
+        {
+            name: "Trang chủ",
+            url: "/",
+            icon: "fa fa-home",
+        },
+        {
+            name: "Sản phẩm",
+            url: "/products",
+        },
+        {
+            name: "Thương hiệu"
+        },
+    ]
+
+    const categoriesFilter = []
+    
+
+    const { brand_id } = req.params;
+    const { page, query } = req.query
+    
+
+
+    const brands = await MySQL_QUERY(`
+        SELECT * FROM THUONGHIEU WHERE ma_thuong_hieu = '${brand_id}'
+    `)
+
+    const cates = await MySQL_QUERY(`SELECT * FROM DONGSANPHAM`);
+
+    if (brands && brands.length > 0) {
+        const brand = brands[0]
+
+        const lastPage = { name: brand.ten_thuong_hieu }
+        const splitedQuery = query ? query.split(';') : []
+
+        
+        if (functions.intValidate(page)) {
+
+            const pageIndex = parseInt(page)
+
+            const totals = await MySQL_QUERY(`
+                SELECT COUNT(*) AS total FROM SANPHAM WHERE thuong_hieu='${brand_id}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }    
+            `);
+            const { total } = totals[0]
+            const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
+
+            if (pageIndex > 0 && pageIndex <= maxPageIndex) {
+                const products = await MySQL_QUERY(`
+                SELECT
+                    ma_san_pham AS product_id,
+                    ten_san_pham AS product_name,
+                    gia AS price,
+                    if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
+                    dang_giam_gia AS is_sale,
+                    san_pham_moi AS is_new,
+                    anh_dai_dien AS image,
+                    (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
+                    5 as stars
+                FROM SANPHAM
+                WHERE thuong_hieu='${brand_id}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+
+                    LIMIT ${RECORDS_PER_PAGE} OFFSET ${(pageIndex - 1) * RECORDS_PER_PAGE};
+        `)
+
+                for (let i = 0; i < products.length; i++) {
+                    products[i].index = (pageIndex - 1) * RECORDS_PER_PAGE + i + 1;
+                }
+
+                res.render('products', {
+                    title: `${brand.ten_thuong_hieu} | ${COMPANY}`,
+                    filter: categoriesFilter,
+                    previousPages,
+                    lastPage,
+                    auth: req.session.auth,
+                    accordion_title: brand.ten_thuong_hieu,
+
+
+                    products,
+                    cates,
+                    paginate: {
+                        pageIndex,
+                        maxPageIndex,
+                        origin: `/products/brand/${brand.ma_thuong_hieu}`,
+                        query
+                    },
+                })
+
+            } else {
+                res.render('404_not_found', {
+
+                    title: `404 - Not found| ${COMPANY}`,
+                    previousPages,
+                    lastPage,
+                    auth: req.session.auth,
+                    cates,
+
+                });
+            }
+        } else {
+            const totals = await MySQL_QUERY(`
+                SELECT COUNT(*) AS total FROM SANPHAM WHERE thuong_hieu='${brand_id}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+            `);
+            
+            const { total } = totals[0]
+            const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
+            const products = await MySQL_QUERY(`
+            SELECT
+                ma_san_pham AS product_id,
+                ten_san_pham AS product_name,
+                gia AS price,
+                if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
+                dang_giam_gia AS is_sale,
+                san_pham_moi AS is_new,
+                anh_dai_dien AS image,
+                (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
+                5 as stars
+            FROM SANPHAM
+                WHERE thuong_hieu='${brand_id}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }
+                LIMIT ${RECORDS_PER_PAGE};
+        `)
+
+            for (let i = 0; i < products.length; i++) {
+                products[i].index = i + 1
+            }
+
+            res.render('products', {
+                title: `${ brand.ten_thuong_hieu } | ${COMPANY}`,
+                filter: categoriesFilter,
+                previousPages,
+                lastPage,
+                auth: req.session.auth,
+
+
+                products,
+                cates,
+                accordion_title: brand.ten_thuong_hieu,
+
+                paginate: {
+                    pageIndex: 1,
+                    maxPageIndex,
+                    origin: `/products/brand/${ brand_id }`,
+                    query
+                },
+            })
+        }
+
+
+    } else {
+        res.render('404_not_found', {
+            title: `404 - NOT FOUND | ${COMPANY}`,
+            previousPages,
+            lastPage: { name: group_id },
+            auth: req.session.auth,
+            cates,
+        })
+    }
+})
 
 module.exports = router;

@@ -5,18 +5,19 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-6 p-0">
-          <div class="categories__item categories__large__item set-bg" 
+          <div class="categories__item categories__large__item set-bg"
             style="background-image: url(&quot;img/categories/category-1.jpg&quot;);">
             <div class="categories__text">
               <h1>Toilet</h1>
-              <p>Sự tiện lợi và thoải mái cho cuộc sống thường ngày</p><a href="/products/cate/thiet-bi-nha-ve-sinh">Shop now</a>
+              <p>Sự tiện lợi và thoải mái cho cuộc sống thường ngày</p><a
+                href="/products/cate/thiet-bi-nha-ve-sinh">Shop now</a>
             </div>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-              <div class="categories__item set-bg" 
+              <div class="categories__item set-bg"
                 style="background-image: url(&quot;img/categories/category-2.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Thiết bị phòng tắm</h4>
@@ -25,7 +26,7 @@
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-              <div class="categories__item set-bg" 
+              <div class="categories__item set-bg"
                 style="background-image: url(&quot;img/categories/category-3.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Thiết bị phòng bếp</h4>
@@ -34,7 +35,7 @@
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-              <div class="categories__item set-bg" 
+              <div class="categories__item set-bg"
                 style="background-image: url(&quot;img/categories/category-4.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Phụ tùng - Phụ kiện</h4>
@@ -43,7 +44,7 @@
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-              <div class="categories__item set-bg" 
+              <div class="categories__item set-bg"
                 style="background-image: url(&quot;img/categories/category-5.jpg&quot;);">
                 <div class="categories__text">
                   <h4>Các sản phẩm khác</h4>
@@ -66,31 +67,31 @@
         </div>
         <div class="col-lg-8 col-md-8">
           <ul class="filter__controls">
-            <li class="active" data-filter="all">Tất cả</li>
+            {{!-- <li class="active" data-filter="all">Tất cả</li> --}}
             {{#each hotProductOptions}}
-            <li data-filter="{{ name }}">{{ label }}</li>         
-            {{/each}}   
+            <li data-filter="{{ name }}">{{ label }}</li>
+            {{/each}}
           </ul>
         </div>
       </div>
       <div class="product__gallary" style="display: block" id="all">
         <div class="row property__gallery">
           {{#each products }}
-            {{#product this}}
-            {{/product}}
+          {{#product this}}
+          {{/product}}
           {{/each}}
         </div>
       </div>
-       {{#each hotProductOptions}}
-       <div class="product__gallary" id="{{ name }}" style="display: none">
-          <div class="row property__gallery">
-            {{#each this.products }}
-              {{#product this}}
-              {{/product}}
-            {{/each}}
-          </div>
-       </div>
-        {{/each}}   
+      {{#each hotProductOptions}}
+      <div class="product__gallary" id="{{ name }}" style="display: none">
+        <div class="row property__gallery">
+          {{#each this.products }}
+          {{#product this}}
+          {{/product}}
+          {{/each}}
+        </div>
+      </div>
+      {{/each}}
     </div>
   </section>
 
@@ -104,8 +105,7 @@
         <div class="col-xl-7 col-lg-8 m-auto">
           <div class="banner__slider owl-carousel owl-loaded owl-drag">
             <div class="owl-stage-outer">
-              <div class="owl-stage"
-               >
+              <div class="owl-stage">
                 <div class="owl-item cloned" style="width: 652.5px;">
                   <div class="banner__item">
                     <div class="banner__text"><span>The Chloe Collection</span>
@@ -113,8 +113,8 @@
                     </div>
                   </div>
                 </div>
-                
-                
+
+
               </div>
             </div>
             <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span
@@ -130,7 +130,25 @@
   </section> --}}
 
 
-
+  <section class="trend span">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="section-title">
+            <p class="section__title__content">Các thương hiệu</h4>
+          </div>
+        </div>
+      </div>
+      <div class="row brands">
+        {{#each brands }}
+        <div class="brand" >
+          <a class="brand__bg" href="/products/brand/{{ ma_thuong_hieu }}" style="background-image: url({{ logo }});"></a>
+          <h6>{{ ten_thuong_hieu }}</h6>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
 
 
   <section class="trend spad">
@@ -147,7 +165,8 @@
             {{#each items }}
             <a href="/products/p/{{ product_id }}">
               <div class="trend__item">
-                <div class="trend__item__pic"><img class="trend__item__image" src={{ image }} alt="{{ product_id }} - {{ product_name }}"></div>
+                <div class="trend__item__pic"><img class="trend__item__image" src={{ image }}
+                    alt="{{ product_id }} - {{ product_name }}"></div>
                 <div class="trend__item__text">
                   <h6>{{ product_name }}</h6>
                   <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
@@ -156,12 +175,12 @@
                 </div>
               </div>
             </a>
-             {{/each }}
-            
+            {{/each }}
+
           </div>
         </div>
-         {{/each }}
-       
+        {{/each }}
+
       </div>
     </div>
   </section>

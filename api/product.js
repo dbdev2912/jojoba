@@ -11,16 +11,18 @@ router.post('/add__cart', async (req, res) => {
     const { product_id } = req.body;
     const cart = req.session.cart
     
+    const amount = functions.intValidate(req.body.amount )?  parseInt(req.body.amount) : 1
+
     if( cart && Array.isArray(cart)){
         const isProduct_existed = cart.find( p => p.product_id == product_id )
         if( !isProduct_existed ){
-            req.session.cart.push({ product_id, quantity: 1 })
+            req.session.cart.push({ product_id, quantity: amount })
             res.send({ success: true, len: req.session.cart.length })
         }else{
             res.send({ success: false, type: "existed" })
         }
     }else{
-        req.session.cart = [ { product_id, quantity: 1 } ]
+        req.session.cart = [ { product_id, quantity: amount } ]
         res.send({ success: true, len: 1 })
     }
 })

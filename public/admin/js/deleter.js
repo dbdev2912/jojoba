@@ -1,5 +1,5 @@
 $(() => {
-    const proxy = "http://localhost:5000"
+    const proxy = ""
     // const proxy = "http://xuandung.com.vn"
 
     $('.category__delete__icon i').click((e) => {
@@ -346,6 +346,65 @@ $(() => {
             }
          })
 
+
+    })
+
+    $('.order__delete__icon i').click( e => {
+        const $target = $(e.target).closest('.order__delete__icon')
+        const order_id = $target.attr('data')
+
+        
+
+        Swal.fire({
+            title: 'Cảnh báo',
+            text: `Xóa đơn hàng ${ order_id } ?` ,
+            icon: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Có',
+      
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Không',
+         }).then(( confirm ) => {
+            if( confirm.isConfirmed ){
+                /**
+                 * 
+                 * SEND REQUEST HERE
+                 * 
+                 */                
+
+                fetch(`${proxy}/api/admin/order/remove__order`, {
+                    method: "delete",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify({ order_id })
+                }).then(res => res.json()).then( res => {
+                    const { success, content } = res;
+                    if( success ){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Xóa thành công',                                                
+                        }).then(() => {
+                            setTimeout(() => {                                
+                                window.location.reload()
+                            }, 1000)
+                        });                       
+
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: content,                            
+                        });
+                    }
+               }) 
+
+            }else{
+                
+            }
+         })
 
     })
 

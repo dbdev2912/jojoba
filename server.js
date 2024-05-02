@@ -15,6 +15,7 @@ const home = require('./routes/home');
 const products = require('./routes/products')
 const contact = require('./routes/contact')
 const user = require('./routes/user')
+const policies = require('./routes/policies')
 const userError = require('./routes/user.error.js')
 
 const adminHome = require('./routes/admin.home.js')
@@ -126,6 +127,7 @@ app.use('/products', products);
 app.use('/contact', contact)
 app.use('/u', user)
 app.use('/e/', userError)
+app.use('/policies', policies)
 
 app.use('/api/u', Auth)
 app.use('/api/admin/product/', AdminApi_Product)

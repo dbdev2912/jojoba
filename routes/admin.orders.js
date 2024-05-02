@@ -137,6 +137,9 @@ router.get('/:order_id', async (req, res) => {
             ( SELECT SUM( so_luong * don_gia )  FROM CHITIETDATHANG WHERE so_hoa_don = D.so_hoa_don GROUP BY so_hoa_don ) AS total,
             nguoi_nhan AS recipient,
             ten_trang_thai AS status,
+            D.trang_thai AS status_id,
+            D.email,
+            D.di_dong AS phone,
 
             phi_van_chuyen AS shipping_fee            
         FROM 
@@ -176,6 +179,12 @@ router.get('/:order_id', async (req, res) => {
             WHERE so_hoa_don = '${ order_id }';
         `)
 
+        const status = await MySQL_QUERY(`
+            SELECT 
+                ma_trang_thai AS status_id,
+                ten_trang_thai AS status_name
+            FROM TRANGTHAI
+        `)
         
         res.render("admin_orders/order", {
             layout: "admin",
@@ -184,7 +193,7 @@ router.get('/:order_id', async (req, res) => {
             auth: req.session.auth,
             order,
             products,
-    
+            status
         })
     }else{
         res.render('admin_404_not_found', {

@@ -303,7 +303,24 @@ const reCalculateTotal = () => {
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify({ product_id: $target.attr("data") })
+            body: JSON.stringify({ product_id: $target.attr("data"), amount: 1 })
+        })
+        const res = await req.json()
+        const { success, type, len } = res
+        if (success) {
+            $('.cart__count').text(len)
+        }
+    })
+
+    $('#product__add__cart').click(async (e) => {
+        const $target = $(e.target)
+        const amount = $('#add__cart__quantity').val()
+        const req = await fetch(`${proxy}/api/product/add__cart`, {
+            method: "post",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({ product_id: $target.attr("data"), amount })
         })
         const res = await req.json()
         const { success, type, len } = res
@@ -339,6 +356,13 @@ const reCalculateTotal = () => {
     $('.order__record__redirect').click(e => {
         const link = $(e.target).closest('.order__record__redirect').attr('to')
         window.location = link
+    })
+
+
+    $('#price-filter').click(e => {
+        const min = $('#minamount').val()
+        const max = $('#maxamount').val()
+        window.location = `${ window.location.pathname }?query=${min};${max}` 
     })
 
 })(jQuery);

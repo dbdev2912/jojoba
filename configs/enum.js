@@ -1,7 +1,7 @@
 const TAX = 10; // 10% VAT
 const PASSWORD_MIN_LENGTH = 6;
 const PASSWORD_MAX_LENGTH = 48;
-const COMPANY = "Cửa hàng Xuân Dũng"
+const COMPANY = "Nhà phân phối Xuân Dũng Cần Thơ - Thiết bị vệ sinh, thiết bị nhà bếp, máy nước nóng"
 
 const RECORDS_PER_PAGE = 12;
 
@@ -16,7 +16,7 @@ const defaultAccount = {
 }
 
 const descriptions = [
-    "Cửa hàng Xuân Dũng",
+    "Nhà phân phối Xuân Dũng",
     "Bàn cầu Cần Thơ", "đồ inox giá tốt",
     "Bàn cầu JOJOBA", "Bàn cầu nhập khẩu", "Bàn cầu sứ cao cấp", "Bàn cầu Đài Loan", 
     "Thiết bị nhà vệ sinh", "Thiết bị nhà tắm", "máy nước nóng",

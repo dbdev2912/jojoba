@@ -78,3 +78,28 @@
 .cart__total__procced .plain-text{
     font-weight: normal;    
 }
+
+.brands{
+
+}
+
+.brands .brand{
+    padding: 6px;
+}
+
+.brands .brand .brand__bg{
+    display: block;
+    width: 160px;
+    height: 90px;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 1px 1px 10px 0px #e5e5e5;
+    cursor: pointer;
+}
+
+.brands .brand h6{
+    display: block;
+    text-align: center;
+    margin: 12px;
+    font-weight: bold;
+}

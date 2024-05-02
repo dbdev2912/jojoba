@@ -1,7 +1,7 @@
 
 
 $(async () => {
-    const url = 'http://localhost:5000/api/admin/product/initial-info'
+    const url = '/api/admin/product/initial-info'
     // const url = 'http://xuandung.com.vn/api/admin/product/initial-info'
     const req = await fetch(url)
     const res = await req.json()

@@ -46,10 +46,10 @@
                         <div class="quantity">
                             <span>Số lượng</span>
                             <div class="pro-qty">
-                                <input type="text" value="1" />
+                                <input type="text" value="1" id="add__cart__quantity" />
                             </div>
                         </div>
-                        <a href="#" class="cart-btn"><span class="icon_bag_alt"></span>Thêm vào giỏ</a>
+                        <a href="#" class="cart-btn" id="product__add__cart" data="{{ product.product_id }}"><span class="icon_bag_alt"></span>Thêm vào giỏ</a>
                         {{!-- <ul>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
@@ -133,4 +133,29 @@
         </div>
     </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.product_name }}",
+  "description": "{{ product.description }}",
+  "image": "{{ product.image }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product.brand_name }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price }}",
+    "priceCurrency": "vnđ",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "Nhà phân phối Xuân Dũng"
+    }
+  }
+}
+</script>
+
 {{> footer }}

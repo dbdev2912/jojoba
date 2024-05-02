@@ -14,9 +14,12 @@
             <!-- invoice section -->
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
-                    <div class="full graph_head">
+                    <div class="full graph_head row" >
                         <div class="heading1 margin_0">
                             <h2 id="order_id" order_id="{{ order.order_id }}"><i class="fa fa-file-text-o" > </i> {{ order.order_id }}</h2>
+                        </div>
+                        <div class="ml-auto setting__icon" data-toggle="modal" data-target="#update__order">
+                            <i class="fa fa-cog"></i>
                         </div>
                     </div>
                     <div class="full">
@@ -38,11 +41,11 @@
                                     <div class="full invoice_blog padding_infor_info padding-bottom_0">
                                         <h4>Đến</h4>
                                         <p><strong>{{ order.order_by_full_name }}</strong><br>
-                                            130B2 KV2, P.An Khánh, Q.Ninh Kiều, TP.Cần Thơ
+                                            {{ order.to_address }}
                                             <br>
-                                            <strong>Phone : </strong><a href="tel:9876543210">9876 543 210</a><br>
+                                            <strong>Phone : </strong><a href="tel:{{ order.phone }}">{{ order.phone }}</a><br>
                                             <strong>Email : </strong><a
-                                                href="mailto:yourmail@gmail.com">banh.thiorder@gmail.com</a>
+                                                href="mailto:{{ order.email }}">{{ order.email }}</a>
                                         </p>
                                     </div>
                                 </div>
@@ -51,7 +54,10 @@
                                         <h4>Đơn hàng</h4>
                                         <p><strong>Số: </strong>{{ order.order_id }}<br>
                                             <strong>Ngày đặt: </strong>{{ order.create_at }}<br>
-                                            <strong>Tài khoản : </strong>banh.thiorder@gmail.com
+                                            <strong>Tài khoản : </strong>{{ order.order_by }}
+                                        </p>
+                                        <p>
+                                            <strong>Trạng thái: </strong> {{ order.status }}
                                         </p>
                                     </div>
                                 </div>
@@ -93,7 +99,7 @@
                                             {{#if in_stock }} <td>Còn hàng</td> {{else}} <td>Hết hàng</td> {{/if}}
                                             <td>
                                                 <div class="d-flex">
-                                                    <a class="table__icon order__product__edit__icon" data="{{ product_id }}"><i class="fa fa-edit"></i></a>
+                                                    <a class="table__icon order__product__edit__icon" data="{{ product_id }}"  data-toggle="modal" data-target="#edit__order__product"><i class="fa fa-edit"></i></a>
                                                     <a class="table__icon table__delete__icon order__product__delete__icon" data="{{ product_id }}"><i class="fa fa-trash"></i></a>
                                                 </div>
                                             </td>
@@ -123,15 +129,15 @@
                                     <tbody>
                                         <tr>
                                             <th style="width:50%">Sản phẩm: </th>
-                                            <td>{{#formatPrice order.total }}{{/formatPrice}}</td>
+                                            <td id="order__total">{{#formatPrice order.total }}{{/formatPrice}}</td>
                                         </tr>                                        
                                         <tr>
                                             <th>Phí vận chuyển: </th>
-                                            <td>{{#formatPrice order.shipping_fee }}{{/formatPrice}}</td>
+                                            <td  id="shipping__fee">{{#formatPrice order.shipping_fee }}{{/formatPrice}}</td>
                                         </tr>
                                         <tr>
                                             <th>Tổng đơn</th>
-                                            <td>{{#formatPrice order.final_cost }}{{/formatPrice}}</td>
+                                            <td id="order__final">{{#formatPrice order.final_cost }}{{/formatPrice}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -145,5 +151,8 @@
 </div>
 
 {{>select_product }}
+
+{{>edit_order_product }}
+{{>edit_order }}
 
 {{>admin_footer}}

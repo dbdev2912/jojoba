@@ -157,6 +157,10 @@ router.get('/', async (req, res) => {
     `)
 
 
+    const brands = await MySQL_QUERY(`
+        SELECT * FROM THUONGHIEU
+    `)
+
     const descriptions = [
         ...DESCRIPTIONS,
         "bàn cầu khuyến mãi",
@@ -179,7 +183,7 @@ router.get('/', async (req, res) => {
         hotProductOptions,
         trending: trendingItems,
         cateCounts: cateCounts[0],
-
+        brands,
         
     });
 });
