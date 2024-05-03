@@ -118,13 +118,7 @@ const product_record = (product, options) => {
         <img src="${product.image}" alt="${product.brand_name} - ${ product.product_name }" />
         <div class="cart__product__item__title">
             <h6>${product.product_name}</h6>
-            <div class="rating">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-            </div>
+            
         </div>
     </td>
     ${ product.is_for_sale ? 

@@ -285,6 +285,24 @@ const reCalculateTotal = () => {
         })
     });    
 
+
+    $('.product__quantity').on('change', e => {
+        const $input = $(e.target)
+        const quantity = e.target.value;
+
+        const product_id = $input.parent().attr("data")        
+
+
+        fetch(`${ proxy }/api/product/cart__update`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ product_id, quantity })
+        })
+        reCalculateTotal()
+    })
+
     /*-------------------
         Radio Btn
     --------------------- */
