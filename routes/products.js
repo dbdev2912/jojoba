@@ -182,6 +182,13 @@ router.get('/', async (req, res) => {
     } else {
         const totals = await MySQL_QUERY(`
             SELECT COUNT(*) AS total FROM SANPHAM
+            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                `WHERE gia >= ${ splitedQuery[0] } 
+                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                            AND gia <= ${ splitedQuery[1] }
+                        `: `` }
+                    `: 
+                `` }  
         `);
         const { total } = totals[0]
         const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
@@ -593,6 +600,13 @@ router.get('/cate/:cate_id', async (req, res) => {
         } else {
             const totals = await MySQL_QUERY(`
             SELECT COUNT(*) AS total FROM SANPHAM  WHERE dong_san_pham='${cate.ma_dong}'
+            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                `AND gia >= ${ splitedQuery[0] } 
+                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                            AND gia <= ${ splitedQuery[1] }
+                        `: `` }
+                    `: 
+                `` }  
         `);
             const { total } = totals[0]
             const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
@@ -794,8 +808,15 @@ router.get('/group/:group_id', async (req, res) => {
             }
         } else {
             const totals = await MySQL_QUERY(`
-        SELECT COUNT(*) AS total FROM SANPHAM  WHERE nhom_san_pham='${group.ma_nhom}'
-    `);
+                SELECT COUNT(*) AS total FROM SANPHAM  WHERE nhom_san_pham='${group.ma_nhom}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }  
+            `);
             const { total } = totals[0]
             const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
             const products = await MySQL_QUERY(`
@@ -946,26 +967,26 @@ router.get('/type/:type_id', async (req, res) => {
 
             if (pageIndex > 0 && pageIndex <= maxPageIndex) {
                 const products = await MySQL_QUERY(`
-            SELECT
-                ma_san_pham AS product_id,
-                ten_san_pham AS product_name,
-                gia AS price,
-                if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
-                dang_giam_gia AS is_sale,
-                san_pham_moi AS is_new,
-                (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
-                anh_dai_dien AS image,
-                5 as stars
-            FROM SANPHAM
-            WHERE loai_san_pham='${type.ma_loai}'
+                    SELECT
+                        ma_san_pham AS product_id,
+                        ten_san_pham AS product_name,
+                        gia AS price,
+                        if( dang_giam_gia = true, gia - (gia * phan_tram_giam / 100), gia ) AS sale_price,
+                        dang_giam_gia AS is_sale,
+                        san_pham_moi AS is_new,
+                        (SELECT ten_thuong_hieu FROM THUONGHIEU WHERE ma_thuong_hieu=thuong_hieu) AS brand_name,
+                        anh_dai_dien AS image,
+                        5 as stars
+                    FROM SANPHAM
+                    WHERE loai_san_pham='${type.ma_loai}'
 
-            ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
-                `AND gia >= ${ splitedQuery[0] } 
-                        ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
-                            AND gia <= ${ splitedQuery[1] }
-                        `: `` }
-                    `: 
-                `` } 
+                    ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                        `AND gia >= ${ splitedQuery[0] } 
+                                ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                    AND gia <= ${ splitedQuery[1] }
+                                `: `` }
+                            `: 
+                        `` } 
 
                 LIMIT ${RECORDS_PER_PAGE} OFFSET ${(pageIndex - 1) * RECORDS_PER_PAGE};
         `)
@@ -1007,8 +1028,16 @@ router.get('/type/:type_id', async (req, res) => {
             }
         } else {
             const totals = await MySQL_QUERY(`
-        SELECT COUNT(*) AS total FROM SANPHAM  WHERE loai_san_pham='${type.ma_loai}'
-    `);
+                SELECT COUNT(*) AS total FROM SANPHAM  WHERE loai_san_pham='${type.ma_loai}'
+                ${ splitedQuery[0] && functions.intValidate(splitedQuery[0]) ? 
+                    `AND gia >= ${ splitedQuery[0] } 
+                            ${ splitedQuery[1] && functions.intValidate(splitedQuery[1]) ? `
+                                AND gia <= ${ splitedQuery[1] }
+                            `: `` }
+                        `: 
+                    `` }  
+
+            `);
             const { total } = totals[0]
             const maxPageIndex = Math.ceil(total / RECORDS_PER_PAGE)
             const products = await MySQL_QUERY(`

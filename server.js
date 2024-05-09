@@ -17,6 +17,7 @@ const contact = require('./routes/contact')
 const user = require('./routes/user')
 const policies = require('./routes/policies')
 const userError = require('./routes/user.error.js')
+const search = require('./routes/search')
 
 const adminHome = require('./routes/admin.home.js')
 const adminProducts = require('./routes/admin.products.js')
@@ -24,7 +25,6 @@ const adminErrors = require('./routes/admin.errors.js')
 const adminBrands = require('./routes/admin.brands.js')
 const adminStatus = require('./routes/admin.status.js')
 const adminOrders = require('./routes/admin.orders.js')
-
 
 const { Auth, AdminApi_Product, ApiProducts, AdminApi_Order } = require('./api')
 
@@ -141,7 +141,7 @@ app.use('/admin/brands', adminBrands )
 app.use('/admin/status', adminStatus )
 app.use('/admin/orders', adminOrders )
 
-
+app.use('/search', search )
 
 const PORT = 5000
 

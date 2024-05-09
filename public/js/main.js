@@ -93,9 +93,16 @@ const reCalculateTotal = () => {
 
     $('.search-close-switch').on('click', function () {
         $('.search-model').fadeOut(400, function () {
-            $('#search-input').val(''); cd
+            $('#search-input').val(''); 
         });
     });
+
+    $('#search-input').on('keyup', (e) => {
+        const keyCode = e.keyCode;
+        if(keyCode == 13){
+            window.location = `/search?query=${ e.target.value }`
+        }
+    })
 
     //Canvas Menu
     $(".canvas__open").on('click', function () {

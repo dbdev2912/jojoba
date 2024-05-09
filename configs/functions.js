@@ -12,20 +12,23 @@ const formatComnaSeperatedNumber = (number) => {
      * 
      */
 
+    if( number ){
 
-    let numString = number.toString();
-    let formattedNumber = '';
-    let count = 0;
-
-    for (let i = numString.length - 1; i >= 0; i--) {
-        count++;
-        formattedNumber = numString[i] + formattedNumber;
-        if (count % 3 === 0 && i !== 0) {
-            formattedNumber = ',' + formattedNumber;
-        }
-    }
+        let numString = number.toString();
+        let formattedNumber = '';
+        let count = 0;
     
-    return formattedNumber;
+        for (let i = numString.length - 1; i >= 0; i--) {
+            count++;
+            formattedNumber = numString[i] + formattedNumber;
+            if (count % 3 === 0 && i !== 0) {
+                formattedNumber = ',' + formattedNumber;
+            }
+        }
+        
+        return formattedNumber;
+    }
+    return "0"
 }
 
 
