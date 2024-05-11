@@ -256,6 +256,8 @@ router.get('/p/:product_id', async (req, res) => {
         },
     ]
 
+    await functions.accessCounter()
+
     const { product_id } = req.params;
 
 // 

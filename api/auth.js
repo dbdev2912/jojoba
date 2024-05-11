@@ -164,6 +164,7 @@ router.post('/signup', async (req, res) => {
                             ho: firstname,
                             ten: lastname
                         }
+                        res.redirect('/')
                     } else {
                         res.redirect('/u/signup?phone=1')
                     }

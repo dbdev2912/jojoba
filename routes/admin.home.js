@@ -26,10 +26,11 @@ router.get('/', async (req, res) => {
                 INNER JOIN DONHANG AS D ON D.so_hoa_don = C.so_hoa_don
             WHERE MONTH(ngay_lap) = ${month} AND YEAR(ngay_lap) = ${ year }
         `,
-        `SELECT COUNT(*) AS total FROM THULIENHE`
+        `SELECT COUNT(*) AS total FROM THULIENHE`,
+        `SELECT * FROM SYSTEMCONFIG`
     ]
 
-    const [ products, orders, invoices, monthlyInvoice, mailings ] = await Promise.all( queries.map(query => MySQL_QUERY(query)) )
+    const [ products, orders, invoices, monthlyInvoice, mailings, visited ] = await Promise.all( queries.map(query => MySQL_QUERY(query)) )
    
     
 
@@ -63,6 +64,12 @@ router.get('/', async (req, res) => {
             title: "Thư liên hệ",
             value: mailings[0]?.total,
             bg: "#525252"
+        },
+        { 
+            icon: "fa fa-link",
+            title: "Lượt truy cập",
+            value: visited[0] ? visited[0].value: 0,
+            bg: "#ff83c1"
         },
     ]
 

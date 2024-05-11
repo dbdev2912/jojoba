@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
-const { ROLES, ADMIN } = require('./enum')
-
+const { ROLES, ADMIN, CONFIGS } = require('./enum')
+const MySQL_QUERY = require('./../db/connector')
 
 const formatComnaSeperatedNumber = (number) => {
     /**
@@ -243,6 +243,37 @@ const intValidate = ( number ) => {
     }
 }
 
+const accessCounter = async () => {
+
+     /** 
+     *  @type: function
+     * 
+     *  @params: *args
+     * 
+     *  @desc:
+     *      Count and save total access time on index page and product page
+     * 
+     *  @return BOOL
+     * 
+     *  
+     * 
+     */
+
+
+    const rawAccessTimes = await MySQL_QUERY(`SELECT * FROM SYSTEMCONFIG WHERE config_id = '${ CONFIGS.visited }'`)
+    if( rawAccessTimes[0] ){
+        const { config_id, value } = rawAccessTimes[0]
+        const visitedTimes = parseInt(value)
+        await MySQL_QUERY(`
+            UPDATE SYSTEMCONFIG SET value = '${ visitedTimes + 1 }' WHERE config_id = '${ CONFIGS.visited }'
+        `)
+    }else{
+        await MySQL_QUERY(`
+            INSERT INTO SYSTEMCONFIG VALUE('${ CONFIGS.visited }', '1');
+        `)
+    }
+}
+
 
 module.exports = {
     renderPrice,
@@ -255,6 +286,7 @@ module.exports = {
     formateDateTime,
     isAdmin,
 
-    intValidate
+    intValidate,
+    accessCounter
 }
 

@@ -5,7 +5,7 @@ const lang = require('../configs/lang')
 const functions = require('../configs/functions');
 const MySQL_QUERY = require('../db/connector');
 
-const { COMPANY, DESCRIPTIONS, KEYWORDS } = require('../configs/enum')
+const { COMPANY, DESCRIPTIONS, KEYWORDS, CONFIGS } = require('../configs/enum')
 
 // Routing 
 router.get('/', async (req, res) => {
@@ -21,6 +21,9 @@ router.get('/', async (req, res) => {
     //         is_new: true
     //     },
     // ]
+
+
+    await functions.accessCounter()
 
     const newProducts = await MySQL_QUERY(`
         SELECT

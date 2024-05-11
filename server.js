@@ -51,9 +51,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-
-
-
 const Helpers = require('./helpers')
 
 const hbs = expbs.create({

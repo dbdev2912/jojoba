@@ -29,6 +29,11 @@ const keywords = [
     "JOJOBA", "Rosta", "Caesar", "Greenlife"   
 ]
 
+
+const configs = {
+    visited: "luot_truy_cap"
+}
+
 module.exports = {
     TAX,
     PASSWORD_MIN_LENGTH,
@@ -41,5 +46,5 @@ module.exports = {
     ADMIN: defaultAccount,
     DESCRIPTIONS: descriptions,
     KEYWORDS: keywords,
-    
+    CONFIGS: configs
 }
