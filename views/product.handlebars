@@ -19,8 +19,13 @@
             <div class="col-lg-6">
                 <div class="product__details__text">
 
-                    <h3>{{ product.product_name }}<span style="textTransform: uppercase">Thương hiệu: {{
-                            product.brand_name }}</span></h3>
+                    <h3>{{ product.product_name }}
+                        <span style="text-transform: uppercase">Thương hiệu: {{ product.brand_name }}</span>
+                        <span style="text-transform: uppercase">Xuất xứ: {{ product.originate }}</span>
+                    </h3>
+                    
+                    
+
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -37,8 +42,8 @@
                         <div class="product__details__price price__no__sale">{{#formatPrice product.price }}{{/formatPrice}}</div>
                     {{/if}}
 
-                    {{!-- PRODUCT INTR --}}
-                    <p>{{ product.instroducing }}</p>
+                    {{!-- PRODUCT INTR --}}                    
+                    {{#paragraph product.instroducing }}{{/paragraph}}
 
 
 

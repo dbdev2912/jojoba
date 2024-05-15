@@ -280,7 +280,8 @@ router.get('/p/:product_id', async (req, res) => {
             anh_dai_dien AS image,
             gioi_thieu AS instroducing,
             mo_ta AS description,
-            thong_so_ky_thuat AS specification
+            thong_so_ky_thuat AS specification,
+            xuat_xu AS originate
 
         FROM SANPHAM
             WHERE MA_SAN_PHAM = '${product_id}'

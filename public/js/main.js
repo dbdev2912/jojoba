@@ -222,7 +222,7 @@ const reCalculateTotal = () => {
     /* var timerdate = "2020/12/30" */
 
     $("#countdown-time").countdown(timerdate, function (event) {
-        $(this).html(event.strftime("<div class='countdown__item'><span>%D</span> <p>Day</p> </div>" + "<div class='countdown__item'><span>%H</span> <p>Hour</p> </div>" + "<div class='countdown__item'><span>%M</span> <p>Min</p> </div>" + "<div class='countdown__item'><span>%S</span> <p>Sec</p> </div>"));
+        $(this).html(event.strftime("<div class='countdown__item'><span>%D</span> <p>Ngày</p> </div>" + "<div class='countdown__item'><span>%H</span> <p>Giờ</p> </div>" + "<div class='countdown__item'><span>%M</span> <p>Phút</p> </div>" + "<div class='countdown__item'><span>%S</span> <p>Giây</p> </div>"));
     });
 
     /*-------------------

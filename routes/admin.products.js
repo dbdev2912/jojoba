@@ -172,6 +172,7 @@ router.post('/product', async (req, res) => {
      *  BODY: {
      *  product_id: <String>,
         product_name: <String>,
+        product_origin: <String>,
         cate_id: <String>,
         type_id: <String>,
         group_id: <String>,
@@ -209,6 +210,7 @@ router.post('/product', async (req, res) => {
     const { 
         product_id,
         product_name,
+        product_origin,
         cate_id,
         type_id,
         group_id,
@@ -257,11 +259,12 @@ router.post('/product', async (req, res) => {
                 const insertQuery = `
                     INSERT INTO SANPHAM(ma_san_pham, ten_san_pham, gioi_thieu, mo_ta, thong_so_ky_thuat, gia, dang_giam_gia,
                         phan_tram_giam, san_pham_moi, anh_dai_dien,
-                        dong_san_pham, loai_san_pham, nhom_san_pham, don_vi_tinh, thuong_hieu, trang_thai
+                        dong_san_pham, loai_san_pham, nhom_san_pham, don_vi_tinh, thuong_hieu, trang_thai,
+                        xuat_xu
                     )
                     VALUES('${product_id}', '${ product_name }', '${ introducing }', '${ description }', '${ technical }', ${price}, ${ is_for_sale ? "True": "False" }, 
                         ${ sale_percentage }, ${ is_new ? "True": "False" }, '${savePath}',
-                        '${cate_id}', '${ type_id }', '${group_id}', '${unit_id}', '${brand_id}', ${ in_stock ? "True": "False" }
+                        '${cate_id}', '${ type_id }', '${group_id}', '${unit_id}', '${brand_id}', ${ in_stock ? "True": "False" }, '${ product_origin }'
                     )
                 `;                
                 await MySQL_QUERY(insertQuery)
@@ -329,6 +332,7 @@ router.post('/product/edit', async (req, res) => {
      *  BODY: {
      *  product_id: <String>,
         product_name: <String>,
+        product_origin: <String>,
         cate_id: <String>,
         type_id: <String>,
         group_id: <String>,
@@ -366,6 +370,7 @@ router.post('/product/edit', async (req, res) => {
     const { 
         product_id,
         product_name,
+        product_origin,
         cate_id,
         type_id,
         group_id,
@@ -469,6 +474,7 @@ router.post('/product/edit', async (req, res) => {
                         dang_giam_gia = ${is_for_sale },
                         phan_tram_giam = ${sale_percentage},
                         trang_thai = ${in_stock },
+                        xuat_xu = '${ product_origin }',
 
                         gioi_thieu = '${introducing}',
                         mo_ta = '${description}',

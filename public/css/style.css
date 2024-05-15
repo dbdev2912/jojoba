@@ -668,9 +668,17 @@ ol {
   Discount
 -----------------------*/
 
+.discount__pic{
+	display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+}
+
+
 .discount__pic img {
 	min-width: 100%;
-	height: 100%;
+	/* height: 100%; */
 }
 
 .discount__text {
