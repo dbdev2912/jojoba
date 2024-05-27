@@ -332,6 +332,7 @@ const reCalculateTotal = () => {
         })
         const res = await req.json()
         const { success, type, len } = res
+        
         if (success) {
             $('.cart__count').text(len)
         }

@@ -94,6 +94,7 @@ const hbs = expbs.create({
         paragraph: Helpers.paragraph,
 
         product: Helpers.product,
+        product_admin: Helpers.product_admin,
         product_md4: Helpers.product_md4,
         product_record: Helpers.product_record,
         order_record: Helpers.order_record,

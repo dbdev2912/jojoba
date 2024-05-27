@@ -11,8 +11,13 @@
                      <div class="row page_title">
                         <h2>SẢN PHẨM</h2>
                         <div class="ml-auto d-flex">
+                           <div class="switch-mode">
+                              <button class="switch-mode-btn" id="mode-switch">
+                                 <i class="fa fa-refresh"></i>
+                              </button>
+                           </div>
                            <div class="form-group d-flex">
-                              <input class="form-control" type="text" id="search-input" placeholder="Tìm kiếm..."/>
+                              <input class="form-control" type="text" id="search-input" placeholder="Tìm kiếm..." value="{{ paginate.query}}"/>
                               <a class="btn btn-primary d-block" style="margin-left: 1em;" href="/admin/product/products/new">Thêm mới</a>
                            </div>
                         </div>
@@ -21,7 +26,14 @@
                </div>
                <!-- row -->
                <div class="row">
-                  <!-- table section -->
+                  <!-- table section -->                  
+                  {{#if (eq paginate.view "grid") }}
+                     {{#each products }}
+                           {{#product_admin this}}
+                           {{/product_admin}}
+                     {{/each}}
+                     
+                  {{else}}
                   <div class="col-md-12">
                      <div class="white_shd full margin_bottom_30">
                         <div class="table_section padding_infor_info">
@@ -49,15 +61,16 @@
 
 
 
-                            {{#tablePaginate paginate}}{{/tablePaginate}}
 
 
 
                         </div>
                      </div>
                   </div>
+                  {{/if}}
 
                </div>
+                  {{#tablePaginate paginate}}{{/tablePaginate}}
 
 
 

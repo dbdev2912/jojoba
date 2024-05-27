@@ -257,7 +257,7 @@ router.get('/orders', async (req, res) => {
         if( page && functions.intValidate(page)){
             const pageIndex = parseInt(page)
             
-            console.log(pageIndex. maxPageIndex)
+            
 
             if( pageIndex > 0 && pageIndex <= maxPageIndex ){
 

@@ -299,3 +299,139 @@
     font-size: 1.5em;
 	cursor: pointer;
 }
+
+
+
+.product__item {
+	margin-bottom: 35px;	
+	box-shadow: 1px 1px 10px 0px #e5e5e5;
+	padding-bottom: 12px;
+}
+
+.product__item:hover .product__hover li {
+	opacity: 1;
+	top: 0;
+}
+
+.product__item.sale .product__item__pic .label {
+	background: #ca1515;
+}
+
+.product__item.sale .product__item__text .product__price {
+	color: #ca1515;
+}
+
+.product__item__pic {
+	height: 360px;
+	position: relative;
+	overflow: hidden;
+	
+}
+
+.product__item__pic .label {
+	font-size: 12px;
+	color: #ffffff;
+	font-weight: 500;
+	display: inline-block;
+	padding: 2px 8px;
+	padding-right: 24px;
+	text-transform: uppercase;
+	position: absolute;
+	left: 0px;
+	top: 10px;
+}
+
+.product__item__pic .label::after{
+	position: absolute;
+	right: -7px;
+    top: 4px;
+    content: " ";
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    transform: rotate(45deg);
+
+}
+
+.product__item__pic .label.new {
+	background: #36a300 !important;
+}
+
+.product__item__pic .label.stockout {
+	background: #111111;
+}
+
+.product__item__pic .label.stockblue {
+	background: #0066bd !important;
+}
+
+.product__item__pic .label.sale {
+	background: #ca1515;
+}
+.product__item__pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: unset;
+    min-height: 360px;
+}
+.product__image img{
+    max-width: 200px;
+    display: block;
+    margin: auto;
+}
+
+
+.product__item__text {
+	text-align: center;
+	padding-top: 22px;
+}
+
+.product__item__text h6 a {
+	font-size: 14px;
+	color: #111111;
+}
+
+.product__item__text .rating {
+	line-height: 18px;
+	margin-bottom: 5px;
+}
+
+.product__item__text .rating i {
+	font-size: 10px;
+	color: #e3c01c;
+	/* margin-right: -4px; */
+}
+
+.product__item__text .rating i:last-child {
+	margin-right: 0;
+}
+
+.product__item__text .product__price {
+	color: #111111;
+	font-weight: 600;
+}
+
+.product__item__text .product__price span {
+	font-size: 14px;
+	color: #b1b0b0;
+	text-decoration: line-through;
+	margin-left: 4px;
+}
+
+.switch-mode{
+	display: flex;
+	margin-right: 1em;
+	margin-bottom: 1em;
+}
+
+.switch-mode-btn{
+	border: none;
+	background-color: transparent;
+	cursor: pointer;	
+}
+
+.switch-mode-btn i {
+	color: #333;
+	font-size: 1.5em;
+}

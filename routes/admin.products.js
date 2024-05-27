@@ -21,8 +21,8 @@ router.get('/products', async (req, res) => {
      * 
      */
 
-    const { page, query } = req.query;
-
+    const { page, query, view } = req.query;
+    
     if( functions.intValidate(page) ){
 
         const pageIndex = parseInt( page )
@@ -41,6 +41,8 @@ router.get('/products', async (req, res) => {
                 ma_san_pham as product_id,
                 ten_san_pham as product_name,
                 trang_thai as status,
+                anh_dai_dien as image,
+                gia as price,
                 ( select ten_dong from DONGSANPHAM where ma_dong = dong_san_pham ) as category,
                 ( select ten_loai from LOAISANPHAM where ma_loai = loai_san_pham ) as type,
                 ( select ten_nhom from NHOMSANPHAM where ma_nhom = nhom_san_pham ) as _group_
@@ -67,7 +69,8 @@ router.get('/products', async (req, res) => {
                     maxPageIndex,
                     origin: `/admin/product/products`,
                     query,
-                    total
+                    total,
+                    view
                 },
                 products,
             })
@@ -91,6 +94,8 @@ router.get('/products', async (req, res) => {
                 ma_san_pham as product_id,
                 ten_san_pham as product_name,
                 trang_thai as status,
+                anh_dai_dien as image,
+                gia as price,
                 ( select ten_dong from DONGSANPHAM where ma_dong = dong_san_pham ) as category,
                 ( select ten_loai from LOAISANPHAM where ma_loai = loai_san_pham ) as type,
                 ( select ten_nhom from NHOMSANPHAM where ma_nhom = nhom_san_pham ) as _group_
@@ -114,9 +119,11 @@ router.get('/products', async (req, res) => {
                 maxPageIndex,
                 origin: `/admin/product/products`,
                 query,
+                view,
                 total
             },
-            products
+            products,
+            view
         })
     }
 })

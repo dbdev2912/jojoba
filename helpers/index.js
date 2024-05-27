@@ -1,5 +1,6 @@
 const { 
-    product, product_md4 , product_record, product_order_record,
+    product, product_admin,
+    product_md4 , product_record, product_order_record,
     adminProduct_tableRecord, adminProduct_categoryRecord, adminProduct_typeRecord, adminProduct_groupRecord, adminProduct_unitRecord, adminProduct_statusRecord
 } = require('./product');
 
@@ -12,6 +13,7 @@ const { paragraph } = require('./text')
 
 module.exports = {
     product,
+    product_admin,
     product_md4,
     product_record,
     order_record,

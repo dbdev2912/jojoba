@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
     `)
 
     const keys = [
-        {name: "ban-cau", label: "Bàn cầu" }, 
+        {name: "ban-cau", label: "Bàn cầu", brand: "jojoba" }, 
         {name: "bon-tam", label: "Bồn tắm" }, 
         {name: "lavabo", label: "Lavabo" }, 
         {name: "guong-soi", label: "Gương soi" }, 
@@ -53,7 +53,8 @@ router.get('/', async (req, res) => {
     ]
 
     const data = await Promise.all( keys.map( key => {
-        const { name } = key
+        const { name, brand } = key
+        
         return MySQL_QUERY(`
             SELECT
                 ma_san_pham AS product_id,
@@ -68,6 +69,7 @@ router.get('/', async (req, res) => {
                 (SELECT ten_thuong_hieu FROM THUONGHIEU where ma_thuong_hieu = thuong_hieu) as brand_name
             FROM SANPHAM 
             WHERE loai_san_pham = '${ name }'
+            ${ brand ? `AND thuong_hieu='${ brand }'`: "" }
             LIMIT 8
         `)
         
